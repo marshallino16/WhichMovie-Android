@@ -12,6 +12,8 @@ android {
     compileSdkVersion 23
     buildToolsVersion "23.0.2"
 
+    useLibrary 'org.apache.http.legacy'
+
     defaultConfig {
         applicationId "genyus.com.whichmovie"
         minSdkVersion 16
