@@ -1,4 +1,12 @@
 apply plugin: 'com.android.application'
+apply plugin: 'android-apt'
+
+apt {
+    arguments {
+        androidManifestFile variant.outputs[0]?.processResources?.manifestFile
+        resourcePackageName 'genyus.com.whichmovie'
+    }
+}
 
 android {
     compileSdkVersion 23
@@ -24,4 +32,15 @@ dependencies {
     testCompile 'junit:junit:4.12'
     compile 'com.android.support:appcompat-v7:23.1.1'
     compile 'com.android.support:design:23.1.1'
+    compile 'com.android.support:percent:23.1.0'
+    compile 'com.google.android.gms:play-services-analytics:7.3.0'
+
+    compile 'com.yalantis:flipviewpager:1.0.0'
+    compile 'com.squareup.picasso:picasso:2.5.2'
+    compile 'com.squareup.okhttp:okhttp:2.2.0'
+    compile 'com.squareup.okhttp:okhttp-urlconnection:2.2.0'
+    compile 'com.github.ksoichiro:android-observablescrollview:1.6.0'
+
+    apt "org.androidannotations:androidannotations:3.3.2"
+    compile "org.androidannotations:androidannotations-api:3.3.2"
 }
