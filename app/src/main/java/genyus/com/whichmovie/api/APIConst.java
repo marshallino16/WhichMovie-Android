@@ -7,6 +7,11 @@ public interface APIConst {
 
     public final static String API_TOKEN = "c1e4b32ab37e5086fe5c09521c0e67a7";
     public final static String API_BASE_URL = "http://api.themoviedb.org/3/";
-    public final static String API_LIST_CATEGORIES = "http://api.themoviedb.org/3/genre/movie/list";
-    public final static String API_LIST_MOVIES_CATEGORY = "http://api.themoviedb.org/3/genre/[CAT]/movies";
+    public final static String API_LIST_CATEGORIES = "genre/movie/list";
+    public final static String API_LIST_MOVIES_CATEGORY = "genre/[CAT_ID]/movies";
+    public final static String API_INFO_MOVIE = "movie/[MOVIE_ID]";
+    public final static String API_CREW_MOVIE = "movie/[MOVIE_ID]/credits";
+    public final static String API_VIDEOS_MOVIE = "movie/[MOVIE_ID]/videos";
+    public final static String API_IMAGES_MOVIE = "movie/[MOVIE_ID]/images";
+    public final static String API_CONFIGURATION = "configuration";
 }

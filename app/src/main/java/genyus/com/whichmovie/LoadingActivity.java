@@ -15,6 +15,7 @@ import com.google.android.gms.analytics.Logger;
 
 import org.androidannotations.annotations.AfterViews;
 import org.androidannotations.annotations.EActivity;
+import org.androidannotations.annotations.UiThread;
 import org.androidannotations.annotations.ViewById;
 
 import genyus.com.whichmovie.classes.Analytics;
@@ -26,7 +27,7 @@ import genyus.com.whichmovie.view.WaveView;
 @EActivity(R.layout.activity_loading)
 public class LoadingActivity extends AppCompatActivity {
 
-    private final static String FONT_FLAT = "fonts/manteka.ttf";
+    private final static String FONT_FLAT = "fonts/Marta_Regular.otf";
     private WaveHelper mWaveHelper;
     private FlakeView flakeView;
 
@@ -62,7 +63,6 @@ public class LoadingActivity extends AppCompatActivity {
         mWaveHelper = new WaveHelper(waveView);
         waveView.setShapeType(WaveView.ShapeType.CIRCLE);
         waveView.setBorder(mBorderWidth, mBorderColor);
-        mWaveHelper.start();
 
         Typeface font = Typeface.createFromAsset(this.getAssets(), FONT_FLAT);
         Animation fadeIn = AnimationUtils.loadAnimation(this, R.anim.anim_in_from_bottom);
@@ -71,20 +71,59 @@ public class LoadingActivity extends AppCompatActivity {
         accroche.startAnimation(fadeIn);
         fadeIn.start();
 
-        flakeView = new FlakeView(this);
-        flakeContainer.addView(flakeView);
+        /**
+         * Christmas templates
+         */
+        //flakeView = new FlakeView(this);
+        //flakeContainer.addView(flakeView);
+
+        goToMainActivity();
     }
 
     @Override
     protected void onPause() {
         super.onPause();
         mWaveHelper.cancel();
-        flakeView.pause();
+        //flakeView.pause();
+        overridePendingTransition(R.anim.right_in, R.anim.left_out);
     }
 
     @Override
     protected void onResume() {
         super.onResume();
-        flakeView.resume();
+        mWaveHelper.start();
+        //flakeView.resume();
+    }
+
+    @UiThread(propagation = UiThread.Propagation.REUSE)
+    void goToNextActivity() {
+        MainActivity_.intent(LoadingActivity.this).start();
+    }
+
+    private void initGlobalVars(){
+
+    }
+
+    private void prefetchMovies(){
+
+    }
+
+    private void goToMainActivity(){
+        new Thread() {
+            public void run() {
+                try {
+                    Thread.sleep(7000);
+                } catch (InterruptedException ex) {
+                    ex.printStackTrace();
+                } finally {
+                    runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            goToNextActivity();
+                        }
+                    });
+                }
+            }
+        }.start();
     }
 }

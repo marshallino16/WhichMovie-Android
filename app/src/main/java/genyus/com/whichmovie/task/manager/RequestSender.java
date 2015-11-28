@@ -83,7 +83,7 @@ public class RequestSender {
                 httpGet = new HttpGet(url + apiPoint);
             }
 
-            Log.d(genyus.com.whichmovie.classes.Log.LOGGER, "url = " + httpGet.getURI());
+            Log.d(genyus.com.whichmovie.classes.Log.TAG, "url = " + httpGet.getURI());
 
             httpGet.setHeader("CONTENT_TYPE", "application/x-www-form-urlencoded; charset=utf-8");
 
@@ -131,7 +131,7 @@ public class RequestSender {
                 httpGet = new HttpGet(url + apiPoint);
             }
 
-            Log.d(genyus.com.whichmovie.classes.Log.LOGGER, "url = " + httpGet.getURI());
+            Log.d(genyus.com.whichmovie.classes.Log.TAG, "url = " + httpGet.getURI());
 
             httpGet.setHeaders(header);
 

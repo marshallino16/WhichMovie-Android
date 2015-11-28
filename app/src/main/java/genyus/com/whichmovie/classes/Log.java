@@ -5,6 +5,6 @@ package genyus.com.whichmovie.classes;
  */
 public interface Log {
 
-    public final static String LOGGER = "WHICH_MOVIE";
+    public final static String TAG = "WHICH_MOVIE";
 
 }
