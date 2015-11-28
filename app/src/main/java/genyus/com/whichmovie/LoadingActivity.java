@@ -5,6 +5,8 @@ import android.graphics.Typeface;
 import android.os.Bundle;
 import android.os.PersistableBundle;
 import android.support.v7.app.AppCompatActivity;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
@@ -24,7 +26,7 @@ import genyus.com.whichmovie.view.WaveView;
 @EActivity(R.layout.activity_loading)
 public class LoadingActivity extends AppCompatActivity {
 
-    private final static String FONT_FLAT = "fonts/Sertig.otf";
+    private final static String FONT_FLAT = "fonts/manteka.ttf";
     private WaveHelper mWaveHelper;
     private FlakeView flakeView;
 
@@ -36,6 +38,9 @@ public class LoadingActivity extends AppCompatActivity {
 
     @ViewById(R.id.app_name)
     TextView appName;
+
+    @ViewById(R.id.accroche)
+    TextView accroche;
 
     @Override
     public void onCreate(Bundle savedInstanceState, PersistableBundle persistentState) {
@@ -60,7 +65,11 @@ public class LoadingActivity extends AppCompatActivity {
         mWaveHelper.start();
 
         Typeface font = Typeface.createFromAsset(this.getAssets(), FONT_FLAT);
+        Animation fadeIn = AnimationUtils.loadAnimation(this, R.anim.anim_in_from_bottom);
+
         appName.setTypeface(font);
+        accroche.startAnimation(fadeIn);
+        fadeIn.start();
 
         flakeView = new FlakeView(this);
         flakeContainer.addView(flakeView);
