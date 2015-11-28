@@ -1,4 +1,7 @@
 <resources>
-    <string name="app_name">WhichMovie</string>
+    <string name="app_name">Tonight\'s movie</string>
     <string name="action_settings">Settings</string>
+
+    <!-- version -->
+    <string name="version">version 1.0.0.alpha.INT</string>
 </resources>
