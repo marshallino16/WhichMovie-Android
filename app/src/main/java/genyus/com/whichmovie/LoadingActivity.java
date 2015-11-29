@@ -5,6 +5,7 @@ import android.graphics.Typeface;
 import android.os.Bundle;
 import android.os.PersistableBundle;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.LinearLayout;
@@ -20,12 +21,14 @@ import org.androidannotations.annotations.ViewById;
 
 import genyus.com.whichmovie.classes.Analytics;
 import genyus.com.whichmovie.session.GlobalVarsAnalytics;
+import genyus.com.whichmovie.task.listener.OnConfigurationListener;
+import genyus.com.whichmovie.task.manager.RequestManager;
 import genyus.com.whichmovie.utils.WaveHelper;
 import genyus.com.whichmovie.view.FlakeView;
 import genyus.com.whichmovie.view.WaveView;
 
 @EActivity(R.layout.activity_loading)
-public class LoadingActivity extends AppCompatActivity {
+public class LoadingActivity extends AppCompatActivity implements OnConfigurationListener{
 
     private final static String FONT_FLAT = "fonts/Marta_Regular.otf";
     private WaveHelper mWaveHelper;
@@ -77,6 +80,7 @@ public class LoadingActivity extends AppCompatActivity {
         //flakeView = new FlakeView(this);
         //flakeContainer.addView(flakeView);
 
+        initGlobalVars();
         goToMainActivity();
     }
 
@@ -101,7 +105,11 @@ public class LoadingActivity extends AppCompatActivity {
     }
 
     private void initGlobalVars(){
-
+        new Thread() {
+            public void run() {
+                RequestManager.getInstance(LoadingActivity.this).getConfigurations(LoadingActivity.this);
+            }
+        }.start();
     }
 
     private void prefetchMovies(){
@@ -125,5 +133,15 @@ public class LoadingActivity extends AppCompatActivity {
                 }
             }
         }.start();
+    }
+
+    @Override
+    public void OnConfigurationGet() {
+        prefetchMovies();
+    }
+
+    @Override
+    public void OnConfigurationFailed(String reason) {
+        Log.e(genyus.com.whichmovie.classes.Log.TAG, "Error getting configuration : " + reason);
     }
 }

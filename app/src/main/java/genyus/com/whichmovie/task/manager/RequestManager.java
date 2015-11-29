@@ -1,9 +1,16 @@
 package genyus.com.whichmovie.task.manager;
 
 import android.content.Context;
+import android.util.Log;
+
+import org.apache.http.NameValuePair;
+import org.apache.http.message.BasicNameValuePair;
+
+import java.util.ArrayList;
 
 import genyus.com.whichmovie.api.APIConst;
 import genyus.com.whichmovie.classes.RequestReturn;
+import genyus.com.whichmovie.model.serializer.ConfigurationSerializer;
 import genyus.com.whichmovie.task.listener.OnConfigurationListener;
 
 /**
@@ -30,11 +37,13 @@ public class RequestManager {
 
     public void getConfigurations(OnConfigurationListener callback){
         currentAttempt += 1;
-        RequestReturn returnedCode = RequestSender.sendRequestGet(APIConst.API_BASE_URL, APIConst.API_CONFIGURATION, null);
-        if (null != returnedCode) {
+        ArrayList<NameValuePair> nameValuePairs = new ArrayList<>();
+        nameValuePairs.add(new BasicNameValuePair("api_key", APIConst.API_TOKEN));
+        RequestReturn returnedCode = RequestSender.sendRequestGet(APIConst.API_BASE_URL, APIConst.API_CONFIGURATION, nameValuePairs);
+        if (null != returnedCode && !returnedCode.json.contains("Authentication error")) {
             if (200 == returnedCode.code) {
-                //Log.d(TAG, "categories json = " + returnedCode.json);
-                //CategorieSerializer.fillCategorieObject(returnedCode.json);
+                Log.d(genyus.com.whichmovie.classes.Log.TAG, "categories json = " + returnedCode.json);
+                ConfigurationSerializer.fillConfigurationObject(returnedCode.json);
                 currentAttempt = 0;
                 callback.OnConfigurationGet();
                 return;
