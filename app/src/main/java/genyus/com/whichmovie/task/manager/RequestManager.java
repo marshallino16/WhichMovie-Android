@@ -91,7 +91,7 @@ public class RequestManager {
     }
 
     public void getMoviesFromCategory(){
-
+        //API_LIST_MOVIES_CATEGORY()
     }
 
     public void getMovieInfos(){
