@@ -1,25 +1,17 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
+<RelativeLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
     app:layout_behavior="@string/appbar_scrolling_view_behavior"
     tools:context="genyus.com.whichmovie.MainActivity"
     tools:showIn="@layout/activity_main">
 
-    <RelativeLayout
+    <genyus.com.whichmovie.view.SwipeViewPager
+        android:id="@+id/moviePager"
         android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_weight="4.5"
-        android:background="@android:color/white"/>
+        android:layout_height="match_parent"/>
 
-    <RelativeLayout
-        android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_weight="7"
-        android:background="@color/colorPrimary"/>
-
-</LinearLayout>
+</RelativeLayout>
