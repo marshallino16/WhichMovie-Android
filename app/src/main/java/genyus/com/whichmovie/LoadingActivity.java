@@ -30,7 +30,7 @@ import genyus.com.whichmovie.view.WaveView;
 @EActivity(R.layout.activity_loading)
 public class LoadingActivity extends AppCompatActivity implements OnConfigurationListener{
 
-    private final static String FONT_FLAT = "fonts/Marta_Regular.otf";
+    private final static String FONT_FLAT = "fonts/Ikaros Regular.otf";
     private WaveHelper mWaveHelper;
     private FlakeView flakeView;
 
