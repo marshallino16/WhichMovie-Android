@@ -11,6 +11,6 @@ import genyus.com.whichmovie.model.Genres;
 public class GlobalVars {
 
     public static Configuration configuration;
-    public static ArrayList<Genres> genres;
+    public static ArrayList<Genres> genres = new ArrayList<>();
 
 }

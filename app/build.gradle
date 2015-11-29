@@ -39,6 +39,7 @@ dependencies {
     compile 'com.google.android.gms:play-services-analytics:7.3.0'
 
     compile 'com.yalantis:flipviewpager:1.0.0'
+    compile 'com.flaviofaria:kenburnsview:1.0.6'
     compile 'com.squareup.picasso:picasso:2.5.2'
     compile 'com.squareup.okhttp:okhttp:2.2.0'
     compile 'com.squareup.okhttp:okhttp-urlconnection:2.2.0'

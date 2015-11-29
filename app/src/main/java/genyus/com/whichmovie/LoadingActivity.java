@@ -21,14 +21,16 @@ import org.androidannotations.annotations.ViewById;
 
 import genyus.com.whichmovie.classes.Analytics;
 import genyus.com.whichmovie.session.GlobalVarsAnalytics;
+import genyus.com.whichmovie.task.listener.OnCategoriesListener;
 import genyus.com.whichmovie.task.listener.OnConfigurationListener;
+import genyus.com.whichmovie.task.listener.OnMoviesListener;
 import genyus.com.whichmovie.task.manager.RequestManager;
 import genyus.com.whichmovie.utils.WaveHelper;
 import genyus.com.whichmovie.view.FlakeView;
 import genyus.com.whichmovie.view.WaveView;
 
 @EActivity(R.layout.activity_loading)
-public class LoadingActivity extends AppCompatActivity implements OnConfigurationListener{
+public class LoadingActivity extends AppCompatActivity implements OnConfigurationListener, OnCategoriesListener, OnMoviesListener{
 
     private final static String FONT_FLAT = "fonts/Ikaros Regular.otf";
     private WaveHelper mWaveHelper;
@@ -81,7 +83,6 @@ public class LoadingActivity extends AppCompatActivity implements OnConfiguratio
         //flakeContainer.addView(flakeView);
 
         initGlobalVars();
-        goToMainActivity();
     }
 
     @Override
@@ -113,35 +114,50 @@ public class LoadingActivity extends AppCompatActivity implements OnConfiguratio
     }
 
     private void prefetchMovies(){
-
+        /*new Thread() {
+            public void run() {
+                RequestManager.getInstance(LoadingActivity.this).getConfigurations(LoadingActivity.this);
+            }
+        }.start();*/
     }
 
-    private void goToMainActivity(){
+    private void prefetchCategories(){
         new Thread() {
             public void run() {
-                try {
-                    Thread.sleep(7000);
-                } catch (InterruptedException ex) {
-                    ex.printStackTrace();
-                } finally {
-                    runOnUiThread(new Runnable() {
-                        @Override
-                        public void run() {
-                            goToNextActivity();
-                        }
-                    });
-                }
+                RequestManager.getInstance(LoadingActivity.this).getAllCategories(LoadingActivity.this);
             }
         }.start();
     }
 
     @Override
     public void OnConfigurationGet() {
+        prefetchCategories();
+    }
+
+
+    @Override
+    public void OnCategoriesGet() {
         prefetchMovies();
+    }
+
+    @Override
+    public void OnMoviesGet() {
+        //Go to next activity
+        goToNextActivity();
+    }
+
+    @Override
+    public void OnCategoriesFailed(String reason) {
+        Log.e(genyus.com.whichmovie.classes.Log.TAG, "Error getting categories : " + reason);
     }
 
     @Override
     public void OnConfigurationFailed(String reason) {
         Log.e(genyus.com.whichmovie.classes.Log.TAG, "Error getting configuration : " + reason);
+    }
+
+    @Override
+    public void OnMoviesFailed(String reason) {
+        Log.e(genyus.com.whichmovie.classes.Log.TAG, "Error getting movies : " + reason);
     }
 }

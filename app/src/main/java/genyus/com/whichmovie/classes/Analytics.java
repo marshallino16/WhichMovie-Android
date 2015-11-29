@@ -5,5 +5,5 @@ package genyus.com.whichmovie.classes;
  */
 public interface Analytics {
 
-    public final static String PROPERTY_ID = "UA-16754970-5";
+    public final static String PROPERTY_ID = "UA-70817529-1";
 }

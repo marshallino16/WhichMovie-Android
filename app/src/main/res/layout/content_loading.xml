@@ -13,22 +13,22 @@
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_weight="4.5"
+        android:layout_weight="2.5"
         android:background="@android:color/white">
 
         <genyus.com.whichmovie.view.WaveView
             android:id="@+id/wave"
-            android:layout_width="200dp"
-            android:layout_height="200dp"
+            android:layout_width="100dp"
+            android:layout_height="100dp"
             android:layout_centerInParent="true"/>
 
         <ImageView
             android:id="@+id/icon"
             android:layout_centerInParent="true"
-            android:layout_width="170dp"
+            android:layout_width="70dp"
             android:scaleType="centerInside"
             android:src="@drawable/popcorn_flat"
-            android:layout_height="170dp"/>
+            android:layout_height="70dp"/>
 
         <View
             android:layout_width="match_parent"
@@ -43,6 +43,12 @@
         android:layout_height="0dp"
         android:layout_weight="7"
         android:background="@color/colorPrimary">
+
+        <com.flaviofaria.kenburnsview.KenBurnsView
+            android:id="@+id/image"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:src="@drawable/preview_cine" />
 
         <TextView
             android:id="@+id/app_name"
@@ -75,6 +81,7 @@
             android:layout_centerHorizontal="true"
             android:layout_marginBottom="@dimen/activity_vertical_margin"
             android:textColor="@android:color/white"
+            android:textAppearance="?android:attr/textAppearanceSmall"
             android:layout_height="wrap_content"/>
 
         <LinearLayout
