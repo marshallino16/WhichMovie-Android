@@ -14,6 +14,8 @@ import genyus.com.whichmovie.model.serializer.CategoriesSerializer;
 import genyus.com.whichmovie.model.serializer.ConfigurationSerializer;
 import genyus.com.whichmovie.task.listener.OnCategoriesListener;
 import genyus.com.whichmovie.task.listener.OnConfigurationListener;
+import genyus.com.whichmovie.task.listener.OnMoviesListener;
+import genyus.com.whichmovie.utils.PreferencesUtils;
 
 /**
  * Created by genyus on 28/11/15.
@@ -90,8 +92,30 @@ public class RequestManager {
         }
     }
 
-    public void getMoviesFromCategory(){
-        //API_LIST_MOVIES_CATEGORY()
+    public void getMoviesFromCategory(Context context, OnMoviesListener callback, int page){
+        currentAttempt += 1;
+        ArrayList<NameValuePair> nameValuePairs = new ArrayList<>();
+        nameValuePairs.add(new BasicNameValuePair("api_key", APIConst.API_TOKEN));
+        RequestReturn returnedCode = RequestSender.sendRequestGet(APIConst.API_BASE_URL, APIConst.API_LIST_MOVIES_CATEGORY(PreferencesUtils.getDefaultCategory(context)), nameValuePairs);
+        if (null != returnedCode && !returnedCode.json.contains("Authentication error")) {
+            if (200 == returnedCode.code) {
+                Log.d(genyus.com.whichmovie.classes.Log.TAG, "movies json = " + returnedCode.json);
+
+                currentAttempt = 0;
+                callback.OnMoviesGet();
+                return;
+            } else {
+                this.getMoviesFromCategory(context, callback, page);
+            }
+        } else {
+            if (ATTEMPT_MAX == currentAttempt) {
+                currentAttempt = 0;
+                callback.OnMoviesFailed(null);
+                return;
+            } else {
+                this.getMoviesFromCategory(context, callback, page);
+            }
+        }
     }
 
     public void getMovieInfos(){
