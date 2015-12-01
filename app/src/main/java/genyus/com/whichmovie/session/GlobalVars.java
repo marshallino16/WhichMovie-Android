@@ -12,7 +12,7 @@ import genyus.com.whichmovie.ui.MovieFragment;
  */
 public class GlobalVars {
 
-    public static int page = 1;
+    public static int page = 0;
 
     public static Configuration configuration;
     public static ArrayList<Genres> genres = new ArrayList<>();
@@ -22,6 +22,11 @@ public class GlobalVars {
     public static void reinitForCategoryChange(){
         movies.clear();
         fragments.clear();
-        page = 1;
+        page = 0;
+    }
+
+    public static int getPage(){
+        page += 1;
+        return page;
     }
 }

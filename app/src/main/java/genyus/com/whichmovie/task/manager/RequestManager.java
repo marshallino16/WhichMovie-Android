@@ -12,6 +12,7 @@ import genyus.com.whichmovie.api.APIConst;
 import genyus.com.whichmovie.classes.RequestReturn;
 import genyus.com.whichmovie.model.serializer.CategoriesSerializer;
 import genyus.com.whichmovie.model.serializer.ConfigurationSerializer;
+import genyus.com.whichmovie.session.GlobalVars;
 import genyus.com.whichmovie.task.listener.OnCategoriesListener;
 import genyus.com.whichmovie.task.listener.OnConfigurationListener;
 import genyus.com.whichmovie.task.listener.OnMoviesListener;
@@ -92,10 +93,11 @@ public class RequestManager {
         }
     }
 
-    public void getMoviesFromCategory(Context context, OnMoviesListener callback, int page){
+    public void getMoviesFromCategory(Context context, OnMoviesListener callback){
         currentAttempt += 1;
         ArrayList<NameValuePair> nameValuePairs = new ArrayList<>();
         nameValuePairs.add(new BasicNameValuePair("api_key", APIConst.API_TOKEN));
+        nameValuePairs.add(new BasicNameValuePair("page", String.valueOf(GlobalVars.getPage())));
         RequestReturn returnedCode = RequestSender.sendRequestGet(APIConst.API_BASE_URL, APIConst.API_LIST_MOVIES_CATEGORY(PreferencesUtils.getDefaultCategory(context)), nameValuePairs);
         if (null != returnedCode && !returnedCode.json.contains("Authentication error")) {
             if (200 == returnedCode.code) {
@@ -105,7 +107,7 @@ public class RequestManager {
                 callback.OnMoviesGet();
                 return;
             } else {
-                this.getMoviesFromCategory(context, callback, page);
+                this.getMoviesFromCategory(context, callback);
             }
         } else {
             if (ATTEMPT_MAX == currentAttempt) {
@@ -113,7 +115,7 @@ public class RequestManager {
                 callback.OnMoviesFailed(null);
                 return;
             } else {
-                this.getMoviesFromCategory(context, callback, page);
+                this.getMoviesFromCategory(context, callback);
             }
         }
     }

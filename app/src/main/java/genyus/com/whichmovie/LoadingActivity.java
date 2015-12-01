@@ -114,11 +114,11 @@ public class LoadingActivity extends AppCompatActivity implements OnConfiguratio
     }
 
     private void prefetchMovies(){
-        /*new Thread() {
+        new Thread() {
             public void run() {
-                RequestManager.getInstance(LoadingActivity.this).getConfigurations(LoadingActivity.this);
+                RequestManager.getInstance(LoadingActivity.this).getMoviesFromCategory(LoadingActivity.this, LoadingActivity.this);
             }
-        }.start();*/
+        }.start();
     }
 
     private void prefetchCategories(){
@@ -143,7 +143,18 @@ public class LoadingActivity extends AppCompatActivity implements OnConfiguratio
     @Override
     public void OnMoviesGet() {
         //Go to next activity
-        goToNextActivity();
+        try {
+            Thread.sleep(2000);
+        } catch (InterruptedException ex) {
+            ex.printStackTrace();
+        } finally {
+            runOnUiThread(new Runnable() {
+                @Override
+                public void run() {
+                    goToNextActivity();
+                }
+            });
+        }
     }
 
     @Override
