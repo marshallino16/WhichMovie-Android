@@ -12,6 +12,7 @@ import genyus.com.whichmovie.api.APIConst;
 import genyus.com.whichmovie.classes.RequestReturn;
 import genyus.com.whichmovie.model.serializer.CategoriesSerializer;
 import genyus.com.whichmovie.model.serializer.ConfigurationSerializer;
+import genyus.com.whichmovie.model.serializer.MovieSerializer;
 import genyus.com.whichmovie.session.GlobalVars;
 import genyus.com.whichmovie.task.listener.OnCategoriesListener;
 import genyus.com.whichmovie.task.listener.OnConfigurationListener;
@@ -103,6 +104,7 @@ public class RequestManager {
             if (200 == returnedCode.code) {
                 Log.d(genyus.com.whichmovie.classes.Log.TAG, "movies json = " + returnedCode.json);
 
+                MovieSerializer.fillMoviesObject(returnedCode.json);
                 currentAttempt = 0;
                 callback.OnMoviesGet();
                 return;

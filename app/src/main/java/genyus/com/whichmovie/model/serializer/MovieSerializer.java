@@ -91,35 +91,35 @@ public class MovieSerializer {
                 }
 
                 if(!overview.isJsonNull() && null != overview && null != overview.getAsString() && !overview.getAsString().isEmpty()){
-                    movie.setId(id.getAsInt());
+                    movie.setOverview(overview.getAsString());
                 }
 
                 if(!date.isJsonNull() && null != date && null != date.getAsString() && !date.getAsString().isEmpty()){
-                    movie.setId(id.getAsInt());
+                    movie.setRelease_date(date.getAsString());
                 }
 
                 if(!poster.isJsonNull() && null != poster && null != poster.getAsString() && !poster.getAsString().isEmpty()){
-                    movie.setId(id.getAsInt());
+                    movie.setPoster_path(poster.getAsString());
                 }
 
                 if(!popularity.isJsonNull() && null != popularity){
-                    movie.setId(id.getAsInt());
+                    movie.setPopularity(popularity.getAsDouble());
                 }
 
                 if(!title.isJsonNull() && null != title && null != title.getAsString() && !title.getAsString().isEmpty()){
-                    movie.setId(id.getAsInt());
+                    movie.setTitle(title.getAsString());
                 }
 
                 if(!video.isJsonNull() && null != video){
-                    movie.setId(id.getAsInt());
+                    movie.setVideo(video.getAsBoolean());
                 }
 
                 if(!vote_average.isJsonNull() && null != vote_average){
-                    movie.setId(id.getAsInt());
+                    movie.setVote_average(vote_average.getAsFloat());
                 }
 
                 if(!vote_count.isJsonNull() && null != vote_count){
-                    movie.setId(id.getAsInt());
+                    movie.setVote_count(vote_count.getAsInt());
                 }
 
                 movies.add(movie);
