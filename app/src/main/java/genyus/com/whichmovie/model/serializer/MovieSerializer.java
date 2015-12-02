@@ -1,11 +1,15 @@
 package genyus.com.whichmovie.model.serializer;
 
+import com.google.gson.Gson;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
+import com.google.gson.reflect.TypeToken;
 
+import java.lang.reflect.Type;
 import java.util.ArrayList;
+import java.util.List;
 
 import genyus.com.whichmovie.model.Movie;
 import genyus.com.whichmovie.session.GlobalVars;
@@ -61,6 +65,60 @@ public class MovieSerializer {
                 JsonElement vote_count = movieObject.get(OBJECT_VOTE_COUNT);
 
                 if(!id.isJsonNull() && null != id){
+                    movie.setId(id.getAsInt());
+                }
+
+                if(!adult.isJsonNull() && null != adult){
+                    movie.setAdult(adult.getAsBoolean());
+                }
+
+                if(!backdrop.isJsonNull() && null != backdrop && null != backdrop.getAsString() && !backdrop.getAsString().isEmpty()){
+                    movie.setBackdrop_path(backdrop.getAsString());
+                }
+
+                if(!genre.isJsonNull() && null != genre && null != genre.getAsJsonArray()){
+                    Type listType = new TypeToken<List<String>>() {}.getType();
+                    ArrayList<String> genres = new Gson().fromJson(genre.getAsJsonArray(), listType);
+                    movie.setGenre_ids(genres);
+                }
+
+                if(!langage.isJsonNull() && null != langage && null != langage.getAsString() && !langage.getAsString().isEmpty()){
+                    movie.setOriginal_language(langage.getAsString());
+                }
+
+                if(!origine_title.isJsonNull() && null != origine_title && null != origine_title.getAsString() && !origine_title.getAsString().isEmpty()){
+                    movie.setOriginal_title(origine_title.getAsString());
+                }
+
+                if(!overview.isJsonNull() && null != overview && null != overview.getAsString() && !overview.getAsString().isEmpty()){
+                    movie.setId(id.getAsInt());
+                }
+
+                if(!date.isJsonNull() && null != date && null != date.getAsString() && !date.getAsString().isEmpty()){
+                    movie.setId(id.getAsInt());
+                }
+
+                if(!poster.isJsonNull() && null != poster && null != poster.getAsString() && !poster.getAsString().isEmpty()){
+                    movie.setId(id.getAsInt());
+                }
+
+                if(!popularity.isJsonNull() && null != popularity){
+                    movie.setId(id.getAsInt());
+                }
+
+                if(!title.isJsonNull() && null != title && null != title.getAsString() && !title.getAsString().isEmpty()){
+                    movie.setId(id.getAsInt());
+                }
+
+                if(!video.isJsonNull() && null != video){
+                    movie.setId(id.getAsInt());
+                }
+
+                if(!vote_average.isJsonNull() && null != vote_average){
+                    movie.setId(id.getAsInt());
+                }
+
+                if(!vote_count.isJsonNull() && null != vote_count){
                     movie.setId(id.getAsInt());
                 }
 
