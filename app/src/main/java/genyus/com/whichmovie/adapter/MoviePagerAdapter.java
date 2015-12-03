@@ -7,15 +7,17 @@ import android.support.v4.app.FragmentPagerAdapter;
 
 import java.util.ArrayList;
 
+import genyus.com.whichmovie.ui.MovieFragment;
+
 /**
  * @author genyus
  */
 public class MoviePagerAdapter extends FragmentPagerAdapter {
 
-    private ArrayList<Fragment> listMovies;
+    private ArrayList<MovieFragment> listMovies;
     private Context context;
 
-    public MoviePagerAdapter(FragmentManager fragmentManager, ArrayList<Fragment> listMovies, Context context) {
+    public MoviePagerAdapter(FragmentManager fragmentManager, ArrayList<MovieFragment> listMovies, Context context) {
         super(fragmentManager);
         this.context = context;
         this.listMovies = listMovies;
