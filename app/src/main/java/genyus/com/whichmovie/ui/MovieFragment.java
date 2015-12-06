@@ -7,6 +7,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.TextView;
 
 import genyus.com.whichmovie.R;
 import genyus.com.whichmovie.model.Movie;
@@ -43,8 +44,11 @@ public class MovieFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         view = inflater.inflate(R.layout.fragment_movie, container, false);
 
+        TextView title = (TextView) view.findViewById(R.id.title);
         ImageView backdrop = (ImageView) view.findViewById(R.id.backdrop);
+
         PicassoTrustAll.getInstance(getActivity()).load(GlobalVars.configuration.getBase_url()+GlobalVars.configuration.getBackdrop_sizes().get(1)+movie.getBackdrop_path()).into(backdrop);
+        title.setText(""+movie.getTitle());
 
         return view;
     }
