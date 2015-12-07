@@ -3,6 +3,7 @@ package genyus.com.whichmovie.ui;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -10,10 +11,13 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.akexorcist.roundcornerprogressbar.RoundCornerProgressBar;
 import com.github.ksoichiro.android.observablescrollview.ObservableScrollView;
 import com.github.ksoichiro.android.observablescrollview.ObservableScrollViewCallbacks;
 import com.github.ksoichiro.android.observablescrollview.ScrollState;
 import com.github.ksoichiro.android.observablescrollview.ScrollUtils;
+
+import java.util.Random;
 
 import genyus.com.whichmovie.MainActivity;
 import genyus.com.whichmovie.R;
@@ -35,6 +39,7 @@ public class MovieFragment extends Fragment implements ObservableScrollViewCallb
     //Views
     private View margin;
     private TextView title;
+    private TextView vote;
     private ImageView backdrop;
 
     private LinearLayout header;
@@ -66,9 +71,11 @@ public class MovieFragment extends Fragment implements ObservableScrollViewCallb
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         view = inflater.inflate(R.layout.fragment_movie, container, false);
 
+        margin = (View) view.findViewById(R.id.margin);
+        vote = (TextView) view.findViewById(R.id.vote);
         title = (TextView) view.findViewById(R.id.title);
         backdrop = (ImageView) view.findViewById(R.id.backdrop);
-        margin = (View) view.findViewById(R.id.margin);
+        RoundCornerProgressBar ratingBar = (RoundCornerProgressBar) view.findViewById(R.id.ratingBar);
 
         header = (LinearLayout) view.findViewById(R.id.header);
         scrollView = (ObservableScrollView) view.findViewById(R.id.scroll);
@@ -82,6 +89,12 @@ public class MovieFragment extends Fragment implements ObservableScrollViewCallb
         margin.setLayoutParams(new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, Math.round(height)));
         scrollView.setTouchInterceptionViewGroup((ViewGroup) view.findViewById(R.id.fragment_root));
         scrollView.setScrollViewCallbacks(this);
+
+        //rating
+        Log.d(genyus.com.whichmovie.classes.Log.TAG, "movie = "+movie.getTitle()+" vote = " + movie.getVote_average());
+        ratingBar.setMax(100f);
+        ratingBar.setProgress(new Random().nextFloat() * (100 - 10) + 10);
+        vote.setText(""+movie.getVote_average()+"/10");
 
         return view;
     }

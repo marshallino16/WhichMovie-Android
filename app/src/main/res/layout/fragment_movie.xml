@@ -1,12 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/fragment_root"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    app:layout_behavior="@string/appbar_scrolling_view_behavior"
-    tools:context="genyus.com.whichmovie.MainActivity">
+             xmlns:app="http://schemas.android.com/apk/res-auto"
+             xmlns:tools="http://schemas.android.com/tools"
+             android:id="@+id/fragment_root"
+             android:layout_width="match_parent"
+             android:layout_height="match_parent"
+             app:layout_behavior="@string/appbar_scrolling_view_behavior"
+             tools:context="genyus.com.whichmovie.MainActivity">
 
     <LinearLayout
         android:id="@+id/header"
@@ -42,18 +42,65 @@
                     android:layout_width="match_parent"
                     android:layout_height="0dp"
                     android:layout_weight="1"
-                    android:background="@drawable/elevation_shadow">
+                    android:background="@drawable/elevation_shadow"/>
+            </LinearLayout>
+
+            <TextView
+                android:id="@+id/title"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="left|center_vertical"
+                android:layout_above="@+id/rateContainer"
+                android:paddingLeft="16dp"
+                android:textAppearance="?android:attr/textAppearanceLarge"
+                android:textColor="@android:color/white" />
+
+            <com.akexorcist.roundcornerprogressbar.RoundCornerProgressBar
+                android:id="@+id/ratingBar"
+                android:layout_width="250dp"
+                android:layout_height="30dp"
+                app:rcBackgroundColor="#80FFC107"
+                app:rcBackgroundPadding="2dp"
+                app:rcMax="100"
+                app:rcProgressColor="#FFC107"
+                app:rcRadius="10dp" />
+
+            <LinearLayout
+                android:id="@+id/rateContainer"
+                android:layout_width="match_parent"
+                android:orientation="horizontal"
+                android:layout_alignParentBottom="true"
+                android:layout_height="wrap_content">
+
+                <RelativeLayout
+                    android:layout_width="0dp"
+                    android:layout_weight="1"
+                    android:layout_marginBottom="16dp"
+                    android:layout_marginLeft="16dp"
+                    android:layout_marginRight="16dp"
+                    android:layout_marginTop="10dp"
+                    android:layout_height="wrap_content">
+
+
 
                     <TextView
-                        android:id="@+id/title"
+                        android:id="@+id/vote"
                         android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:gravity="left|center_vertical"
-                        android:paddingLeft="16dp"
-                        android:textAppearance="?android:attr/textAppearanceLarge"
+                        android:layout_height="wrap_content"
+                        android:gravity="center_vertical"
+                        android:paddingLeft="10dp"
+                        android:drawableLeft="@drawable/star"
+                        android:drawablePadding="5dp"
+                        android:textAppearance="?android:attr/textAppearanceMedium"
                         android:textColor="@android:color/white" />
 
                 </RelativeLayout>
+
+                <View
+                    android:layout_width="0dp"
+                    android:layout_weight="1"
+                    android:layout_height="match_parent"/>
+
             </LinearLayout>
 
         </RelativeLayout>
@@ -95,6 +142,7 @@
                 android:orientation="vertical">
 
                 <TextView
+                    android:id="@+id/synopsis"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:paddingBottom="@dimen/activity_vertical_margin"
@@ -104,26 +152,6 @@
                     android:text="@string/lipsum"
                     android:textColor="@android:color/white" />
 
-
-                <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:paddingBottom="@dimen/activity_vertical_margin"
-                    android:paddingLeft="@dimen/activity_horizontal_margin"
-                    android:paddingRight="@dimen/activity_horizontal_margin"
-                    android:paddingTop="@dimen/activity_vertical_margin"
-                    android:text="@string/lipsum"
-                    android:textColor="@android:color/white" />
-
-                <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:paddingBottom="@dimen/activity_vertical_margin"
-                    android:paddingLeft="@dimen/activity_horizontal_margin"
-                    android:paddingRight="@dimen/activity_horizontal_margin"
-                    android:paddingTop="@dimen/activity_vertical_margin"
-                    android:text="@string/lipsum"
-                    android:textColor="@android:color/white" />
             </LinearLayout>
 
         </LinearLayout>
