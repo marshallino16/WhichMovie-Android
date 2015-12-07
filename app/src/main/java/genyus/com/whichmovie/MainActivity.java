@@ -107,10 +107,9 @@ public class MainActivity extends AppCompatActivity implements OnMoviesListener 
             @Override
             public void run() {
                 generateFragmentFromMovies();
+                movieAdapter.setData(moviesFragments);
+                swipePager.invalidate();
                 swipePager.setCurrentItem(0);
-                movieAdapter = new MoviePagerAdapter(MainActivity.this.getSupportFragmentManager(), moviesFragments, MainActivity.this);
-                swipePager.setAdapter(movieAdapter);
-                movieAdapter.notifyDataSetChanged();
             }
         });
     }

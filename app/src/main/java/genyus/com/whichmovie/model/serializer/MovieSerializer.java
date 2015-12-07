@@ -126,6 +126,7 @@ public class MovieSerializer {
             }
         }
 
-        GlobalVars.movies = movies;
+        GlobalVars.movies.clear();
+        GlobalVars.movies.addAll(movies);
     }
 }
