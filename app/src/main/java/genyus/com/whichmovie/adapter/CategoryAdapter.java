@@ -56,6 +56,7 @@ public class CategoryAdapter extends ArrayAdapter<Genres> {
 
         holder.title = (TextView) convertView.findViewById(R.id.cat_title);
         holder.title.setText(""+values.get(position).getName());
+        holder.title.setPadding(5,5,5,5);
         return convertView;
     }
 
@@ -77,6 +78,7 @@ public class CategoryAdapter extends ArrayAdapter<Genres> {
         holder.title = (TextView) convertView.findViewById(R.id.cat_title);
         holder.title.setText(""+values.get(position).getName());
         holder.title.setTextColor(context.getResources().getColor(R.color.colorPrimaryDark));
+        holder.title.setTextAppearance(context, android.R.style.TextAppearance);
 
         return convertView;
     }
