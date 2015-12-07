@@ -17,4 +17,11 @@
         android:background="#00ffffff"
         android:theme="@style/AppTheme.TransparentActionBar"/>
 
+    <Spinner
+        android:id="@+id/categories"
+        android:background="@android:color/transparent"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="16dp" />
+
 </android.support.design.widget.CoordinatorLayout>

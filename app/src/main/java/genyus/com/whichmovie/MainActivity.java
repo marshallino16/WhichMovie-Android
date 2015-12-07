@@ -5,6 +5,7 @@ import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.Spinner;
 
 import org.androidannotations.annotations.AfterViews;
 import org.androidannotations.annotations.EActivity;
@@ -12,6 +13,7 @@ import org.androidannotations.annotations.ViewById;
 
 import java.util.ArrayList;
 
+import genyus.com.whichmovie.adapter.CategoryAdapter;
 import genyus.com.whichmovie.adapter.MoviePagerAdapter;
 import genyus.com.whichmovie.model.Movie;
 import genyus.com.whichmovie.session.GlobalVars;
@@ -23,12 +25,16 @@ public class MainActivity extends AppCompatActivity {
 
     private ArrayList<MovieFragment> moviesFragments = new ArrayList<>();
     private MoviePagerAdapter movieAdapter;
+    private CategoryAdapter categoryAdapter;
 
     @ViewById(R.id.toolbar)
     Toolbar toolbar;
 
     @ViewById(R.id.moviePager)
     SwipeViewPager swipePager;
+
+    @ViewById(R.id.categories)
+    Spinner categories;
 
     @AfterViews
     protected void afterViews() {
@@ -46,6 +52,10 @@ public class MainActivity extends AppCompatActivity {
         movieAdapter = new MoviePagerAdapter(this.getSupportFragmentManager(), moviesFragments, this);
         swipePager.setAdapter(movieAdapter);
         movieAdapter.notifyDataSetChanged();
+
+        categoryAdapter = new CategoryAdapter(this, R.layout.spinner_categories, GlobalVars.genres);
+        categories.setAdapter(categoryAdapter);
+        categoryAdapter.notifyDataSetChanged();
     }
 
     @Override

@@ -103,4 +103,8 @@ public class UnitsUtils {
         int height = size.y;
         return height;
     }
+
+    public static float getScreenPercentHeightSize(Activity context, float percent){
+        return (float)  getScreenHeightSize(context)*(float)(percent/100);
+    }
 }
