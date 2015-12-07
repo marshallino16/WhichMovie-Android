@@ -5,6 +5,8 @@ import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.AdapterView;
 import android.widget.Spinner;
 
 import org.androidannotations.annotations.AfterViews;
@@ -17,11 +19,14 @@ import genyus.com.whichmovie.adapter.CategoryAdapter;
 import genyus.com.whichmovie.adapter.MoviePagerAdapter;
 import genyus.com.whichmovie.model.Movie;
 import genyus.com.whichmovie.session.GlobalVars;
+import genyus.com.whichmovie.task.listener.OnMoviesListener;
+import genyus.com.whichmovie.task.manager.RequestManager;
 import genyus.com.whichmovie.ui.MovieFragment;
+import genyus.com.whichmovie.utils.PreferencesUtils;
 import genyus.com.whichmovie.view.SwipeViewPager;
 
 @EActivity(R.layout.activity_main)
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity implements OnMoviesListener {
 
     private ArrayList<MovieFragment> moviesFragments = new ArrayList<>();
     private MoviePagerAdapter movieAdapter;
@@ -34,7 +39,7 @@ public class MainActivity extends AppCompatActivity {
     SwipeViewPager swipePager;
 
     @ViewById(R.id.categories)
-    Spinner categories;
+    public Spinner categories;
 
     @AfterViews
     protected void afterViews() {
@@ -44,10 +49,8 @@ public class MainActivity extends AppCompatActivity {
         if(BuildConfig.DEBUG){
             Log.d(genyus.com.whichmovie.classes.Log.TAG, "movies list size = " + GlobalVars.movies.size());
         }
-        for (Movie movie : GlobalVars.movies) {
-            MovieFragment movieFragment = MovieFragment.newInstance(movie);
-            moviesFragments.add(movieFragment);
-        }
+
+        generateFragmentFromMovies();
 
         movieAdapter = new MoviePagerAdapter(this.getSupportFragmentManager(), moviesFragments, this);
         swipePager.setAdapter(movieAdapter);
@@ -56,6 +59,23 @@ public class MainActivity extends AppCompatActivity {
         categoryAdapter = new CategoryAdapter(this, R.layout.spinner_categories, GlobalVars.genres);
         categories.setAdapter(categoryAdapter);
         categoryAdapter.notifyDataSetChanged();
+        categories.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, final int position, long id) {
+                new Thread() {
+                    public void run() {
+                        GlobalVars.reinitForCategoryChange();
+                        PreferencesUtils.setPreference(MainActivity.this, PreferencesUtils.KEY_DEFAULT_CATEGORY, GlobalVars.genres.get(position).getId());
+                        RequestManager.getInstance(MainActivity.this).getMoviesFromCategory(MainActivity.this, MainActivity.this);
+                    }
+                }.start();
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+
+            }
+        });
     }
 
     @Override
@@ -79,5 +99,32 @@ public class MainActivity extends AppCompatActivity {
     public void onBackPressed() {
         super.onBackPressed();
         overridePendingTransition(R.anim.in_from_left, R.anim.out_to_right);
+    }
+
+    @Override
+    public void OnMoviesGet() {
+        runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                generateFragmentFromMovies();
+                swipePager.setCurrentItem(0);
+                movieAdapter = new MoviePagerAdapter(MainActivity.this.getSupportFragmentManager(), moviesFragments, MainActivity.this);
+                swipePager.setAdapter(movieAdapter);
+                movieAdapter.notifyDataSetChanged();
+            }
+        });
+    }
+
+    @Override
+    public void OnMoviesFailed(String reason) {
+        Log.e(genyus.com.whichmovie.classes.Log.TAG, "Error getting movies : " + reason);
+    }
+
+    private void generateFragmentFromMovies(){
+        moviesFragments.clear();
+        for (Movie movie : GlobalVars.movies) {
+            MovieFragment movieFragment = MovieFragment.newInstance(movie);
+            moviesFragments.add(movieFragment);
+        }
     }
 }

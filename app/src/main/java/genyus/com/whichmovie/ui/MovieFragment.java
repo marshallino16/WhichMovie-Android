@@ -15,6 +15,7 @@ import com.github.ksoichiro.android.observablescrollview.ObservableScrollViewCal
 import com.github.ksoichiro.android.observablescrollview.ScrollState;
 import com.github.ksoichiro.android.observablescrollview.ScrollUtils;
 
+import genyus.com.whichmovie.MainActivity;
 import genyus.com.whichmovie.R;
 import genyus.com.whichmovie.model.Movie;
 import genyus.com.whichmovie.session.GlobalVars;
@@ -95,6 +96,7 @@ public class MovieFragment extends Fragment implements ObservableScrollViewCallb
     public void onScrollChanged(int scrollY, boolean firstScroll, boolean dragging) {
         int minOverlayTransitionY = - Math.round(height);
         header.setTranslationY(ScrollUtils.getFloat(-scrollY / 2, minOverlayTransitionY, 0));
+        ((MainActivity)getActivity()).categories.setTranslationY(ScrollUtils.getFloat(-scrollY / 2, minOverlayTransitionY, 0));
     }
 
     @Override
