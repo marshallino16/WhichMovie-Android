@@ -39,6 +39,7 @@ public class MovieFragment extends Fragment implements ObservableScrollViewCallb
     private View overlay;
     private TextView title;
     private TextView vote;
+    private TextView synopsis;
     private ImageView backdrop;
 
     private LinearLayout header;
@@ -75,6 +76,7 @@ public class MovieFragment extends Fragment implements ObservableScrollViewCallb
         overlay = (View) view.findViewById(R.id.overlay);
         vote = (TextView) view.findViewById(R.id.vote);
         title = (TextView) view.findViewById(R.id.title);
+        synopsis = (TextView) view.findViewById(R.id.synopsis);
         backdrop = (ImageView) view.findViewById(R.id.backdrop);
         ratingBarContainer = (RelativeLayout) view.findViewById(R.id.ratingBarContainer);
 
@@ -84,11 +86,12 @@ public class MovieFragment extends Fragment implements ObservableScrollViewCallb
         overlay.setAlpha(0);
 
         //header image loading
-        PicassoTrustAll.getInstance(getActivity()).load(GlobalVars.configuration.getBase_url()+GlobalVars.configuration.getBackdrop_sizes().get(1)+movie.getBackdrop_path()).into(backdrop);
+        PicassoTrustAll.getInstance(getActivity()).load(GlobalVars.configuration.getBase_url()+GlobalVars.configuration.getPoster_sizes().get(GlobalVars.configuration.getPoster_sizes().size()-1)+movie.getPoster_path()).into(backdrop);
         title.setText(""+movie.getTitle());
+        synopsis.setText(""+movie.getOverview());
 
         //scroll settingup
-        height = UnitsUtils.getScreenPercentHeightSize(getActivity(), 33f);
+        height = UnitsUtils.getScreenPercentHeightSize(getActivity(), 70f);
         margin.setLayoutParams(new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, Math.round(height)));
         scrollView.setTouchInterceptionViewGroup((ViewGroup) view.findViewById(R.id.fragment_root));
         scrollView.setScrollViewCallbacks(this);
@@ -122,12 +125,12 @@ public class MovieFragment extends Fragment implements ObservableScrollViewCallb
 
     @Override
     public void onScrollChanged(int scrollY, boolean firstScroll, boolean dragging) {
-        int minOverlayTransitionY = - Math.round(height);
-        int minOverlayTransitionYTitle = - Math.round(height/2);
+        int minOverlayTransitionY = - Math.round(height*2f);
+        int minOverlayTransitionYTitle = - Math.round(height*2.5f);
         float flexibleRange = height - UnitsUtils.actionBarSize(getActivity());
 
         header.setTranslationY(ScrollUtils.getFloat(-scrollY / 2, minOverlayTransitionY, 0));
-        title.setTranslationY(ScrollUtils.getFloat(-scrollY / 4, minOverlayTransitionYTitle, 0));
+        title.setTranslationY(ScrollUtils.getFloat(-scrollY / 2, minOverlayTransitionYTitle, 0));
         overlay.setAlpha(ScrollUtils.getFloat((float) scrollY / flexibleRange, 0, 1));
         ((MainActivity)getActivity()).categories.setTranslationY(ScrollUtils.getFloat(-scrollY / 2, minOverlayTransitionYTitle, 0));
     }
