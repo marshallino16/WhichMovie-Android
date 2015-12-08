@@ -22,8 +22,8 @@
             android:layout_weight="7.5"
             android:background="@android:color/white">
 
-            <ImageView
-                android:id="@+id/backdrop"
+            <genyus.com.whichmovie.view.BlurImageView
+                android:id="@+id/poster"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:scaleType="centerCrop" />

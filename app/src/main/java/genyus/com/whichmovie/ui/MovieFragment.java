@@ -7,7 +7,6 @@ import android.text.Html;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
@@ -23,6 +22,7 @@ import genyus.com.whichmovie.model.Movie;
 import genyus.com.whichmovie.session.GlobalVars;
 import genyus.com.whichmovie.utils.PicassoTrustAll;
 import genyus.com.whichmovie.utils.UnitsUtils;
+import genyus.com.whichmovie.view.BlurImageView;
 
 /**
  * Created by genyus on 29/11/15.
@@ -40,7 +40,7 @@ public class MovieFragment extends Fragment implements ObservableScrollViewCallb
     private TextView title;
     private TextView vote;
     private TextView synopsis;
-    private ImageView backdrop;
+    private BlurImageView poster;
 
     private LinearLayout header;
     private ObservableScrollView scrollView;
@@ -77,7 +77,7 @@ public class MovieFragment extends Fragment implements ObservableScrollViewCallb
         vote = (TextView) view.findViewById(R.id.vote);
         title = (TextView) view.findViewById(R.id.title);
         synopsis = (TextView) view.findViewById(R.id.synopsis);
-        backdrop = (ImageView) view.findViewById(R.id.backdrop);
+        poster = (BlurImageView) view.findViewById(R.id.poster);
         ratingBarContainer = (RelativeLayout) view.findViewById(R.id.ratingBarContainer);
 
         header = (LinearLayout) view.findViewById(R.id.header);
@@ -86,12 +86,13 @@ public class MovieFragment extends Fragment implements ObservableScrollViewCallb
         overlay.setAlpha(0);
 
         //header image loading
-        PicassoTrustAll.getInstance(getActivity()).load(GlobalVars.configuration.getBase_url()+GlobalVars.configuration.getPoster_sizes().get(GlobalVars.configuration.getPoster_sizes().size()-1)+movie.getPoster_path()).into(backdrop);
+        PicassoTrustAll.getInstance(getActivity()).load(GlobalVars.configuration.getBase_url()+GlobalVars.configuration.getPoster_sizes().get(GlobalVars.configuration.getPoster_sizes().size()-1)+movie.getPoster_path()).into(poster);
+        poster.setFocus(1.0f);
         title.setText(""+movie.getTitle());
         synopsis.setText(""+movie.getOverview());
 
         //scroll settingup
-        height = UnitsUtils.getScreenPercentHeightSize(getActivity(), 70f);
+        height = UnitsUtils.getScreenPercentHeightSize(getActivity(), 72f);
         margin.setLayoutParams(new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, Math.round(height)));
         scrollView.setTouchInterceptionViewGroup((ViewGroup) view.findViewById(R.id.fragment_root));
         scrollView.setScrollViewCallbacks(this);
@@ -126,11 +127,20 @@ public class MovieFragment extends Fragment implements ObservableScrollViewCallb
     @Override
     public void onScrollChanged(int scrollY, boolean firstScroll, boolean dragging) {
         int minOverlayTransitionY = - Math.round(height*2f);
-        int minOverlayTransitionYTitle = - Math.round(height*2.5f);
+        int minOverlayTransitionYTitle = - Math.round(height*2.2f);
         float flexibleRange = height - UnitsUtils.actionBarSize(getActivity());
 
         header.setTranslationY(ScrollUtils.getFloat(-scrollY / 2, minOverlayTransitionY, 0));
         title.setTranslationY(ScrollUtils.getFloat(-scrollY / 2, minOverlayTransitionYTitle, 0));
+
+        float focus = ScrollUtils.getFloat((float) scrollY / flexibleRange, 0, 1);
+        if(focus < 0){
+            focus = 0f;
+        } else if (focus > 1){
+            focus = 1f;
+        }
+
+        poster.setFocus(1.0f*focus);
         overlay.setAlpha(ScrollUtils.getFloat((float) scrollY / flexibleRange, 0, 1));
         ((MainActivity)getActivity()).categories.setTranslationY(ScrollUtils.getFloat(-scrollY / 2, minOverlayTransitionYTitle, 0));
     }
