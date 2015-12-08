@@ -22,6 +22,7 @@ import genyus.com.whichmovie.session.GlobalVars;
 import genyus.com.whichmovie.task.listener.OnMoviesListener;
 import genyus.com.whichmovie.task.manager.RequestManager;
 import genyus.com.whichmovie.ui.MovieFragment;
+import genyus.com.whichmovie.utils.ObjectUtils;
 import genyus.com.whichmovie.utils.PreferencesUtils;
 import genyus.com.whichmovie.view.SwipeViewPager;
 
@@ -56,11 +57,10 @@ public class MainActivity extends AppCompatActivity implements OnMoviesListener 
         swipePager.setAdapter(movieAdapter);
         swipePager.setPagingEnabled(false);
         swipePager.setOffscreenPageLimit(0);
-        movieAdapter.notifyDataSetChanged();
 
         categoryAdapter = new CategoryAdapter(this, R.layout.spinner_categories, GlobalVars.genres);
         categories.setAdapter(categoryAdapter);
-        categoryAdapter.notifyDataSetChanged();
+        categories.setSelection(ObjectUtils.getGenrePositionById(PreferencesUtils.getDefaultCategory(this)));
         categories.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, final int position, long id) {

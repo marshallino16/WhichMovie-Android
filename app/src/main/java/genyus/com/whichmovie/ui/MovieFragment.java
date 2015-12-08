@@ -3,21 +3,19 @@ package genyus.com.whichmovie.ui;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
-import android.util.Log;
+import android.text.Html;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
-import com.akexorcist.roundcornerprogressbar.RoundCornerProgressBar;
 import com.github.ksoichiro.android.observablescrollview.ObservableScrollView;
 import com.github.ksoichiro.android.observablescrollview.ObservableScrollViewCallbacks;
 import com.github.ksoichiro.android.observablescrollview.ScrollState;
 import com.github.ksoichiro.android.observablescrollview.ScrollUtils;
-
-import java.util.Random;
 
 import genyus.com.whichmovie.MainActivity;
 import genyus.com.whichmovie.R;
@@ -44,6 +42,7 @@ public class MovieFragment extends Fragment implements ObservableScrollViewCallb
 
     private LinearLayout header;
     private ObservableScrollView scrollView;
+    private RelativeLayout ratingBarContainer;
 
     /**
      * @param movie
@@ -75,7 +74,7 @@ public class MovieFragment extends Fragment implements ObservableScrollViewCallb
         vote = (TextView) view.findViewById(R.id.vote);
         title = (TextView) view.findViewById(R.id.title);
         backdrop = (ImageView) view.findViewById(R.id.backdrop);
-        RoundCornerProgressBar ratingBar = (RoundCornerProgressBar) view.findViewById(R.id.ratingBar);
+        ratingBarContainer = (RelativeLayout) view.findViewById(R.id.ratingBarContainer);
 
         header = (LinearLayout) view.findViewById(R.id.header);
         scrollView = (ObservableScrollView) view.findViewById(R.id.scroll);
@@ -91,10 +90,22 @@ public class MovieFragment extends Fragment implements ObservableScrollViewCallb
         scrollView.setScrollViewCallbacks(this);
 
         //rating
-        Log.d(genyus.com.whichmovie.classes.Log.TAG, "movie = "+movie.getTitle()+" vote = " + movie.getVote_average());
-        ratingBar.setMax(100f);
-        ratingBar.setProgress(new Random().nextFloat() * (100 - 10) + 10);
-        vote.setText(""+movie.getVote_average()+"/10");
+        View progressAlpha = new View(getActivity(), null);
+        View progress = new View(getActivity(), null);
+
+        progressAlpha.setBackgroundResource(R.drawable.round_progress_alpha);
+        progress.setBackgroundResource(R.drawable.round_progress);
+
+        float halfWidth = UnitsUtils.getScreenPercentWidthSize(getActivity(), 50.0f);
+        float progressWidth = halfWidth*((movie.getVote_average())*10.0f/100f);
+
+        RelativeLayout.LayoutParams lpAlpha = new RelativeLayout.LayoutParams(Math.round(halfWidth), ViewGroup.LayoutParams.MATCH_PARENT);
+        RelativeLayout.LayoutParams lpProgress = new RelativeLayout.LayoutParams(Math.round(progressWidth), ViewGroup.LayoutParams.MATCH_PARENT);
+
+        ratingBarContainer.addView(progress, 0, lpProgress);
+        ratingBarContainer.addView(progressAlpha, 0, lpAlpha);
+
+        vote.setText(Html.fromHtml("<strong>"+movie.getVote_average()+"</strong><small>/10</small>"));
 
         return view;
     }

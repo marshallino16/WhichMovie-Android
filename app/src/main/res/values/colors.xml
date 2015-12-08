@@ -9,4 +9,8 @@
     <color name="grey_font">#ff9e9e9e</color>
     <color name="text_shadow">#7F000000</color>
 
+    <!-- progress -->
+    <color name="progress_alpha">#80FFC107</color>
+    <color name="progress">#FFC107</color>
+
 </resources>

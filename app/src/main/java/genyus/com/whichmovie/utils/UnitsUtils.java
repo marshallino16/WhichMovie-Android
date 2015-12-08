@@ -107,4 +107,8 @@ public class UnitsUtils {
     public static float getScreenPercentHeightSize(Activity context, float percent){
         return (float)  getScreenHeightSize(context)*(float)(percent/100);
     }
+
+    public static float getScreenPercentWidthSize(Activity context, float percent){
+        return (float)  getScreenWidthSize(context)*(float)(percent/100);
+    }
 }
