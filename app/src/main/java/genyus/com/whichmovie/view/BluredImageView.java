@@ -16,7 +16,7 @@ import android.util.AttributeSet;
 import android.util.Log;
 import android.widget.ImageView;
 
-public class BlurImageView extends ImageView {
+public class BluredImageView extends ImageView {
 
     public static final String TAG = "BlurImageView";
 
@@ -31,15 +31,15 @@ public class BlurImageView extends ImageView {
     private Matrix resizeMatrix = null;
 
 
-    public BlurImageView(Context context) {
+    public BluredImageView(Context context) {
         super(context);
     }
 
-    public BlurImageView(Context context, AttributeSet attrs) {
+    public BluredImageView(Context context, AttributeSet attrs) {
         super(context, attrs);
     }
 
-    public BlurImageView(Context context, AttributeSet attrs, int defStyleAttr) {
+    public BluredImageView(Context context, AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
     }
 
@@ -68,12 +68,20 @@ public class BlurImageView extends ImageView {
      * clear last settings for new bitmap
      */
     public void refresh() {
-        blurPaint = null;
+        radius = 25;
+        lastRadius = 25;
+
+        originalBitmap = null;
         blurBitmap = null;
+
+        blurPaint = null;
+        originalPaint = null;
+        resizeMatrix = null;
 
         invalidate();
     }
 
+    @Override
     protected void onDraw(Canvas canvas) {
         if (isInEditMode()) {
             super.onDraw(canvas);
@@ -82,7 +90,7 @@ public class BlurImageView extends ImageView {
 
         if (blurPaint == null) {
             originalBitmap = Bitmap.createBitmap(
-                    getWidth(), getHeight(), Bitmap.Config.ARGB_8888);
+                    getWidth(), getHeight(), Bitmap.Config.ARGB_4444);
             Canvas originalCanvas = new Canvas(originalBitmap);
             super.onDraw(originalCanvas);    // get originalBitmap bitmap from parent ImageView class
 

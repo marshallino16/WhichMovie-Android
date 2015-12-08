@@ -20,10 +20,12 @@ android {
         targetSdkVersion 23
         versionCode 1
         versionName "1.0"
+        renderscriptTargetApi 20
+        renderscriptSupportModeEnabled true
     }
     buildTypes {
         release {
-            minifyEnabled true
+            minifyEnabled false
             //shrinkResources true
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }

@@ -7,6 +7,8 @@ import android.text.Html;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.FrameLayout;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
@@ -22,7 +24,6 @@ import genyus.com.whichmovie.model.Movie;
 import genyus.com.whichmovie.session.GlobalVars;
 import genyus.com.whichmovie.utils.PicassoTrustAll;
 import genyus.com.whichmovie.utils.UnitsUtils;
-import genyus.com.whichmovie.view.BlurImageView;
 
 /**
  * Created by genyus on 29/11/15.
@@ -40,8 +41,9 @@ public class MovieFragment extends Fragment implements ObservableScrollViewCallb
     private TextView title;
     private TextView vote;
     private TextView synopsis;
-    private BlurImageView poster;
+    private ImageView poster;
 
+    private FrameLayout posterContainer;
     private LinearLayout header;
     private ObservableScrollView scrollView;
     private RelativeLayout ratingBarContainer;
@@ -74,10 +76,11 @@ public class MovieFragment extends Fragment implements ObservableScrollViewCallb
 
         margin = (View) view.findViewById(R.id.margin);
         overlay = (View) view.findViewById(R.id.overlay);
+        poster = (ImageView) view.findViewById(R.id.poster);
         vote = (TextView) view.findViewById(R.id.vote);
         title = (TextView) view.findViewById(R.id.title);
         synopsis = (TextView) view.findViewById(R.id.synopsis);
-        poster = (BlurImageView) view.findViewById(R.id.poster);
+        posterContainer = (FrameLayout) view.findViewById(R.id.posterContainer);
         ratingBarContainer = (RelativeLayout) view.findViewById(R.id.ratingBarContainer);
 
         header = (LinearLayout) view.findViewById(R.id.header);
@@ -86,13 +89,13 @@ public class MovieFragment extends Fragment implements ObservableScrollViewCallb
         overlay.setAlpha(0);
 
         //header image loading
-        PicassoTrustAll.getInstance(getActivity()).load(GlobalVars.configuration.getBase_url()+GlobalVars.configuration.getPoster_sizes().get(GlobalVars.configuration.getPoster_sizes().size()-1)+movie.getPoster_path()).into(poster);
-        poster.setFocus(1.0f);
-        title.setText(""+movie.getTitle());
-        synopsis.setText(""+movie.getOverview());
+        PicassoTrustAll.getInstance(getActivity()).load(GlobalVars.configuration.getBase_url() + GlobalVars.configuration.getPoster_sizes().get(GlobalVars.configuration.getPoster_sizes().size() - 1) + movie.getPoster_path()).noPlaceholder().into(poster);
+
+        title.setText("" + movie.getTitle());
+        synopsis.setText("" + movie.getOverview());
 
         //scroll settingup
-        height = UnitsUtils.getScreenPercentHeightSize(getActivity(), 72f);
+        height = UnitsUtils.getScreenPercentHeightSize(getActivity(), 83f);
         margin.setLayoutParams(new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, Math.round(height)));
         scrollView.setTouchInterceptionViewGroup((ViewGroup) view.findViewById(R.id.fragment_root));
         scrollView.setScrollViewCallbacks(this);
@@ -105,7 +108,7 @@ public class MovieFragment extends Fragment implements ObservableScrollViewCallb
         progress.setBackgroundResource(R.drawable.round_progress);
 
         float halfWidth = UnitsUtils.getScreenPercentWidthSize(getActivity(), 50.0f);
-        float progressWidth = halfWidth*((movie.getVote_average())*10.0f/100f);
+        float progressWidth = halfWidth * ((movie.getVote_average()) * 10.0f / 100f);
 
         RelativeLayout.LayoutParams lpAlpha = new RelativeLayout.LayoutParams(Math.round(halfWidth), ViewGroup.LayoutParams.MATCH_PARENT);
         RelativeLayout.LayoutParams lpProgress = new RelativeLayout.LayoutParams(Math.round(progressWidth), ViewGroup.LayoutParams.MATCH_PARENT);
@@ -113,7 +116,7 @@ public class MovieFragment extends Fragment implements ObservableScrollViewCallb
         ratingBarContainer.addView(progress, 0, lpProgress);
         ratingBarContainer.addView(progressAlpha, 0, lpAlpha);
 
-        vote.setText(Html.fromHtml("<strong>"+movie.getVote_average()+"</strong><small>/10</small>"));
+        vote.setText(Html.fromHtml("<strong>" + movie.getVote_average() + "</strong><small>/10</small>"));
 
         return view;
     }
@@ -126,23 +129,21 @@ public class MovieFragment extends Fragment implements ObservableScrollViewCallb
 
     @Override
     public void onScrollChanged(int scrollY, boolean firstScroll, boolean dragging) {
-        int minOverlayTransitionY = - Math.round(height*2f);
-        int minOverlayTransitionYTitle = - Math.round(height*2.2f);
-        float flexibleRange = height - UnitsUtils.actionBarSize(getActivity());
+        int minOverlayTransitionY = -Math.round(height);
+        int minOverlayTransitionYTitle = -Math.round(height);
+        float flexibleRange = height*2 - UnitsUtils.actionBarSize(getActivity());
 
         header.setTranslationY(ScrollUtils.getFloat(-scrollY / 2, minOverlayTransitionY, 0));
-        title.setTranslationY(ScrollUtils.getFloat(-scrollY / 2, minOverlayTransitionYTitle, 0));
+        title.setTranslationY(ScrollUtils.getFloat(-scrollY / 4, minOverlayTransitionYTitle, 0));
 
-        float focus = ScrollUtils.getFloat((float) scrollY / flexibleRange, 0, 1);
-        if(focus < 0){
-            focus = 0f;
-        } else if (focus > 1){
-            focus = 1f;
-        }
+        /*Matrix matrix = new Matrix();
+        matrix.postScale(0.9f , 0.9f , 50f , 50f );
+        poster.setImageMatrix(matrix);*/
 
-        poster.setFocus(1.0f*focus);
         overlay.setAlpha(ScrollUtils.getFloat((float) scrollY / flexibleRange, 0, 1));
-        ((MainActivity)getActivity()).categories.setTranslationY(ScrollUtils.getFloat(-scrollY / 2, minOverlayTransitionYTitle, 0));
+        title.setAlpha(1 - ScrollUtils.getFloat((float) scrollY / flexibleRange, 0, 1));
+        ratingBarContainer.setAlpha(1 - ScrollUtils.getFloat((float) scrollY * 2 / flexibleRange, 0, 1));
+        ((MainActivity) getActivity()).categories.setTranslationY(ScrollUtils.getFloat(-scrollY / 2, minOverlayTransitionYTitle, 0));
     }
 
     @Override

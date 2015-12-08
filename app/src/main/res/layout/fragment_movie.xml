@@ -5,13 +5,52 @@
     android:id="@+id/fragment_root"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@android:color/transparent"
     app:layout_behavior="@string/appbar_scrolling_view_behavior"
     tools:context="genyus.com.whichmovie.MainActivity">
+
+    <FrameLayout
+        android:id="@+id/posterContainer"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <ImageView
+            android:id="@+id/poster"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:scaleType="centerCrop" />
+
+    </FrameLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@android:color/transparent"
+        android:orientation="vertical">
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1" />
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            android:background="@drawable/elevation_shadow" />
+    </LinearLayout>
+
+    <View
+        android:id="@+id/overlay"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/overlay" />
 
     <LinearLayout
         android:id="@+id/header"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:background="@android:color/transparent"
         android:orientation="vertical"
         android:weightSum="10">
 
@@ -19,37 +58,7 @@
             android:id="@+id/imageContainer"
             android:layout_width="match_parent"
             android:layout_height="0dp"
-            android:layout_weight="7.5"
-            android:background="@android:color/white">
-
-            <genyus.com.whichmovie.view.BlurImageView
-                android:id="@+id/poster"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:scaleType="centerCrop" />
-
-            <View
-                android:id="@+id/overlay"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:background="@color/overlay" />
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:orientation="vertical">
-
-                <View
-                    android:layout_width="match_parent"
-                    android:layout_height="0dp"
-                    android:layout_weight="1" />
-
-                <RelativeLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="0dp"
-                    android:layout_weight="1"
-                    android:background="@drawable/elevation_shadow" />
-            </LinearLayout>
+            android:layout_weight="8.5">
 
             <TextView
                 android:id="@+id/title"
@@ -110,7 +119,7 @@
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="0dp"
-            android:layout_weight="2.5" />
+            android:layout_weight="1.5" />
 
     </LinearLayout>
 
@@ -118,6 +127,7 @@
         android:id="@+id/scroll"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:background="@android:color/transparent"
         android:clipChildren="false"
         android:clipToPadding="false"
         android:fillViewport="true"
@@ -134,13 +144,11 @@
             <View
                 android:id="@+id/margin"
                 android:layout_width="match_parent"
-                android:layout_height="0dp"
-                android:background="@android:color/transparent" />
+                android:layout_height="0dp" />
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:background="@color/colorPrimary"
                 android:orientation="vertical">
 
                 <TextView

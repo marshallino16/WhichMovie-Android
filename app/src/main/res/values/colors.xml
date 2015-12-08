@@ -12,6 +12,6 @@
     <!-- progress -->
     <color name="progress_alpha">#80FFC107</color>
     <color name="progress">#FFC107</color>
-    <color name="overlay">#e62b2b2b</color>
+    <color name="overlay">#a62b2b2b</color>
 
 </resources>
