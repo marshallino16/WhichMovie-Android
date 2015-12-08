@@ -12,12 +12,12 @@ import java.util.List;
 
 import genyus.com.whichmovie.view.WaveView;
 
-public class WaveHelper {
+public class WaveUtils {
     private WaveView mWaveView;
 
     private AnimatorSet mAnimatorSet;
 
-    public WaveHelper(WaveView waveView) {
+    public WaveUtils(WaveView waveView) {
         mWaveView = waveView;
         initAnimation();
     }

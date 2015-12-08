@@ -36,6 +36,7 @@ public class MovieFragment extends Fragment implements ObservableScrollViewCallb
 
     //Views
     private View margin;
+    private View overlay;
     private TextView title;
     private TextView vote;
     private ImageView backdrop;
@@ -71,6 +72,7 @@ public class MovieFragment extends Fragment implements ObservableScrollViewCallb
         view = inflater.inflate(R.layout.fragment_movie, container, false);
 
         margin = (View) view.findViewById(R.id.margin);
+        overlay = (View) view.findViewById(R.id.overlay);
         vote = (TextView) view.findViewById(R.id.vote);
         title = (TextView) view.findViewById(R.id.title);
         backdrop = (ImageView) view.findViewById(R.id.backdrop);
@@ -78,6 +80,8 @@ public class MovieFragment extends Fragment implements ObservableScrollViewCallb
 
         header = (LinearLayout) view.findViewById(R.id.header);
         scrollView = (ObservableScrollView) view.findViewById(R.id.scroll);
+
+        overlay.setAlpha(0);
 
         //header image loading
         PicassoTrustAll.getInstance(getActivity()).load(GlobalVars.configuration.getBase_url()+GlobalVars.configuration.getBackdrop_sizes().get(1)+movie.getBackdrop_path()).into(backdrop);
@@ -119,8 +123,13 @@ public class MovieFragment extends Fragment implements ObservableScrollViewCallb
     @Override
     public void onScrollChanged(int scrollY, boolean firstScroll, boolean dragging) {
         int minOverlayTransitionY = - Math.round(height);
+        int minOverlayTransitionYTitle = - Math.round(height/2);
+        float flexibleRange = height - UnitsUtils.actionBarSize(getActivity());
+
         header.setTranslationY(ScrollUtils.getFloat(-scrollY / 2, minOverlayTransitionY, 0));
-        ((MainActivity)getActivity()).categories.setTranslationY(ScrollUtils.getFloat(-scrollY / 2, minOverlayTransitionY, 0));
+        title.setTranslationY(ScrollUtils.getFloat(-scrollY / 4, minOverlayTransitionYTitle, 0));
+        overlay.setAlpha(ScrollUtils.getFloat((float) scrollY / flexibleRange, 0, 1));
+        ((MainActivity)getActivity()).categories.setTranslationY(ScrollUtils.getFloat(-scrollY / 2, minOverlayTransitionYTitle, 0));
     }
 
     @Override

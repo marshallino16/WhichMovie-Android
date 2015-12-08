@@ -25,7 +25,7 @@ import genyus.com.whichmovie.task.listener.OnCategoriesListener;
 import genyus.com.whichmovie.task.listener.OnConfigurationListener;
 import genyus.com.whichmovie.task.listener.OnMoviesListener;
 import genyus.com.whichmovie.task.manager.RequestManager;
-import genyus.com.whichmovie.utils.WaveHelper;
+import genyus.com.whichmovie.utils.WaveUtils;
 import genyus.com.whichmovie.view.FlakeView;
 import genyus.com.whichmovie.view.WaveView;
 
@@ -33,7 +33,7 @@ import genyus.com.whichmovie.view.WaveView;
 public class LoadingActivity extends AppCompatActivity implements OnConfigurationListener, OnCategoriesListener, OnMoviesListener{
 
     private final static String FONT_FLAT = "fonts/Ikaros Regular.otf";
-    private WaveHelper mWaveHelper;
+    private WaveUtils mWaveHelper;
     private FlakeView flakeView;
 
     @ViewById(R.id.flakeContainer)
@@ -65,7 +65,7 @@ public class LoadingActivity extends AppCompatActivity implements OnConfiguratio
         int mBorderColor = Color.parseColor("#FFFFFF");
         int mBorderWidth = 0;
 
-        mWaveHelper = new WaveHelper(waveView);
+        mWaveHelper = new WaveUtils(waveView);
         waveView.setShapeType(WaveView.ShapeType.CIRCLE);
         waveView.setBorder(mBorderWidth, mBorderColor);
 
