@@ -24,11 +24,13 @@ import com.github.ksoichiro.android.observablescrollview.ObservableScrollView;
 import com.github.ksoichiro.android.observablescrollview.ObservableScrollViewCallbacks;
 import com.github.ksoichiro.android.observablescrollview.ScrollState;
 import com.github.ksoichiro.android.observablescrollview.ScrollUtils;
+import com.greenfrvr.hashtagview.HashtagView;
 import com.squareup.picasso.Picasso;
 import com.squareup.picasso.Target;
 
 import genyus.com.whichmovie.MainActivity;
 import genyus.com.whichmovie.R;
+import genyus.com.whichmovie.model.Genres;
 import genyus.com.whichmovie.model.Movie;
 import genyus.com.whichmovie.session.GlobalVars;
 import genyus.com.whichmovie.utils.PicassoTrustAll;
@@ -54,6 +56,7 @@ public class MovieFragment extends Fragment implements ObservableScrollViewCallb
     private TextView synopsis;
     private ImageView poster;
     private ImageView posterBlur;
+    private HashtagView hashtags;
 
     private LinearLayout header;
     private FrameLayout posterBlurContainer;
@@ -92,6 +95,7 @@ public class MovieFragment extends Fragment implements ObservableScrollViewCallb
         posterBlur = (ImageView) view.findViewById(R.id.posterBlur);
         vote = (TextView) view.findViewById(R.id.vote);
         title = (TextView) view.findViewById(R.id.title);
+        hashtags = (HashtagView) view.findViewById(R.id.hashtags);
         synopsis = (TextView) view.findViewById(R.id.synopsis);
         posterBlurContainer = (FrameLayout) view.findViewById(R.id.posterBlurContainer);
         ratingBarContainer = (RelativeLayout) view.findViewById(R.id.ratingBarContainer);
@@ -132,6 +136,15 @@ public class MovieFragment extends Fragment implements ObservableScrollViewCallb
 
         vote.setText(Html.fromHtml("<strong>" + movie.getVote_average() + "</strong><small>/10</small>"));
 
+        hashtags.setData(movie.getGenres(), new HashtagView.DataTransform<Genres>() {
+            @Override
+            public CharSequence prepare(Genres genre) {
+                String label = "" + genre.getName();
+                return label;
+            }
+
+        });
+
         return view;
     }
 
@@ -156,13 +169,14 @@ public class MovieFragment extends Fragment implements ObservableScrollViewCallb
         header.setTranslationY(ScrollUtils.getFloat(-scrollY / 2, minOverlayTransitionY, 0));
         title.setTranslationY(ScrollUtils.getFloat(-scrollY / 4, minOverlayTransitionYTitle, 0));
 
-        poster.setTranslationY(ScrollUtils.getFloat(-scrollY / 2, minOverlayTransitionY, 0)/8);
-        posterBlur.setTranslationY(ScrollUtils.getFloat(-scrollY / 2, minOverlayTransitionY, 0)/8);
+        poster.setTranslationY(ScrollUtils.getFloat(-scrollY / 2, minOverlayTransitionY, 0) / 8);
+        posterBlur.setTranslationY(ScrollUtils.getFloat(-scrollY / 2, minOverlayTransitionY, 0) / 8);
 
         overlay.setAlpha(ScrollUtils.getFloat((float) scrollY / flexibleRange, 0, 1));
         title.setAlpha(1 - ScrollUtils.getFloat((float) scrollY / flexibleRange, 0, 1));
         posterBlurContainer.setAlpha(ScrollUtils.getFloat((float) scrollY / flexibleRange, 0, 1));
         ratingBarContainer.setAlpha(1 - ScrollUtils.getFloat((float) scrollY * 2 / flexibleRange, 0, 1));
+        hashtags.setAlpha(1 - ScrollUtils.getFloat((float) scrollY * 2 / flexibleRange, 0, 1));
         ((MainActivity) getActivity()).categories.setTranslationY(ScrollUtils.getFloat(-scrollY / 2, minOverlayTransitionYTitle, 0));
     }
 

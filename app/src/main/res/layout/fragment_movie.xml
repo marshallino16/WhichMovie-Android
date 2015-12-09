@@ -76,12 +76,29 @@
                 android:id="@+id/title"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_above="@+id/rateContainer"
+                android:layout_above="@+id/hashtags"
                 android:gravity="left|center_vertical"
                 android:paddingLeft="16dp"
+                android:layout_marginBottom="5dp"
                 android:textAppearance="?android:attr/textAppearanceLarge"
                 android:textColor="@android:color/white"
                 android:textStyle="bold" />
+
+            <com.greenfrvr.hashtagview.HashtagView
+                android:id="@+id/hashtags"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="5dp"
+                android:layout_above="@+id/rateContainer"
+                app:tagBackground="@android:color/transparent"
+                app:tagDrawableLeft="@drawable/tag"
+                app:tagPaddingBottom="0dp"
+                app:tagPaddingLeft="7dp"
+                app:tagPaddingRight="7dp"
+                app:tagPaddingTop="4dp"
+                app:rowGravity="left"
+                app:rowDistribution="left"
+                app:tagTextColor="@android:color/white"/>
 
             <LinearLayout
                 android:id="@+id/rateContainer"
@@ -96,7 +113,7 @@
                     android:layout_marginBottom="16dp"
                     android:layout_marginLeft="16dp"
                     android:layout_marginRight="16dp"
-                    android:layout_marginTop="10dp"
+                    android:layout_marginTop="5dp"
                     android:layout_weight="1">
 
                     <RelativeLayout

@@ -77,8 +77,8 @@ public class MovieSerializer {
                 }
 
                 if(!genre.isJsonNull() && null != genre && null != genre.getAsJsonArray()){
-                    Type listType = new TypeToken<List<String>>() {}.getType();
-                    ArrayList<String> genres = new Gson().fromJson(genre.getAsJsonArray(), listType);
+                    Type listType = new TypeToken<List<Integer>>() {}.getType();
+                    ArrayList<Integer> genres = new Gson().fromJson(genre.getAsJsonArray(), listType);
                     movie.setGenre_ids(genres);
                 }
 

@@ -3,6 +3,8 @@ package genyus.com.whichmovie.model;
 import java.io.Serializable;
 import java.util.ArrayList;
 
+import genyus.com.whichmovie.utils.ObjectUtils;
+
 /**
  * Created by genyus on 29/11/15.
  */
@@ -10,7 +12,7 @@ public class Movie implements Serializable {
 
     private boolean adult;
     private String backdrop_path;
-    private ArrayList<String> genre_ids;
+    private ArrayList<Integer> genre_ids;
     private String original_language;
     private String original_title;
     private String overview;
@@ -39,11 +41,19 @@ public class Movie implements Serializable {
         this.backdrop_path = backdrop_path;
     }
 
-    public ArrayList<String> getGenre_ids() {
+    public ArrayList<Integer> getGenre_ids() {
         return genre_ids;
     }
 
-    public void setGenre_ids(ArrayList<String> genre_ids) {
+    public ArrayList<Genres> getGenres() {
+        ArrayList<Genres> genres = new ArrayList<>();
+        for(int i=0 ; i<genre_ids.size(); ++i){
+            genres.add(ObjectUtils.getGenreById(genre_ids.get(i)));
+        }
+        return genres;
+    }
+
+    public void setGenre_ids(ArrayList<Integer> genre_ids) {
         this.genre_ids = genre_ids;
     }
 
