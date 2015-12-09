@@ -1,6 +1,6 @@
 package genyus.com.whichmovie.utils;
 
-import genyus.com.whichmovie.model.Genres;
+import genyus.com.whichmovie.model.Genre;
 import genyus.com.whichmovie.model.Movie;
 import genyus.com.whichmovie.session.GlobalVars;
 
@@ -9,9 +9,9 @@ import genyus.com.whichmovie.session.GlobalVars;
  */
 public class ObjectUtils {
 
-    public static final Genres getGenreById(int id){
-        Genres genre = null;
-        for (Genres genres: GlobalVars.genres) {
+    public static final Genre getGenreById(int id){
+        Genre genre = null;
+        for (Genre genres: GlobalVars.genres) {
             if(genres.getId() == id){
                 genre = genres;
                 break;
@@ -35,8 +35,8 @@ public class ObjectUtils {
     public static final int getGenrePositionById(int id){
         int position = 0;
         for(int i=0; i<GlobalVars.genres.size() ; ++i){
-            Genres genres = GlobalVars.genres.get(i);
-            if(genres.getId() == id){
+            Genre genre = GlobalVars.genres.get(i);
+            if(genre.getId() == id){
                 position = i;
                 break;
             }

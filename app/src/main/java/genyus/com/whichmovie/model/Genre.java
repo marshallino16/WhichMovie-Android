@@ -3,7 +3,7 @@ package genyus.com.whichmovie.model;
 /**
  * Created by genyus on 26/11/15.
  */
-public class Genres {
+public class Genre {
 
     private int id;
     private String name;

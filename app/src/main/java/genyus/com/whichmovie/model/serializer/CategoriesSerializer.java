@@ -7,7 +7,7 @@ import com.google.gson.JsonParser;
 
 import java.util.ArrayList;
 
-import genyus.com.whichmovie.model.Genres;
+import genyus.com.whichmovie.model.Genre;
 import genyus.com.whichmovie.session.GlobalVars;
 
 /**
@@ -21,7 +21,7 @@ public class CategoriesSerializer {
 
     public static void fillCategoriesObject(String json) {
 
-        ArrayList<Genres> genres = new ArrayList<>();
+        ArrayList<Genre> genres = new ArrayList<>();
 
         JsonParser parser = new JsonParser();
         JsonObject jo = (JsonObject) parser.parse(json);
@@ -30,7 +30,7 @@ public class CategoriesSerializer {
         if (null != ja) {
             for (JsonElement obj : ja) {
 
-                Genres genre = new Genres();
+                Genre genre = new Genre();
                 JsonObject genreObject = obj.getAsJsonObject();
 
                 JsonElement id = genreObject.get(OBJECT_ID);

@@ -31,7 +31,7 @@ import com.squareup.picasso.Target;
 
 import genyus.com.whichmovie.MainActivity;
 import genyus.com.whichmovie.R;
-import genyus.com.whichmovie.model.Genres;
+import genyus.com.whichmovie.model.Genre;
 import genyus.com.whichmovie.model.Movie;
 import genyus.com.whichmovie.session.GlobalVars;
 import genyus.com.whichmovie.task.listener.OnMovieInfoListener;
@@ -144,9 +144,9 @@ public class MovieFragment extends Fragment implements ObservableScrollViewCallb
 
         vote.setText(Html.fromHtml("<strong>" + movie.getVote_average() + "</strong><small>/10</small>"));
 
-        hashtags.setData(movie.getGenres(), new HashtagView.DataTransform<Genres>() {
+        hashtags.setData(movie.getGenres(), new HashtagView.DataTransform<Genre>() {
             @Override
-            public CharSequence prepare(Genres genre) {
+            public CharSequence prepare(Genre genre) {
                 String label = "" + genre.getName();
                 return label;
             }

@@ -10,16 +10,16 @@ import android.widget.TextView;
 import java.util.ArrayList;
 
 import genyus.com.whichmovie.R;
-import genyus.com.whichmovie.model.Genres;
+import genyus.com.whichmovie.model.Genre;
 
-public class CategoryAdapter extends ArrayAdapter<Genres> {
+public class CategoryAdapter extends ArrayAdapter<Genre> {
 
     private Context context;
     private int textViewResourceId;
-    private ArrayList<Genres> values;
+    private ArrayList<Genre> values;
     private LayoutInflater inflater;
 
-    public CategoryAdapter(Context context, int textViewResourceId, ArrayList<Genres> values) {
+    public CategoryAdapter(Context context, int textViewResourceId, ArrayList<Genre> values) {
         super(context, textViewResourceId, values);
         this.inflater = LayoutInflater.from(context);
         this.textViewResourceId = textViewResourceId;
@@ -31,7 +31,7 @@ public class CategoryAdapter extends ArrayAdapter<Genres> {
         return values.size();
     }
 
-    public Genres getItem(int position) {
+    public Genre getItem(int position) {
         return values.get(position);
     }
 

@@ -51,8 +51,8 @@ public class Movie implements Serializable {
         return genre_ids;
     }
 
-    public ArrayList<Genres> getGenres() {
-        ArrayList<Genres> genres = new ArrayList<>();
+    public ArrayList<Genre> getGenres() {
+        ArrayList<Genre> genres = new ArrayList<>();
         for(int i=0 ; i<genre_ids.size(); ++i){
             genres.add(ObjectUtils.getGenreById(genre_ids.get(i)));
         }

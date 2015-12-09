@@ -3,7 +3,7 @@ package genyus.com.whichmovie.session;
 import java.util.ArrayList;
 
 import genyus.com.whichmovie.model.Configuration;
-import genyus.com.whichmovie.model.Genres;
+import genyus.com.whichmovie.model.Genre;
 import genyus.com.whichmovie.model.Movie;
 import genyus.com.whichmovie.ui.MovieFragment;
 
@@ -15,7 +15,7 @@ public class GlobalVars {
     public static int page = 0;
 
     public static Configuration configuration;
-    public static ArrayList<Genres> genres = new ArrayList<>();
+    public static ArrayList<Genre> genres = new ArrayList<>();
     public static ArrayList<Movie> movies = new ArrayList<>();
     public static ArrayList<MovieFragment> fragments = new ArrayList<>();
 
