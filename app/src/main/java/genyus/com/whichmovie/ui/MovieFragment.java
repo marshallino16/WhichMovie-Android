@@ -92,6 +92,12 @@ public class MovieFragment extends Fragment implements ObservableScrollViewCallb
         }
     }
 
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        PicassoTrustAll.getInstance(activity).cancelRequest(targetPoster);
+    }
+
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -115,7 +121,7 @@ public class MovieFragment extends Fragment implements ObservableScrollViewCallb
         posterBlurContainer.setAlpha(0);
 
         //header image loading
-        PicassoTrustAll.getInstance(getActivity()).load(GlobalVars.configuration.getBase_url() + GlobalVars.configuration.getPoster_sizes().get(GlobalVars.configuration.getPoster_sizes().size() - 1) + movie.getPoster_path()).noPlaceholder().into(targetPoster);
+        PicassoTrustAll.getInstance(getActivity()).load(GlobalVars.configuration.getBase_url() + GlobalVars.configuration.getPoster_sizes().get(GlobalVars.configuration.getPoster_sizes().size() - 2) + movie.getPoster_path()).noPlaceholder().into(targetPoster);
 
         title.setText(""+Html.fromHtml("<bold>" + movie.getTitle() + "</bold>"));
         synopsis.setText("" + movie.getOverview());
@@ -202,7 +208,7 @@ public class MovieFragment extends Fragment implements ObservableScrollViewCallb
 
         @Override
         public void onBitmapLoaded(Bitmap bitmap, Picasso.LoadedFrom from) {
-            poster.setImageBitmap(bitmap);
+            poster.setImageBitmap(bitmap );
             posterBlur.setImageBitmap(blurBitmap(bitmap));
 
             posterBlur.setScaleX(1.2f);

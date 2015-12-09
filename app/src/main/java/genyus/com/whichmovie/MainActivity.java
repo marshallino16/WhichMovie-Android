@@ -37,7 +37,7 @@ public class MainActivity extends AppCompatActivity implements OnMoviesListener 
     Toolbar toolbar;
 
     @ViewById(R.id.moviePager)
-    SwipeViewPager swipePager;
+    public SwipeViewPager swipePager;
 
     @ViewById(R.id.categories)
     public Spinner categories;
@@ -55,6 +55,7 @@ public class MainActivity extends AppCompatActivity implements OnMoviesListener 
 
         movieAdapter = new MoviePagerAdapter(this.getSupportFragmentManager(), moviesFragments, this);
         swipePager.setAdapter(movieAdapter);
+        swipePager.setOffscreenPageLimit(1);
         //swipePager.setPagingEnabled(false);
 
         categoryAdapter = new CategoryAdapter(this, R.layout.spinner_categories, GlobalVars.genres);
