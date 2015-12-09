@@ -43,7 +43,7 @@
         <View
             android:layout_width="match_parent"
             android:layout_height="0dp"
-            android:layout_weight="1" />
+            android:layout_weight="0.6" />
 
         <RelativeLayout
             android:layout_width="match_parent"
@@ -89,12 +89,12 @@
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="5dp"
                 android:layout_above="@+id/rateContainer"
+                android:paddingLeft="16dp"
                 app:tagBackground="@android:color/transparent"
                 app:tagDrawableLeft="@drawable/tag"
                 app:tagPaddingBottom="0dp"
-                app:tagPaddingLeft="7dp"
-                app:tagPaddingRight="7dp"
-                app:tagPaddingTop="4dp"
+                app:tagPaddingRight="5dp"
+                app:tagPaddingTop="2dp"
                 app:rowGravity="left"
                 app:rowDistribution="left"
                 app:tagTextColor="@android:color/white"/>

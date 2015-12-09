@@ -1,7 +1,5 @@
 package genyus.com.whichmovie.model.serializer;
 
-import android.content.Context;
-
 import com.google.gson.Gson;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
@@ -15,13 +13,13 @@ import java.util.List;
 
 import genyus.com.whichmovie.model.Movie;
 import genyus.com.whichmovie.session.GlobalVars;
-import genyus.com.whichmovie.task.manager.RequestManager;
 
 /**
  * Created by anthony on 11/30/15.
  */
 public class MovieSerializer {
 
+    private final static String OBJECT_TOTAL_PLAYING = "total_pages";
     private final static String ARRAY_RESULT = "results";
     private final static String OBJET_ADULT = "adult";
     private final static String OBJECT_BACKDROP = "backdrop_path";
@@ -38,7 +36,7 @@ public class MovieSerializer {
     private final static String OBJECT_VOTE_AVERAGE = "vote_average";
     private final static String OBJECT_VOTE_COUNT = "vote_count";
 
-    public static void fillMoviesObject(Context context, String json) {
+    public static void fillMoviesObject(String json) {
 
         ArrayList<Movie> movies = new ArrayList<>();
 
@@ -131,31 +129,37 @@ public class MovieSerializer {
 
         GlobalVars.movies.clear();
         GlobalVars.movies.addAll(movies);
-        RequestManager.getInstance(context).getMoviePlaying();
     }
 
-    public static ArrayList<Movie> fillListMoviesObject(String json) {
-
-        ArrayList<Movie> movies = new ArrayList<>();
+    @Deprecated
+    public static void fillListMoviesObject(String json) {
+        /*
+        ArrayList<String> movies = new ArrayList<>();
 
         JsonParser parser = new JsonParser();
         JsonObject jo = (JsonObject) parser.parse(json);
         JsonArray ja = jo.getAsJsonArray(ARRAY_RESULT);
+        JsonElement total = jo.get(OBJECT_TOTAL_PLAYING);
+
+        if(!total.isJsonNull() && null != total){
+            GlobalVars.totalPlayingPages = total.getAsInt();
+        }
 
         if (null != ja) {
             for (JsonElement obj : ja) {
 
-                Movie movie = new Movie();
                 JsonObject movieObject = obj.getAsJsonObject();
 
-                JsonElement id = movieObject.get(OBJECT_ID);
-                if(!id.isJsonNull() && null != id){
-                    movie.setId(id.getAsInt());
-                }
+                JsonElement title = movieObject.get(OBJECT_TITLE);
 
-                movies.add(movie);
+                if(!title.isJsonNull() && null != title && null != title.getAsString() && !title.getAsString().isEmpty()){
+                    movies.add(title.getAsString());
+                }
             }
         }
-        return movies;
+
+        GlobalVars.nowPlayingTitles.addAll(movies);
+        */
     }
+
 }

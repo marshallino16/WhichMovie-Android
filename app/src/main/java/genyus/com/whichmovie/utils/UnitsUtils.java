@@ -6,6 +6,7 @@ import android.content.res.Configuration;
 import android.content.res.Resources;
 import android.content.res.TypedArray;
 import android.graphics.Point;
+import android.util.Log;
 import android.view.Display;
 import android.view.KeyCharacterMap;
 import android.view.KeyEvent;
@@ -13,6 +14,9 @@ import android.view.View;
 import android.view.ViewConfiguration;
 import android.widget.ListAdapter;
 import android.widget.ListView;
+
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
 
 /**
  * Created by genyus on 08/08/15.
@@ -110,5 +114,16 @@ public class UnitsUtils {
 
     public static float getScreenPercentWidthSize(Activity context, float percent){
         return (float)  getScreenWidthSize(context)*(float)(percent/100);
+    }
+
+    public static String getNowTime(){
+        Calendar c = Calendar.getInstance();
+        c.add(Calendar.MONTH, -4);
+        System.out.println("Current time => " + c.getTime());
+
+        SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd");
+        String formattedDate = df.format(c.getTime());
+        Log.d(genyus.com.whichmovie.classes.Log.TAG, "formattedDate = " + formattedDate);
+        return formattedDate;
     }
 }

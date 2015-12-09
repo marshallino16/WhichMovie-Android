@@ -26,7 +26,8 @@ public class GlobalVars {
     }
 
     public static int getPage(){
+        int pageToreturn = page;
         page += 1;
-        return page;
+        return pageToreturn;
     }
 }

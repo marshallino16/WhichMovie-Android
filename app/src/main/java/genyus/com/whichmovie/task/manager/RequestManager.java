@@ -10,18 +10,16 @@ import java.util.ArrayList;
 
 import genyus.com.whichmovie.api.APIConst;
 import genyus.com.whichmovie.classes.RequestReturn;
-import genyus.com.whichmovie.model.Movie;
 import genyus.com.whichmovie.model.serializer.CategoriesSerializer;
 import genyus.com.whichmovie.model.serializer.ConfigurationSerializer;
 import genyus.com.whichmovie.model.serializer.MovieInfosSerializer;
 import genyus.com.whichmovie.model.serializer.MovieSerializer;
-import genyus.com.whichmovie.session.GlobalVars;
 import genyus.com.whichmovie.task.listener.OnCategoriesListener;
 import genyus.com.whichmovie.task.listener.OnConfigurationListener;
 import genyus.com.whichmovie.task.listener.OnMovieInfoListener;
 import genyus.com.whichmovie.task.listener.OnMoviesListener;
-import genyus.com.whichmovie.utils.ObjectUtils;
 import genyus.com.whichmovie.utils.PreferencesUtils;
+import genyus.com.whichmovie.utils.UnitsUtils;
 
 /**
  * Created by genyus on 28/11/15.
@@ -103,13 +101,15 @@ public class RequestManager {
         ArrayList<NameValuePair> nameValuePairs = new ArrayList<>();
         nameValuePairs.add(new BasicNameValuePair("api_key", APIConst.API_TOKEN));
         nameValuePairs.add(new BasicNameValuePair("with_genres", String.valueOf(PreferencesUtils.getDefaultCategory(context))));
-        nameValuePairs.add(new BasicNameValuePair("page", String.valueOf(GlobalVars.getPage())));
+        nameValuePairs.add(new BasicNameValuePair("include_adult", "true"));
+        nameValuePairs.add(new BasicNameValuePair("release_date.lte", UnitsUtils.getNowTime()));
+
         RequestReturn returnedCode = RequestSender.sendRequestGet(APIConst.API_BASE_URL, APIConst.API_LIST_MOVIES_CATEGORY, nameValuePairs);
         if (null != returnedCode && !returnedCode.json.contains("Authentication error")) {
             if (200 == returnedCode.code) {
                 Log.d(genyus.com.whichmovie.classes.Log.TAG, "movies json = " + returnedCode.json);
 
-                MovieSerializer.fillMoviesObject(context,returnedCode.json);
+                MovieSerializer.fillMoviesObject(returnedCode.json);
                 currentAttempt = 0;
                 callback.OnMoviesGet();
                 return;
@@ -154,36 +154,42 @@ public class RequestManager {
         }
     }
 
-    public void getMoviePlaying(){
-        currentAttempt += 1;
+    /**
+     * Using date ranges to avoid many calls
+     * @param context
+     * @param callback
+     */
+    @Deprecated
+    public void getMoviePlaying(Context context, OnMoviesListener callback){
+        /*currentAttempt += 1;
         ArrayList<NameValuePair> nameValuePairs = new ArrayList<>();
         nameValuePairs.add(new BasicNameValuePair("api_key", APIConst.API_TOKEN));
+        nameValuePairs.add(new BasicNameValuePair("page", String.valueOf(GlobalVars.getPage())));
         RequestReturn returnedCode = RequestSender.sendRequestGet(APIConst.API_BASE_URL, APIConst.API_NOW_PLAYING, nameValuePairs);
         if (null != returnedCode && !returnedCode.json.contains("Authentication error")) {
             if (200 == returnedCode.code) {
                 Log.d(genyus.com.whichmovie.classes.Log.TAG, "movies info json = " + returnedCode.json);
 
-                ArrayList<Movie> moviesPlaying = MovieSerializer.fillListMoviesObject(returnedCode.json);
-                for(int i = 0 ; i<moviesPlaying.size() ; ++i){
-                    Movie movieTested = ObjectUtils.getMovieById(moviesPlaying.get(i).getId());
-                    if(null != movieTested){
-                        Log.d("edf", "movie to delete = " + movieTested.getTitle());
-                        GlobalVars.movies.remove(movieTested);
-                    }
-                }
+                MovieSerializer.fillListMoviesObject(returnedCode.json);
                 currentAttempt = 0;
+                if(GlobalVars.page < GlobalVars.totalPlayingPages){
+                    GlobalVars.page += 1;
+                    this.getMoviePlaying(context, callback);
+                } else {
+                    getMoviesFromCategory(context, callback);
+                }
                 return;
             } else {
-                this.getMoviePlaying();
+                this.getMoviePlaying(context, callback);
             }
         } else {
             if (ATTEMPT_MAX == currentAttempt) {
                 currentAttempt = 0;
                 return;
             } else {
-                this.getMoviePlaying();
+                this.getMoviePlaying(context, callback);
             }
-        }
+        }*/
     }
 
     public void getMovieCrew(){
