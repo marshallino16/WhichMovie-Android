@@ -1,6 +1,7 @@
 package genyus.com.whichmovie.ui;
 
 import android.graphics.Bitmap;
+import android.graphics.Matrix;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -9,6 +10,7 @@ import android.text.Html;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
@@ -49,6 +51,7 @@ public class MovieFragment extends Fragment implements ObservableScrollViewCallb
     private ImageView posterBlur;
 
     private LinearLayout header;
+    private FrameLayout posterBlurContainer;
     private ObservableScrollView scrollView;
     private RelativeLayout ratingBarContainer;
 
@@ -85,13 +88,14 @@ public class MovieFragment extends Fragment implements ObservableScrollViewCallb
         vote = (TextView) view.findViewById(R.id.vote);
         title = (TextView) view.findViewById(R.id.title);
         synopsis = (TextView) view.findViewById(R.id.synopsis);
+        posterBlurContainer = (FrameLayout) view.findViewById(R.id.posterBlurContainer);
         ratingBarContainer = (RelativeLayout) view.findViewById(R.id.ratingBarContainer);
 
         header = (LinearLayout) view.findViewById(R.id.header);
         scrollView = (ObservableScrollView) view.findViewById(R.id.scroll);
 
         overlay.setAlpha(0);
-        posterBlur.setImageAlpha(0);
+        posterBlurContainer.setAlpha(0);
 
         //header image loading
         PicassoTrustAll.getInstance(getActivity()).load(GlobalVars.configuration.getBase_url() + GlobalVars.configuration.getPoster_sizes().get(GlobalVars.configuration.getPoster_sizes().size() - 1) + movie.getPoster_path()).noPlaceholder().into(targetPoster);
@@ -141,13 +145,15 @@ public class MovieFragment extends Fragment implements ObservableScrollViewCallb
         header.setTranslationY(ScrollUtils.getFloat(-scrollY / 2, minOverlayTransitionY, 0));
         title.setTranslationY(ScrollUtils.getFloat(-scrollY / 4, minOverlayTransitionYTitle, 0));
 
-        /*Matrix matrix = new Matrix();
-        matrix.postScale(0.9f , 0.9f , 50f , 50f );
-        poster.setImageMatrix(matrix);*/
+        float factor = ScrollUtils.getFloat((float) scrollY / flexibleRange, 0, 1);
+        Matrix matrix = new Matrix();
+        matrix.postScale(0.9f*factor , 0.9f*factor, 50f*factor, 50f*factor);
+        poster.setImageMatrix(matrix);
+        posterBlur.setImageMatrix(matrix);
 
         overlay.setAlpha(ScrollUtils.getFloat((float) scrollY / flexibleRange, 0, 1));
         title.setAlpha(1 - ScrollUtils.getFloat((float) scrollY / flexibleRange, 0, 1));
-        posterBlur.setImageAlpha(Math.round(ScrollUtils.getFloat((float) scrollY / flexibleRange, 1, 0)));
+        posterBlurContainer.setAlpha(ScrollUtils.getFloat((float) scrollY / flexibleRange, 0, 1));
         ratingBarContainer.setAlpha(1 - ScrollUtils.getFloat((float) scrollY * 2 / flexibleRange, 0, 1));
         ((MainActivity) getActivity()).categories.setTranslationY(ScrollUtils.getFloat(-scrollY / 2, minOverlayTransitionYTitle, 0));
     }
