@@ -1,5 +1,7 @@
 package genyus.com.whichmovie.ui;
 
+import android.graphics.Bitmap;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -7,7 +9,6 @@ import android.text.Html;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
@@ -17,11 +18,14 @@ import com.github.ksoichiro.android.observablescrollview.ObservableScrollView;
 import com.github.ksoichiro.android.observablescrollview.ObservableScrollViewCallbacks;
 import com.github.ksoichiro.android.observablescrollview.ScrollState;
 import com.github.ksoichiro.android.observablescrollview.ScrollUtils;
+import com.squareup.picasso.Picasso;
+import com.squareup.picasso.Target;
 
 import genyus.com.whichmovie.MainActivity;
 import genyus.com.whichmovie.R;
 import genyus.com.whichmovie.model.Movie;
 import genyus.com.whichmovie.session.GlobalVars;
+import genyus.com.whichmovie.utils.GaussianBlur;
 import genyus.com.whichmovie.utils.PicassoTrustAll;
 import genyus.com.whichmovie.utils.UnitsUtils;
 
@@ -42,8 +46,8 @@ public class MovieFragment extends Fragment implements ObservableScrollViewCallb
     private TextView vote;
     private TextView synopsis;
     private ImageView poster;
+    private ImageView posterBlur;
 
-    private FrameLayout posterContainer;
     private LinearLayout header;
     private ObservableScrollView scrollView;
     private RelativeLayout ratingBarContainer;
@@ -74,22 +78,23 @@ public class MovieFragment extends Fragment implements ObservableScrollViewCallb
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         view = inflater.inflate(R.layout.fragment_movie, container, false);
 
-        margin = (View) view.findViewById(R.id.margin);
-        overlay = (View) view.findViewById(R.id.overlay);
+        margin = view.findViewById(R.id.margin);
+        overlay =  view.findViewById(R.id.overlay);
         poster = (ImageView) view.findViewById(R.id.poster);
+        posterBlur = (ImageView) view.findViewById(R.id.posterBlur);
         vote = (TextView) view.findViewById(R.id.vote);
         title = (TextView) view.findViewById(R.id.title);
         synopsis = (TextView) view.findViewById(R.id.synopsis);
-        posterContainer = (FrameLayout) view.findViewById(R.id.posterContainer);
         ratingBarContainer = (RelativeLayout) view.findViewById(R.id.ratingBarContainer);
 
         header = (LinearLayout) view.findViewById(R.id.header);
         scrollView = (ObservableScrollView) view.findViewById(R.id.scroll);
 
         overlay.setAlpha(0);
+        posterBlur.setImageAlpha(0);
 
         //header image loading
-        PicassoTrustAll.getInstance(getActivity()).load(GlobalVars.configuration.getBase_url() + GlobalVars.configuration.getPoster_sizes().get(GlobalVars.configuration.getPoster_sizes().size() - 1) + movie.getPoster_path()).noPlaceholder().into(poster);
+        PicassoTrustAll.getInstance(getActivity()).load(GlobalVars.configuration.getBase_url() + GlobalVars.configuration.getPoster_sizes().get(GlobalVars.configuration.getPoster_sizes().size() - 1) + movie.getPoster_path()).noPlaceholder().into(targetPoster);
 
         title.setText("" + movie.getTitle());
         synopsis.setText("" + movie.getOverview());
@@ -131,7 +136,7 @@ public class MovieFragment extends Fragment implements ObservableScrollViewCallb
     public void onScrollChanged(int scrollY, boolean firstScroll, boolean dragging) {
         int minOverlayTransitionY = -Math.round(height);
         int minOverlayTransitionYTitle = -Math.round(height);
-        float flexibleRange = height*2 - UnitsUtils.actionBarSize(getActivity());
+        float flexibleRange = height - UnitsUtils.actionBarSize(getActivity());
 
         header.setTranslationY(ScrollUtils.getFloat(-scrollY / 2, minOverlayTransitionY, 0));
         title.setTranslationY(ScrollUtils.getFloat(-scrollY / 4, minOverlayTransitionYTitle, 0));
@@ -142,6 +147,7 @@ public class MovieFragment extends Fragment implements ObservableScrollViewCallb
 
         overlay.setAlpha(ScrollUtils.getFloat((float) scrollY / flexibleRange, 0, 1));
         title.setAlpha(1 - ScrollUtils.getFloat((float) scrollY / flexibleRange, 0, 1));
+        posterBlur.setImageAlpha(Math.round(ScrollUtils.getFloat((float) scrollY / flexibleRange, 1, 0)));
         ratingBarContainer.setAlpha(1 - ScrollUtils.getFloat((float) scrollY * 2 / flexibleRange, 0, 1));
         ((MainActivity) getActivity()).categories.setTranslationY(ScrollUtils.getFloat(-scrollY / 2, minOverlayTransitionYTitle, 0));
     }
@@ -155,4 +161,28 @@ public class MovieFragment extends Fragment implements ObservableScrollViewCallb
     public void onUpOrCancelMotionEvent(ScrollState scrollState) {
 
     }
+
+    Target targetPoster = new Target(){
+
+        @Override
+        public void onBitmapLoaded(Bitmap bitmap, Picasso.LoadedFrom from) {
+            poster.setImageBitmap(bitmap);
+
+            GaussianBlur gaussian = new GaussianBlur(getActivity());
+            gaussian.setRadius(25); //max
+
+            Bitmap output = gaussian.render(bitmap,true);
+            posterBlur.setImageBitmap(output);
+        }
+
+        @Override
+        public void onBitmapFailed(Drawable errorDrawable) {
+
+        }
+
+        @Override
+        public void onPrepareLoad(Drawable placeHolderDrawable) {
+
+        }
+    };
 }
