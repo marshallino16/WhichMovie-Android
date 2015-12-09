@@ -24,6 +24,7 @@
             android:id="@+id/posterBlurContainer"
             android:layout_width="match_parent"
             android:layout_height="match_parent">
+
             <ImageView
                 android:id="@+id/posterBlur"
                 android:layout_width="match_parent"
@@ -79,7 +80,8 @@
                 android:gravity="left|center_vertical"
                 android:paddingLeft="16dp"
                 android:textAppearance="?android:attr/textAppearanceLarge"
-                android:textColor="@android:color/white" />
+                android:textColor="@android:color/white"
+                android:textStyle="bold" />
 
             <LinearLayout
                 android:id="@+id/rateContainer"

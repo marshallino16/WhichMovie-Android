@@ -156,10 +156,8 @@ public class MovieFragment extends Fragment implements ObservableScrollViewCallb
         header.setTranslationY(ScrollUtils.getFloat(-scrollY / 2, minOverlayTransitionY, 0));
         title.setTranslationY(ScrollUtils.getFloat(-scrollY / 4, minOverlayTransitionYTitle, 0));
 
-        posterBlurContainer.setScaleX(1+ScrollUtils.getFloat((float) scrollY / flexibleRange, 0, 1)/6);
-        posterBlurContainer.setScaleY(1+ScrollUtils.getFloat((float) scrollY / flexibleRange, 0, 1)/6);
-        poster.setScaleX(1+ScrollUtils.getFloat((float) scrollY / flexibleRange, 0, 1)/6);
-        poster.setScaleY(1+ScrollUtils.getFloat((float) scrollY / flexibleRange, 0, 1)/6);
+        poster.setTranslationY(ScrollUtils.getFloat(-scrollY / 2, minOverlayTransitionY, 0)/12);
+        posterBlur.setTranslationY(ScrollUtils.getFloat(-scrollY / 2, minOverlayTransitionY, 0)/12);
 
         overlay.setAlpha(ScrollUtils.getFloat((float) scrollY / flexibleRange, 0, 1));
         title.setAlpha(1 - ScrollUtils.getFloat((float) scrollY / flexibleRange, 0, 1));
@@ -184,6 +182,11 @@ public class MovieFragment extends Fragment implements ObservableScrollViewCallb
         public void onBitmapLoaded(Bitmap bitmap, Picasso.LoadedFrom from) {
             poster.setImageBitmap(bitmap);
             posterBlur.setImageBitmap(blurBitmap(bitmap));
+
+            posterBlur.setScaleX(1.2f);
+            posterBlur.setScaleY(1.2f);
+            poster.setScaleX(1.2f);
+            poster.setScaleY(1.2f);
         }
 
         @Override
