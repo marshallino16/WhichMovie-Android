@@ -9,10 +9,8 @@ public class APIConst {
     public final static String API_BASE_URL = "http://api.themoviedb.org/3/";
     public final static String API_LIST_CATEGORIES = "genre/movie/list";
     public final static String API_CONFIGURATION = "configuration";
-
-    public final static String API_LIST_MOVIES_CATEGORY(int cat) {
-        return "genre/"+cat+"/movies";
-    }
+    public final static String API_LIST_MOVIES_CATEGORY = "discover/movie";
+    public final static String API_NOW_PLAYING = "movie/now_playing";
 
     public final static String API_INFO_MOVIE(int movie){
         return "movie/"+movie;

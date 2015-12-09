@@ -1,7 +1,5 @@
 package genyus.com.whichmovie.model.serializer;
 
-import android.util.Log;
-
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
@@ -31,7 +29,6 @@ public class MovieInfosSerializer {
 
             JsonElement id = jo.get(OBJECT_ID);
             if(!id.isJsonNull() && null != id){
-                Log.d("edf", "id = " + id);
                 Movie movie = ObjectUtils.getMovieById(id.getAsInt());
 
                 if(null != movie){
