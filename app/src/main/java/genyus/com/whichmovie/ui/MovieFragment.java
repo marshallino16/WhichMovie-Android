@@ -156,8 +156,8 @@ public class MovieFragment extends Fragment implements ObservableScrollViewCallb
         header.setTranslationY(ScrollUtils.getFloat(-scrollY / 2, minOverlayTransitionY, 0));
         title.setTranslationY(ScrollUtils.getFloat(-scrollY / 4, minOverlayTransitionYTitle, 0));
 
-        poster.setTranslationY(ScrollUtils.getFloat(-scrollY / 2, minOverlayTransitionY, 0)/12);
-        posterBlur.setTranslationY(ScrollUtils.getFloat(-scrollY / 2, minOverlayTransitionY, 0)/12);
+        poster.setTranslationY(ScrollUtils.getFloat(-scrollY / 2, minOverlayTransitionY, 0)/8);
+        posterBlur.setTranslationY(ScrollUtils.getFloat(-scrollY / 2, minOverlayTransitionY, 0)/8);
 
         overlay.setAlpha(ScrollUtils.getFloat((float) scrollY / flexibleRange, 0, 1));
         title.setAlpha(1 - ScrollUtils.getFloat((float) scrollY / flexibleRange, 0, 1));
