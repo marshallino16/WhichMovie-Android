@@ -1,11 +1,15 @@
 package genyus.com.whichmovie.ui;
 
+import android.app.Activity;
 import android.graphics.Bitmap;
-import android.graphics.Matrix;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.support.v8.renderscript.Allocation;
+import android.support.v8.renderscript.Element;
+import android.support.v8.renderscript.RenderScript;
+import android.support.v8.renderscript.ScriptIntrinsicBlur;
 import android.text.Html;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -27,7 +31,6 @@ import genyus.com.whichmovie.MainActivity;
 import genyus.com.whichmovie.R;
 import genyus.com.whichmovie.model.Movie;
 import genyus.com.whichmovie.session.GlobalVars;
-import genyus.com.whichmovie.utils.GaussianBlur;
 import genyus.com.whichmovie.utils.PicassoTrustAll;
 import genyus.com.whichmovie.utils.UnitsUtils;
 
@@ -35,6 +38,8 @@ import genyus.com.whichmovie.utils.UnitsUtils;
  * Created by genyus on 29/11/15.
  */
 public class MovieFragment extends Fragment implements ObservableScrollViewCallbacks {
+
+    private Activity activity;
 
     private Movie movie;
     private View view;
@@ -82,7 +87,7 @@ public class MovieFragment extends Fragment implements ObservableScrollViewCallb
         view = inflater.inflate(R.layout.fragment_movie, container, false);
 
         margin = view.findViewById(R.id.margin);
-        overlay =  view.findViewById(R.id.overlay);
+        overlay = view.findViewById(R.id.overlay);
         poster = (ImageView) view.findViewById(R.id.poster);
         posterBlur = (ImageView) view.findViewById(R.id.posterBlur);
         vote = (TextView) view.findViewById(R.id.vote);
@@ -130,6 +135,12 @@ public class MovieFragment extends Fragment implements ObservableScrollViewCallb
         return view;
     }
 
+    @Override
+    public void onAttach(Activity activity) {
+        super.onAttach(activity);
+        this.activity = activity;
+    }
+
     @Nullable
     @Override
     public View getView() {
@@ -145,11 +156,10 @@ public class MovieFragment extends Fragment implements ObservableScrollViewCallb
         header.setTranslationY(ScrollUtils.getFloat(-scrollY / 2, minOverlayTransitionY, 0));
         title.setTranslationY(ScrollUtils.getFloat(-scrollY / 4, minOverlayTransitionYTitle, 0));
 
-        float factor = ScrollUtils.getFloat((float) scrollY / flexibleRange, 0, 1);
-        Matrix matrix = new Matrix();
-        matrix.postScale(0.9f*factor , 0.9f*factor, 50f*factor, 50f*factor);
-        poster.setImageMatrix(matrix);
-        posterBlur.setImageMatrix(matrix);
+        posterBlurContainer.setScaleX(1+ScrollUtils.getFloat((float) scrollY / flexibleRange, 0, 1)/6);
+        posterBlurContainer.setScaleY(1+ScrollUtils.getFloat((float) scrollY / flexibleRange, 0, 1)/6);
+        poster.setScaleX(1+ScrollUtils.getFloat((float) scrollY / flexibleRange, 0, 1)/6);
+        poster.setScaleY(1+ScrollUtils.getFloat((float) scrollY / flexibleRange, 0, 1)/6);
 
         overlay.setAlpha(ScrollUtils.getFloat((float) scrollY / flexibleRange, 0, 1));
         title.setAlpha(1 - ScrollUtils.getFloat((float) scrollY / flexibleRange, 0, 1));
@@ -168,17 +178,12 @@ public class MovieFragment extends Fragment implements ObservableScrollViewCallb
 
     }
 
-    Target targetPoster = new Target(){
+    Target targetPoster = new Target() {
 
         @Override
         public void onBitmapLoaded(Bitmap bitmap, Picasso.LoadedFrom from) {
             poster.setImageBitmap(bitmap);
-
-            GaussianBlur gaussian = new GaussianBlur(getActivity());
-            gaussian.setRadius(25); //max
-
-            Bitmap output = gaussian.render(bitmap,true);
-            posterBlur.setImageBitmap(output);
+            posterBlur.setImageBitmap(blurBitmap(bitmap));
         }
 
         @Override
@@ -191,4 +196,20 @@ public class MovieFragment extends Fragment implements ObservableScrollViewCallb
 
         }
     };
+
+    public Bitmap blurBitmap(Bitmap bitmap) {
+
+        Bitmap outBitmap = Bitmap.createBitmap(bitmap.getWidth(), bitmap.getHeight(), Bitmap.Config.ARGB_8888);
+        RenderScript rs = RenderScript.create(this.activity);
+        ScriptIntrinsicBlur blurScript = ScriptIntrinsicBlur.create(rs, Element.U8_4(rs));
+        Allocation allIn = Allocation.createFromBitmap(rs, bitmap);
+        Allocation allOut = Allocation.createFromBitmap(rs, outBitmap);
+        blurScript.setRadius(25.f);
+        blurScript.setInput(allIn);
+        blurScript.forEach(allOut);
+        allOut.copyTo(outBitmap);
+        //bitmap.recycle();
+        rs.destroy();
+        return outBitmap;
+    }
 }
