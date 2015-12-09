@@ -11,6 +11,7 @@ import android.support.v8.renderscript.Element;
 import android.support.v8.renderscript.RenderScript;
 import android.support.v8.renderscript.ScriptIntrinsicBlur;
 import android.text.Html;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -33,13 +34,15 @@ import genyus.com.whichmovie.R;
 import genyus.com.whichmovie.model.Genres;
 import genyus.com.whichmovie.model.Movie;
 import genyus.com.whichmovie.session.GlobalVars;
+import genyus.com.whichmovie.task.listener.OnMovieInfoListener;
+import genyus.com.whichmovie.task.manager.RequestManager;
 import genyus.com.whichmovie.utils.PicassoTrustAll;
 import genyus.com.whichmovie.utils.UnitsUtils;
 
 /**
  * Created by genyus on 29/11/15.
  */
-public class MovieFragment extends Fragment implements ObservableScrollViewCallbacks {
+public class MovieFragment extends Fragment implements ObservableScrollViewCallbacks, OnMovieInfoListener {
 
     private Activity activity;
 
@@ -81,6 +84,11 @@ public class MovieFragment extends Fragment implements ObservableScrollViewCallb
         Bundle bundle = getArguments();
         if (null != bundle && bundle.containsKey("movie")) {
             movie = (Movie) bundle.getSerializable("movie");
+            new Thread() {
+                public void run() {
+                    RequestManager.getInstance(MovieFragment.this.activity).getMovieInfos(MovieFragment.this.activity, MovieFragment.this, movie.getId());
+                }
+            }.start();
         }
     }
 
@@ -109,7 +117,7 @@ public class MovieFragment extends Fragment implements ObservableScrollViewCallb
         //header image loading
         PicassoTrustAll.getInstance(getActivity()).load(GlobalVars.configuration.getBase_url() + GlobalVars.configuration.getPoster_sizes().get(GlobalVars.configuration.getPoster_sizes().size() - 1) + movie.getPoster_path()).noPlaceholder().into(targetPoster);
 
-        title.setText("" + movie.getTitle());
+        title.setText(""+Html.fromHtml("<bold>" + movie.getTitle() + "</bold>"));
         synopsis.setText("" + movie.getOverview());
 
         //scroll settingup
@@ -167,13 +175,13 @@ public class MovieFragment extends Fragment implements ObservableScrollViewCallb
         float flexibleRange = height - UnitsUtils.actionBarSize(getActivity());
 
         header.setTranslationY(ScrollUtils.getFloat(-scrollY / 2, minOverlayTransitionY, 0));
-        title.setTranslationY(ScrollUtils.getFloat(-scrollY / 3.7f, minOverlayTransitionYTitle, 0));
+        title.setTranslationY(ScrollUtils.getFloat(-scrollY / 3.8f, minOverlayTransitionYTitle, 0));
 
         poster.setTranslationY(ScrollUtils.getFloat(-scrollY / 2, minOverlayTransitionY, 0) / 8);
         posterBlur.setTranslationY(ScrollUtils.getFloat(-scrollY / 2, minOverlayTransitionY, 0) / 8);
 
         overlay.setAlpha(ScrollUtils.getFloat((float) scrollY / flexibleRange, 0, 1));
-        title.setAlpha(1 - ScrollUtils.getFloat((float) scrollY/ flexibleRange, 0, 1)/1.1f);
+        title.setAlpha(1 - ScrollUtils.getFloat((float) scrollY/ flexibleRange, 0, 1));
         posterBlurContainer.setAlpha(ScrollUtils.getFloat((float) scrollY / flexibleRange, 0, 1));
         ratingBarContainer.setAlpha(1 - ScrollUtils.getFloat((float) scrollY * 2.4f / flexibleRange, 0, 1));
         hashtags.setAlpha(1 - ScrollUtils.getFloat((float) scrollY * 2.4f / flexibleRange, 0, 1));
@@ -228,5 +236,20 @@ public class MovieFragment extends Fragment implements ObservableScrollViewCallb
         //bitmap.recycle();
         rs.destroy();
         return outBitmap;
+    }
+
+    @Override
+    public void OnMovieInfosGet() {
+        this.activity.runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                title.setText(Html.fromHtml("<bold>" + movie.getTitle() + "</bold><small> - "+movie.getRuntime()+" min</small>"));
+            }
+        });
+    }
+
+    @Override
+    public void OnMovieInfosFailed(String reason) {
+        Log.e(genyus.com.whichmovie.classes.Log.TAG, "Error getting movie info : " + reason);
     }
 }

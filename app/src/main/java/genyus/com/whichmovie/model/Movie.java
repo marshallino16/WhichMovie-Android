@@ -22,8 +22,14 @@ public class Movie implements Serializable {
     private String title;
     private boolean video;
     private float vote_average;
-    private int vote_count;
-    private int id;
+    private int vote_count = 0;
+    private int id = 0;
+
+    private int budget = 0;
+    private int revenue = 0;
+    private int runtime = 0;
+    private String imdb;
+    private String homepage;
 
     public boolean isAdult() {
         return adult;
@@ -143,5 +149,45 @@ public class Movie implements Serializable {
 
     public void setId(int id) {
         this.id = id;
+    }
+
+    public int getBudget() {
+        return budget;
+    }
+
+    public void setBudget(int budget) {
+        this.budget = budget;
+    }
+
+    public int getRevenue() {
+        return revenue;
+    }
+
+    public void setRevenue(int revenue) {
+        this.revenue = revenue;
+    }
+
+    public int getRuntime() {
+        return runtime;
+    }
+
+    public void setRuntime(int runtime) {
+        this.runtime = runtime;
+    }
+
+    public String getImdb() {
+        return imdb;
+    }
+
+    public void setImdb(String imdb) {
+        this.imdb = imdb;
+    }
+
+    public String getHomepage() {
+        return homepage;
+    }
+
+    public void setHomepage(String homepage) {
+        this.homepage = homepage;
     }
 }
