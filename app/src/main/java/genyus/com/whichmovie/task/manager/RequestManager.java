@@ -12,10 +12,12 @@ import genyus.com.whichmovie.api.APIConst;
 import genyus.com.whichmovie.classes.RequestReturn;
 import genyus.com.whichmovie.model.serializer.CategoriesSerializer;
 import genyus.com.whichmovie.model.serializer.ConfigurationSerializer;
+import genyus.com.whichmovie.model.serializer.CrewSerializer;
 import genyus.com.whichmovie.model.serializer.MovieInfosSerializer;
 import genyus.com.whichmovie.model.serializer.MovieSerializer;
 import genyus.com.whichmovie.task.listener.OnCategoriesListener;
 import genyus.com.whichmovie.task.listener.OnConfigurationListener;
+import genyus.com.whichmovie.task.listener.OnMovieCrewListener;
 import genyus.com.whichmovie.task.listener.OnMovieInfoListener;
 import genyus.com.whichmovie.task.listener.OnMoviesListener;
 import genyus.com.whichmovie.utils.PreferencesUtils;
@@ -192,8 +194,30 @@ public class RequestManager {
         }*/
     }
 
-    public void getMovieCrew(){
+    public void getMovieCrew(OnMovieCrewListener callback, int movieId){
+        currentAttempt += 1;
+        ArrayList<NameValuePair> nameValuePairs = new ArrayList<>();
+        nameValuePairs.add(new BasicNameValuePair("api_key", APIConst.API_TOKEN));
+        RequestReturn returnedCode = RequestSender.sendRequestGet(APIConst.API_BASE_URL, APIConst.API_CREW_MOVIE(movieId), nameValuePairs);
+        if (null != returnedCode && !returnedCode.json.contains("Authentication error")) {
+            if (200 == returnedCode.code) {
+                Log.d(genyus.com.whichmovie.classes.Log.TAG, "movies crew json = " + returnedCode.json);
 
+                CrewSerializer.fillCategoriesObject(returnedCode.json, movieId, callback);
+                currentAttempt = 0;
+                return;
+            } else {
+                this.getMovieCrew(callback, movieId);
+            }
+        } else {
+            if (ATTEMPT_MAX == currentAttempt) {
+                currentAttempt = 0;
+                callback.OnMovieCrewFailed(null);
+                return;
+            } else {
+                this.getMovieCrew(callback, movieId);
+            }
+        }
     }
 
     public void getMovieImages(){

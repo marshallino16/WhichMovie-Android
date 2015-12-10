@@ -13,11 +13,13 @@ import android.support.v8.renderscript.ScriptIntrinsicBlur;
 import android.text.Html;
 import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.ListView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
@@ -28,21 +30,25 @@ import com.github.ksoichiro.android.observablescrollview.ScrollUtils;
 import com.greenfrvr.hashtagview.HashtagView;
 import com.squareup.picasso.Picasso;
 import com.squareup.picasso.Target;
+import com.yalantis.flipviewpager.utils.FlipSettings;
 
 import genyus.com.whichmovie.MainActivity;
 import genyus.com.whichmovie.R;
+import genyus.com.whichmovie.adapter.CastAdapter;
 import genyus.com.whichmovie.model.Genre;
 import genyus.com.whichmovie.model.Movie;
 import genyus.com.whichmovie.session.GlobalVars;
+import genyus.com.whichmovie.task.listener.OnMovieCrewListener;
 import genyus.com.whichmovie.task.listener.OnMovieInfoListener;
 import genyus.com.whichmovie.task.manager.RequestManager;
+import genyus.com.whichmovie.utils.ListUtils;
 import genyus.com.whichmovie.utils.PicassoTrustAll;
 import genyus.com.whichmovie.utils.UnitsUtils;
 
 /**
  * Created by genyus on 29/11/15.
  */
-public class MovieFragment extends Fragment implements ObservableScrollViewCallbacks, OnMovieInfoListener {
+public class MovieFragment extends Fragment implements ObservableScrollViewCallbacks, OnMovieInfoListener, OnMovieCrewListener {
 
     private Activity activity;
 
@@ -57,6 +63,7 @@ public class MovieFragment extends Fragment implements ObservableScrollViewCallb
     private TextView title;
     private TextView vote;
     private TextView synopsis;
+    private ListView listCast;
     private ImageView poster;
     private ImageView posterBlur;
     private HashtagView hashtags;
@@ -87,6 +94,7 @@ public class MovieFragment extends Fragment implements ObservableScrollViewCallb
             new Thread() {
                 public void run() {
                     RequestManager.getInstance(MovieFragment.this.activity).getMovieInfos(MovieFragment.this.activity, MovieFragment.this, movie.getId());
+                    RequestManager.getInstance(MovieFragment.this.activity).getMovieCrew(MovieFragment.this, movie.getId());
                 }
             }.start();
         }
@@ -111,6 +119,7 @@ public class MovieFragment extends Fragment implements ObservableScrollViewCallb
         title = (TextView) view.findViewById(R.id.title);
         hashtags = (HashtagView) view.findViewById(R.id.hashtags);
         synopsis = (TextView) view.findViewById(R.id.synopsis);
+        listCast = (ListView) view.findViewById(R.id.cast);
         posterBlurContainer = (FrameLayout) view.findViewById(R.id.posterBlurContainer);
         ratingBarContainer = (RelativeLayout) view.findViewById(R.id.ratingBarContainer);
 
@@ -129,7 +138,7 @@ public class MovieFragment extends Fragment implements ObservableScrollViewCallb
         //scroll settingup
         height = UnitsUtils.getScreenPercentHeightSize(getActivity(), 83f);
         margin.setLayoutParams(new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, Math.round(height)));
-        scrollView.setTouchInterceptionViewGroup((ViewGroup) view.findViewById(R.id.fragment_root));
+        //scrollView.setTouchInterceptionViewGroup((ViewGroup) view.findViewById(R.id.fragment_root));
         scrollView.setScrollViewCallbacks(this);
 
         //rating
@@ -150,6 +159,7 @@ public class MovieFragment extends Fragment implements ObservableScrollViewCallb
 
         vote.setText(Html.fromHtml("<strong>" + movie.getVote_average() + "</strong><small>/10</small>"));
 
+        //tags
         hashtags.setData(movie.getGenres(), new HashtagView.DataTransform<Genre>() {
             @Override
             public CharSequence prepare(Genre genre) {
@@ -157,6 +167,24 @@ public class MovieFragment extends Fragment implements ObservableScrollViewCallb
                 return label;
             }
 
+        });
+
+        //cast
+        scrollView.setOnTouchListener(new View.OnTouchListener() {
+
+            public boolean onTouch(View v, MotionEvent event) {
+                Log.v("PARENT", "PARENT TOUCH");
+                listCast.getParent()
+                        .requestDisallowInterceptTouchEvent(false);
+                return false;
+            }
+        });
+        listCast.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
+                v.getParent().requestDisallowInterceptTouchEvent(true);
+                return false;
+            }
         });
 
         return view;
@@ -257,5 +285,22 @@ public class MovieFragment extends Fragment implements ObservableScrollViewCallb
     @Override
     public void OnMovieInfosFailed(String reason) {
         Log.e(genyus.com.whichmovie.classes.Log.TAG, "Error getting movie info : " + reason);
+    }
+
+    @Override
+    public void OnMovieCrewGet() {
+        this.activity.runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                FlipSettings settings = new FlipSettings.Builder().defaultPage(1).build();
+                listCast.setAdapter(new CastAdapter(getActivity(), movie.getCrew().subList(0, 5), settings, movie));
+                ListUtils.setListViewHeightBasedOnChildren(listCast);
+            }
+        });
+    }
+
+    @Override
+    public void OnMovieCrewFailed(String reason) {
+        Log.e(genyus.com.whichmovie.classes.Log.TAG, "Error getting movie crew : " + reason);
     }
 }

@@ -31,6 +31,8 @@ public class Movie implements Serializable {
     private String imdb;
     private String homepage;
 
+    private ArrayList<Crew> crew = new ArrayList<>();
+
     public boolean isAdult() {
         return adult;
     }
@@ -189,5 +191,13 @@ public class Movie implements Serializable {
 
     public void setHomepage(String homepage) {
         this.homepage = homepage;
+    }
+
+    public ArrayList<Crew> getCrew() {
+        return crew;
+    }
+
+    public void setCrew(ArrayList<Crew> crew) {
+        this.crew = crew;
     }
 }
