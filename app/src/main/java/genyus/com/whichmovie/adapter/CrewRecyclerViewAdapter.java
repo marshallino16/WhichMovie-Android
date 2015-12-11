@@ -57,7 +57,7 @@ public class CrewRecyclerViewAdapter extends RecyclerView.Adapter<CrewRecyclerVi
 
     @Override
     public void onBindViewHolder(DataObjectHolder holder, int position) {
-        PicassoTrustAll.getInstance(context).load(GlobalVars.configuration.getBase_url() + GlobalVars.configuration.getProfile_sizes().get(1) + listCrew.get(position).getProfile_path()).into(holder.profile);
+        PicassoTrustAll.getInstance(context).load(GlobalVars.configuration.getBase_url() + GlobalVars.configuration.getProfile_sizes().get(1) + listCrew.get(position).getProfile_path()).placeholder(R.drawable.heisenberg).into(holder.profile);
 
         if(null == listCrew.get(position).getName() || listCrew.get(position).getName().isEmpty()){
             holder.name.setVisibility(View.INVISIBLE);
