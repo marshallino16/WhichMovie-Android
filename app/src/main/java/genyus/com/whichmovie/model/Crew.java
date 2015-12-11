@@ -1,9 +1,11 @@
 package genyus.com.whichmovie.model;
 
+import java.io.Serializable;
+
 /**
  * Created by genyus on 09/12/15.
  */
-public class Crew {
+public class Crew implements Serializable{
 
     private int id;
     private int cast_id;

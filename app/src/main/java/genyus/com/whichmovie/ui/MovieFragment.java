@@ -282,8 +282,8 @@ public class MovieFragment extends Fragment implements ObservableScrollViewCallb
             public void run() {
                 Log.d(genyus.com.whichmovie.classes.Log.TAG, "movie crew get");
                 ArrayList<Crew> listCrew = movie.getCrew();
-                if(listCrew.size() > 20){
-                    listCrew = new ArrayList<Crew>(movie.getCrew().subList(0, Math.round(movie.getCrew().size()/3)));
+                if(listCrew.size() > 21){
+                    listCrew = new ArrayList<Crew>(movie.getCrew().subList(0, 20));
                 }
                 CrewRecyclerViewAdapter castAdapter = new CrewRecyclerViewAdapter(getActivity(), listCrew);
                 listCast.setAdapter(castAdapter);

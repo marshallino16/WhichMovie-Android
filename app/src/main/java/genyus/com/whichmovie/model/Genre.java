@@ -1,9 +1,11 @@
 package genyus.com.whichmovie.model;
 
+import java.io.Serializable;
+
 /**
  * Created by genyus on 26/11/15.
  */
-public class Genre {
+public class Genre implements Serializable{
 
     private int id;
     private String name;
