@@ -6,6 +6,8 @@ import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.support.v8.renderscript.Allocation;
 import android.support.v8.renderscript.Element;
 import android.support.v8.renderscript.RenderScript;
@@ -13,13 +15,11 @@ import android.support.v8.renderscript.ScriptIntrinsicBlur;
 import android.text.Html;
 import android.util.Log;
 import android.view.LayoutInflater;
-import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
-import android.widget.ListView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
@@ -30,18 +30,19 @@ import com.github.ksoichiro.android.observablescrollview.ScrollUtils;
 import com.greenfrvr.hashtagview.HashtagView;
 import com.squareup.picasso.Picasso;
 import com.squareup.picasso.Target;
-import com.yalantis.flipviewpager.utils.FlipSettings;
+
+import java.util.ArrayList;
 
 import genyus.com.whichmovie.MainActivity;
 import genyus.com.whichmovie.R;
-import genyus.com.whichmovie.adapter.CastAdapter;
+import genyus.com.whichmovie.adapter.CrewRecyclerViewAdapter;
+import genyus.com.whichmovie.model.Crew;
 import genyus.com.whichmovie.model.Genre;
 import genyus.com.whichmovie.model.Movie;
 import genyus.com.whichmovie.session.GlobalVars;
 import genyus.com.whichmovie.task.listener.OnMovieCrewListener;
 import genyus.com.whichmovie.task.listener.OnMovieInfoListener;
 import genyus.com.whichmovie.task.manager.RequestManager;
-import genyus.com.whichmovie.utils.ListUtils;
 import genyus.com.whichmovie.utils.PicassoTrustAll;
 import genyus.com.whichmovie.utils.UnitsUtils;
 
@@ -63,10 +64,10 @@ public class MovieFragment extends Fragment implements ObservableScrollViewCallb
     private TextView title;
     private TextView vote;
     private TextView synopsis;
-    private ListView listCast;
     private ImageView poster;
     private ImageView posterBlur;
     private HashtagView hashtags;
+    private RecyclerView listCast;
 
     private LinearLayout header;
     private FrameLayout posterBlurContainer;
@@ -119,7 +120,7 @@ public class MovieFragment extends Fragment implements ObservableScrollViewCallb
         title = (TextView) view.findViewById(R.id.title);
         hashtags = (HashtagView) view.findViewById(R.id.hashtags);
         synopsis = (TextView) view.findViewById(R.id.synopsis);
-        listCast = (ListView) view.findViewById(R.id.cast);
+        listCast = (RecyclerView) view.findViewById(R.id.cast);
         posterBlurContainer = (FrameLayout) view.findViewById(R.id.posterBlurContainer);
         ratingBarContainer = (RelativeLayout) view.findViewById(R.id.ratingBarContainer);
 
@@ -170,22 +171,9 @@ public class MovieFragment extends Fragment implements ObservableScrollViewCallb
         });
 
         //cast
-        scrollView.setOnTouchListener(new View.OnTouchListener() {
-
-            public boolean onTouch(View v, MotionEvent event) {
-                Log.v("PARENT", "PARENT TOUCH");
-                listCast.getParent()
-                        .requestDisallowInterceptTouchEvent(false);
-                return false;
-            }
-        });
-        listCast.setOnTouchListener(new View.OnTouchListener() {
-            @Override
-            public boolean onTouch(View v, MotionEvent event) {
-                v.getParent().requestDisallowInterceptTouchEvent(true);
-                return false;
-            }
-        });
+        listCast.setHasFixedSize(true);
+        LinearLayoutManager layoutManager = new LinearLayoutManager(getActivity(), LinearLayoutManager.HORIZONTAL, false);
+        listCast.setLayoutManager(layoutManager);
 
         return view;
     }
@@ -292,9 +280,13 @@ public class MovieFragment extends Fragment implements ObservableScrollViewCallb
         this.activity.runOnUiThread(new Runnable() {
             @Override
             public void run() {
-                FlipSettings settings = new FlipSettings.Builder().defaultPage(1).build();
-                listCast.setAdapter(new CastAdapter(getActivity(), movie.getCrew().subList(0, 5), settings, movie));
-                ListUtils.setListViewHeightBasedOnChildren(listCast);
+                Log.d(genyus.com.whichmovie.classes.Log.TAG, "movie crew get");
+                ArrayList<Crew> listCrew = movie.getCrew();
+                if(listCrew.size() > 20){
+                    listCrew = new ArrayList<Crew>(movie.getCrew().subList(0, Math.round(movie.getCrew().size()/3)));
+                }
+                CrewRecyclerViewAdapter castAdapter = new CrewRecyclerViewAdapter(getActivity(), listCrew);
+                listCast.setAdapter(castAdapter);
             }
         });
     }
