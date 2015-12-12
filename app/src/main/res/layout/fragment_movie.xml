@@ -245,6 +245,39 @@
                     android:layout_width="match_parent"
                     android:layout_height="190dp" />
 
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="10dp"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginRight="5dp"
+                        android:fontFamily="sans-serif-condensed"
+                        android:paddingLeft="@dimen/activity_horizontal_margin"
+                        android:text="@string/production_companie"
+                        android:textAppearance="?android:attr/textAppearanceMedium"
+                        android:textColor="@color/progress" />
+
+                    <View
+                        android:layout_width="match_parent"
+                        android:layout_height="1dp"
+                        android:layout_gravity="center_vertical"
+                        android:background="@color/progress_alpha" />
+
+                </LinearLayout>
+
+                <TextView
+                    android:id="@+id/productionCompanies"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="10dp"
+                    android:paddingBottom="@dimen/activity_vertical_margin"
+                    android:paddingLeft="@dimen/activity_horizontal_margin"
+                    android:paddingRight="@dimen/activity_horizontal_margin"
+                    android:textColor="@android:color/white" />
 
             </LinearLayout>
 

@@ -1,5 +1,6 @@
 package genyus.com.whichmovie.model.serializer;
 
+import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
@@ -13,6 +14,7 @@ import genyus.com.whichmovie.utils.ObjectUtils;
 public class MovieInfosSerializer {
 
     private final static String OBJECT_ID = "id";
+    private final static String OBJECT_NAME = "name";
     private final static String OBJECT_BUDGET = "budget";
     private final static String OBJECT_HOMEPAGE = "homepage";
     private final static String OBJECT_REVENUE = "revenue";
@@ -37,6 +39,7 @@ public class MovieInfosSerializer {
                     JsonElement runtime = jo.get(OBJECT_RUNTIME);
                     JsonElement imdb = jo.get(OBJECT_IMDB_);
                     JsonElement homepage = jo.get(OBJECT_HOMEPAGE);
+                    JsonElement production = jo.get(ARRAY_PRODUCTION);
 
                     if(!imdb.isJsonNull() && null != imdb && null != imdb.getAsString() && !imdb.getAsString().isEmpty()){
                         movie.setImdb(imdb.getAsString());
@@ -57,6 +60,19 @@ public class MovieInfosSerializer {
                     if(!runtime.isJsonNull() && null != runtime){
                         movie.setRuntime(runtime.getAsInt());
                     }
+
+                    if(!production.isJsonNull() && null != production){
+                        JsonArray companies = production.getAsJsonArray();
+                        if(null != companies){
+                            for (JsonElement obj : companies) {
+                                JsonElement name = obj.getAsJsonObject().get(OBJECT_NAME);
+                                if(!name.isJsonNull() && null != name){
+                                    movie.getProductionCompanies().add(name.getAsString());
+                                }
+                            }
+                        }
+                    }
+
                 }
             }
         }

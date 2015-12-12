@@ -12,7 +12,8 @@ public class Movie implements Serializable {
 
     private boolean adult;
     private String backdrop_path;
-    private ArrayList<Integer> genre_ids;
+    private ArrayList<Integer> genre_ids = new ArrayList<>();
+    private ArrayList<String> productionCompanies = new ArrayList<>();
     private String original_language;
     private String original_title;
     private String overview;
@@ -199,5 +200,13 @@ public class Movie implements Serializable {
 
     public void setCrew(ArrayList<Crew> crew) {
         this.crew = crew;
+    }
+
+    public ArrayList<String> getProductionCompanies() {
+        return productionCompanies;
+    }
+
+    public void setProductionCompanies(ArrayList<String> productionCompanies) {
+        this.productionCompanies = productionCompanies;
     }
 }

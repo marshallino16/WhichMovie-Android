@@ -64,6 +64,7 @@ public class MovieFragment extends Fragment implements ObservableScrollViewCallb
     private TextView title;
     private TextView vote;
     private TextView synopsis;
+    private TextView productionCompanies;
     private ImageView poster;
     private ImageView posterBlur;
     private HashtagView hashtags;
@@ -118,6 +119,7 @@ public class MovieFragment extends Fragment implements ObservableScrollViewCallb
         posterBlur = (ImageView) view.findViewById(R.id.posterBlur);
         vote = (TextView) view.findViewById(R.id.vote);
         title = (TextView) view.findViewById(R.id.title);
+        productionCompanies = (TextView) view.findViewById(R.id.productionCompanies);
         hashtags = (HashtagView) view.findViewById(R.id.hashtags);
         synopsis = (TextView) view.findViewById(R.id.synopsis);
         listCast = (RecyclerView) view.findViewById(R.id.cast);
@@ -174,6 +176,15 @@ public class MovieFragment extends Fragment implements ObservableScrollViewCallb
         listCast.setHasFixedSize(true);
         LinearLayoutManager layoutManager = new LinearLayoutManager(getActivity(), LinearLayoutManager.HORIZONTAL, false);
         listCast.setLayoutManager(layoutManager);
+
+        //production
+        for(int i=0 ; i<movie.getProductionCompanies().size() ; ++i){
+            if(productionCompanies.length() > 0){
+                productionCompanies.setText(""+productionCompanies.getText()+", " + movie.getProductionCompanies().get(i));
+            } else {
+                productionCompanies.setText(""+movie.getProductionCompanies().get(i));
+            }
+        }
 
         return view;
     }
