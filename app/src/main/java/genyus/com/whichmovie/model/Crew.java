@@ -13,6 +13,7 @@ public class Crew implements Serializable{
     private String character;
     private String name;
     private String profile_path;
+    public boolean isClicked = false;
 
     public int getId() {
         return id;

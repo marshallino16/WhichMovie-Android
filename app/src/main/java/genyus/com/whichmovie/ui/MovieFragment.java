@@ -177,15 +177,6 @@ public class MovieFragment extends Fragment implements ObservableScrollViewCallb
         LinearLayoutManager layoutManager = new LinearLayoutManager(getActivity(), LinearLayoutManager.HORIZONTAL, false);
         listCast.setLayoutManager(layoutManager);
 
-        //production
-        for(int i=0 ; i<movie.getProductionCompanies().size() ; ++i){
-            if(productionCompanies.length() > 0){
-                productionCompanies.setText(""+productionCompanies.getText()+", " + movie.getProductionCompanies().get(i));
-            } else {
-                productionCompanies.setText(""+movie.getProductionCompanies().get(i));
-            }
-        }
-
         return view;
     }
 
@@ -276,7 +267,16 @@ public class MovieFragment extends Fragment implements ObservableScrollViewCallb
         this.activity.runOnUiThread(new Runnable() {
             @Override
             public void run() {
-                title.setText(Html.fromHtml("<bold>" + movie.getTitle() + "</bold><small> - "+movie.getRuntime()+" min</small>"));
+                title.setText(Html.fromHtml("<b>" + movie.getTitle() + "</b><small> - "+movie.getRuntime()+" min</small>"));
+
+                //production
+                for(int i=0 ; i<movie.getProductionCompanies().size() ; ++i){
+                    if(productionCompanies.length() > 0){
+                        productionCompanies.setText(""+productionCompanies.getText()+", " + movie.getProductionCompanies().get(i));
+                    } else {
+                        productionCompanies.setText(""+movie.getProductionCompanies().get(i));
+                    }
+                }
             }
         });
     }
@@ -296,7 +296,18 @@ public class MovieFragment extends Fragment implements ObservableScrollViewCallb
                 if(listCrew.size() > 21){
                     listCrew = new ArrayList<Crew>(movie.getCrew().subList(0, 20));
                 }
-                CrewRecyclerViewAdapter castAdapter = new CrewRecyclerViewAdapter(getActivity(), listCrew);
+                final CrewRecyclerViewAdapter castAdapter = new CrewRecyclerViewAdapter(getActivity(), listCrew);
+                castAdapter.setOnItemClickListener(new CrewRecyclerViewAdapter.OnCrewItemClickListener() {
+                    @Override
+                    public void onItemClick(int position, View v) {
+                        if(movie.getCrew().get(position).isClicked){
+                            movie.getCrew().get(position).isClicked = false;
+                        } else {
+                            movie.getCrew().get(position).isClicked = true;
+                        }
+                        castAdapter.notifyDataSetChanged();
+                    }
+                });
                 listCast.setAdapter(castAdapter);
             }
         });

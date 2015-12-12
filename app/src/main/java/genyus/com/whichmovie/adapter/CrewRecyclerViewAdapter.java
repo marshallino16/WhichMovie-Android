@@ -6,6 +6,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import java.util.ArrayList;
@@ -24,17 +25,23 @@ public class CrewRecyclerViewAdapter extends RecyclerView.Adapter<CrewRecyclerVi
     public static class DataObjectHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
         ImageView profile;
         TextView name;
+        TextView nameCharac;
+        RelativeLayout overlay;
 
         public DataObjectHolder(View itemView) {
             super(itemView);
             profile = (ImageView) itemView.findViewById(R.id.profile);
             name = (TextView) itemView.findViewById(R.id.cast_name);
+            nameCharac = (TextView) itemView.findViewById(R.id.cast_name_charac);
+            overlay = (RelativeLayout) itemView.findViewById(R.id.overlay);
             itemView.setOnClickListener(this);
         }
 
         @Override
         public void onClick(View v) {
-            onCrewItemClickListener.onItemClick(getPosition(), v);
+            if(null != onCrewItemClickListener){
+                onCrewItemClickListener.onItemClick(getPosition(), v);
+            }
         }
     }
 
@@ -57,12 +64,23 @@ public class CrewRecyclerViewAdapter extends RecyclerView.Adapter<CrewRecyclerVi
 
     @Override
     public void onBindViewHolder(DataObjectHolder holder, int position) {
-        PicassoTrustAll.getInstance(context).load(GlobalVars.configuration.getBase_url() + GlobalVars.configuration.getProfile_sizes().get(1) + listCrew.get(position).getProfile_path()).placeholder(R.drawable.heisenberg).into(holder.profile);
+        Crew crew = listCrew.get(position);
+        PicassoTrustAll.getInstance(context).load(GlobalVars.configuration.getBase_url() + GlobalVars.configuration.getProfile_sizes().get(1) + crew.getProfile_path()).placeholder(R.drawable.heisenberg).into(holder.profile);
 
-        if(null == listCrew.get(position).getName() || listCrew.get(position).getName().isEmpty()){
+        if(null == crew.getName() || crew.getName().isEmpty()){
             holder.name.setVisibility(View.INVISIBLE);
         } else {
-            holder.name.setText(""+listCrew.get(position).getName());
+            holder.name.setText(""+crew.getName());
+        }
+
+        if(null == crew.getCharacter() || crew.getCharacter().isEmpty()){
+            holder.nameCharac.setVisibility(View.INVISIBLE);
+        } else {
+            holder.nameCharac.setText(""+crew.getCharacter());
+        }
+
+        if(crew.isClicked){
+            holder.overlay.setVisibility(View.VISIBLE);
         }
     }
 

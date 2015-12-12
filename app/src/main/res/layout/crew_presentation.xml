@@ -1,20 +1,20 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:background="@android:color/transparent">
+              android:layout_width="match_parent"
+              android:layout_height="match_parent"
+              android:background="@android:color/transparent">
 
     <RelativeLayout
-        android:layout_width="150dp"
-        android:layout_height="190dp"
+        android:layout_width="100dp"
+        android:layout_height="127dp"
         android:layout_marginLeft="5dp">
 
         <ImageView xmlns:android="http://schemas.android.com/apk/res/android"
-            android:id="@+id/profile"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:scaleType="centerCrop"
-            android:src="@drawable/heisenberg" />
+                   android:id="@+id/profile"
+                   android:layout_width="match_parent"
+                   android:layout_height="match_parent"
+                   android:scaleType="centerCrop"
+                   android:src="@drawable/heisenberg" />
 
         <View
             android:layout_width="match_parent"
@@ -31,6 +31,24 @@
             android:gravity="center"
             android:padding="5dp"
             android:textColor="@android:color/white" />
+
+        <RelativeLayout
+            android:id="@+id/overlay"
+            android:layout_width="match_parent"
+            android:background="@color/overlay"
+            android:visibility="gone"
+            android:layout_height="match_parent">
+
+            <genyus.com.whichmovie.view.FontTextView
+                android:id="@+id/cast_name_charac"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_centerInParent="true"
+                android:gravity="center"
+                android:padding="5dp"
+                android:textColor="@android:color/white" />
+
+        </RelativeLayout>
 
     </RelativeLayout>
 
