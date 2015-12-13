@@ -126,11 +126,11 @@ public class MovieSerializer {
 
                 movies.add(movie);
             }
-            callback.OnMoviesGet();
         }
 
         GlobalVars.movies.clear();
         GlobalVars.movies.addAll(movies);
+        callback.OnMoviesGet();
     }
 
     @Deprecated
