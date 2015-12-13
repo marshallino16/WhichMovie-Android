@@ -14,6 +14,7 @@ public class Movie implements Serializable {
     private String backdrop_path;
     private ArrayList<Integer> genre_ids = new ArrayList<>();
     private ArrayList<String> productionCompanies = new ArrayList<>();
+    private ArrayList<Image> images = new ArrayList<>();
     private String original_language;
     private String original_title;
     private String overview;
@@ -208,5 +209,13 @@ public class Movie implements Serializable {
 
     public void setProductionCompanies(ArrayList<String> productionCompanies) {
         this.productionCompanies = productionCompanies;
+    }
+
+    public ArrayList<Image> getImages() {
+        return images;
+    }
+
+    public void setImages(ArrayList<Image> images) {
+        this.images = images;
     }
 }

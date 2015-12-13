@@ -205,6 +205,15 @@
                 </LinearLayout>
 
                 <TextView
+                    android:id="@+id/productionCompanies"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="5dp"
+                    android:paddingLeft="@dimen/activity_horizontal_margin"
+                    android:paddingRight="@dimen/activity_horizontal_margin"
+                    android:textColor="@android:color/white" />
+
+                <TextView
                     android:id="@+id/synopsis"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -256,39 +265,6 @@
                         android:layout_marginRight="5dp"
                         android:fontFamily="sans-serif-condensed"
                         android:paddingLeft="@dimen/activity_horizontal_margin"
-                        android:text="@string/production_companie"
-                        android:textAppearance="?android:attr/textAppearanceMedium"
-                        android:textColor="@color/progress" />
-
-                    <View
-                        android:layout_width="match_parent"
-                        android:layout_height="1dp"
-                        android:layout_gravity="center_vertical"
-                        android:background="@color/progress_alpha" />
-
-                </LinearLayout>
-
-                <TextView
-                    android:id="@+id/productionCompanies"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginBottom="10dp"
-                    android:paddingLeft="@dimen/activity_horizontal_margin"
-                    android:paddingRight="@dimen/activity_horizontal_margin"
-                    android:textColor="@android:color/white" />
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginBottom="10dp"
-                    android:orientation="horizontal">
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginRight="5dp"
-                        android:fontFamily="sans-serif-condensed"
-                        android:paddingLeft="@dimen/activity_horizontal_margin"
                         android:text="@string/en_chiffre"
                         android:textAppearance="?android:attr/textAppearanceMedium"
                         android:textColor="@color/progress" />
@@ -327,7 +303,12 @@
 
                 </LinearLayout>
 
-                <!-- images etc-->
+                <android.support.v7.widget.RecyclerView
+                    android:id="@+id/images"
+                    android:divider="@android:color/transparent"
+                    android:dividerHeight="1dp"
+                    android:layout_width="match_parent"
+                    android:layout_height="450dp" />
 
             </LinearLayout>
 

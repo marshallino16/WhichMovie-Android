@@ -8,6 +8,7 @@ import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.StaggeredGridLayoutManager;
 import android.support.v8.renderscript.Allocation;
 import android.support.v8.renderscript.Element;
 import android.support.v8.renderscript.RenderScript;
@@ -36,11 +37,13 @@ import java.util.ArrayList;
 import genyus.com.whichmovie.MainActivity;
 import genyus.com.whichmovie.R;
 import genyus.com.whichmovie.adapter.CrewRecyclerViewAdapter;
+import genyus.com.whichmovie.adapter.ImageRecyclerViewAdapter;
 import genyus.com.whichmovie.model.Crew;
 import genyus.com.whichmovie.model.Genre;
 import genyus.com.whichmovie.model.Movie;
 import genyus.com.whichmovie.session.GlobalVars;
 import genyus.com.whichmovie.task.listener.OnMovieCrewListener;
+import genyus.com.whichmovie.task.listener.OnMovieImageListener;
 import genyus.com.whichmovie.task.listener.OnMovieInfoListener;
 import genyus.com.whichmovie.task.manager.RequestManager;
 import genyus.com.whichmovie.utils.PicassoTrustAll;
@@ -49,7 +52,7 @@ import genyus.com.whichmovie.utils.UnitsUtils;
 /**
  * Created by genyus on 29/11/15.
  */
-public class MovieFragment extends Fragment implements ObservableScrollViewCallbacks, OnMovieInfoListener, OnMovieCrewListener {
+public class MovieFragment extends Fragment implements ObservableScrollViewCallbacks, OnMovieInfoListener, OnMovieCrewListener, OnMovieImageListener {
 
     private Activity activity;
 
@@ -69,6 +72,7 @@ public class MovieFragment extends Fragment implements ObservableScrollViewCallb
     private ImageView posterBlur;
     private HashtagView hashtags;
     private RecyclerView listCast;
+    private RecyclerView listImages;
 
     private LinearLayout header;
     private FrameLayout posterBlurContainer;
@@ -97,6 +101,7 @@ public class MovieFragment extends Fragment implements ObservableScrollViewCallb
                 public void run() {
                     RequestManager.getInstance(MovieFragment.this.activity).getMovieInfos(MovieFragment.this.activity, MovieFragment.this, movie.getId());
                     RequestManager.getInstance(MovieFragment.this.activity).getMovieCrew(MovieFragment.this, movie.getId());
+                    RequestManager.getInstance(MovieFragment.this.activity).getMovieImages(MovieFragment.this, movie.getId());
                 }
             }.start();
         }
@@ -123,6 +128,7 @@ public class MovieFragment extends Fragment implements ObservableScrollViewCallb
         hashtags = (HashtagView) view.findViewById(R.id.hashtags);
         synopsis = (TextView) view.findViewById(R.id.synopsis);
         listCast = (RecyclerView) view.findViewById(R.id.cast);
+        listImages = (RecyclerView) view.findViewById(R.id.images);
         posterBlurContainer = (FrameLayout) view.findViewById(R.id.posterBlurContainer);
         ratingBarContainer = (RelativeLayout) view.findViewById(R.id.ratingBarContainer);
 
@@ -176,6 +182,13 @@ public class MovieFragment extends Fragment implements ObservableScrollViewCallb
         listCast.setHasFixedSize(true);
         LinearLayoutManager layoutManager = new LinearLayoutManager(getActivity(), LinearLayoutManager.HORIZONTAL, false);
         listCast.setLayoutManager(layoutManager);
+
+        //images
+        listImages.setHasFixedSize(true);
+
+        StaggeredGridLayoutManager gaggeredGridLayoutManager = new StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL);
+        gaggeredGridLayoutManager.setGapStrategy(StaggeredGridLayoutManager.GAP_HANDLING_MOVE_ITEMS_BETWEEN_SPANS);
+        listImages.setLayoutManager(gaggeredGridLayoutManager);
 
         return view;
     }
@@ -272,9 +285,13 @@ public class MovieFragment extends Fragment implements ObservableScrollViewCallb
                 //production
                 for(int i=0 ; i<movie.getProductionCompanies().size() ; ++i){
                     if(productionCompanies.length() > 0){
-                        productionCompanies.setText(""+productionCompanies.getText()+", " + movie.getProductionCompanies().get(i));
+                        if(i == movie.getProductionCompanies().size()-1){
+                            productionCompanies.setText(productionCompanies.getText()+" & " + movie.getProductionCompanies().get(i));
+                        } else {
+                            productionCompanies.setText(productionCompanies.getText()+", " + movie.getProductionCompanies().get(i));
+                        }
                     } else {
-                        productionCompanies.setText(""+movie.getProductionCompanies().get(i));
+                        productionCompanies.setText(getResources().getString(R.string.producted_by)+" "+movie.getProductionCompanies().get(i));
                     }
                 }
             }
@@ -316,5 +333,22 @@ public class MovieFragment extends Fragment implements ObservableScrollViewCallb
     @Override
     public void OnMovieCrewFailed(String reason) {
         Log.e(genyus.com.whichmovie.classes.Log.TAG, "Error getting movie crew : " + reason);
+    }
+
+    @Override
+    public void OnMovieImageGet() {
+        this.activity.runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                Log.d(genyus.com.whichmovie.classes.Log.TAG, "movie image get");
+                final ImageRecyclerViewAdapter imageAdapter = new ImageRecyclerViewAdapter(getActivity(), movie.getImages());
+                listImages.setAdapter(imageAdapter);
+            }
+        });
+    }
+
+    @Override
+    public void OnMovieImageFailed(String reason) {
+        Log.e(genyus.com.whichmovie.classes.Log.TAG, "Error getting images crew : " + reason);
     }
 }

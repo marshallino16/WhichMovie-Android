@@ -27,4 +27,8 @@ public class APIConst {
     public final static String API_IMAGES_MOVIE(int movie){
         return "movie/"+movie+"/images";
     }
+
+    public final static String API_KEYWORDS_MOVIE(int movie) {
+        return "/movie/"+movie+"/keywords";
+    }
 }

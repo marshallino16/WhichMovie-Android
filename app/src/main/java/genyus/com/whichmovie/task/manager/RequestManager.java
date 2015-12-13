@@ -13,11 +13,13 @@ import genyus.com.whichmovie.classes.RequestReturn;
 import genyus.com.whichmovie.model.serializer.CategoriesSerializer;
 import genyus.com.whichmovie.model.serializer.ConfigurationSerializer;
 import genyus.com.whichmovie.model.serializer.CrewSerializer;
+import genyus.com.whichmovie.model.serializer.ImageSerializer;
 import genyus.com.whichmovie.model.serializer.MovieInfosSerializer;
 import genyus.com.whichmovie.model.serializer.MovieSerializer;
 import genyus.com.whichmovie.task.listener.OnCategoriesListener;
 import genyus.com.whichmovie.task.listener.OnConfigurationListener;
 import genyus.com.whichmovie.task.listener.OnMovieCrewListener;
+import genyus.com.whichmovie.task.listener.OnMovieImageListener;
 import genyus.com.whichmovie.task.listener.OnMovieInfoListener;
 import genyus.com.whichmovie.task.listener.OnMoviesListener;
 import genyus.com.whichmovie.utils.PreferencesUtils;
@@ -218,8 +220,30 @@ public class RequestManager {
         }
     }
 
-    public void getMovieImages(){
+    public void getMovieImages(OnMovieImageListener callback, int movieId){
+        currentAttempt += 1;
+        ArrayList<NameValuePair> nameValuePairs = new ArrayList<>();
+        nameValuePairs.add(new BasicNameValuePair("api_key", APIConst.API_TOKEN));
+        RequestReturn returnedCode = RequestSender.sendRequestGet(APIConst.API_BASE_URL, APIConst.API_IMAGES_MOVIE(movieId), nameValuePairs);
+        if (null != returnedCode && !returnedCode.json.contains("Authentication error")) {
+            if (200 == returnedCode.code) {
+                Log.d(genyus.com.whichmovie.classes.Log.TAG, "movies crew json = " + returnedCode.json);
 
+                ImageSerializer.fillImagesObject(returnedCode.json, callback);
+                currentAttempt = 0;
+                return;
+            } else {
+                this.getMovieImages(callback, movieId);
+            }
+        } else {
+            if (ATTEMPT_MAX == currentAttempt) {
+                currentAttempt = 0;
+                callback.OnMovieImageFailed(null);
+                return;
+            } else {
+                this.getMovieImages(callback, movieId);
+            }
+        }
     }
 
     public void getMovieVideos(){

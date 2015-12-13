@@ -38,6 +38,11 @@ public class CrewSerializer {
                     Crew crew = new Crew();
                     JsonObject castObject = obj.getAsJsonObject();
 
+                    JsonElement id = castObject.get(OBJECT_ID);
+                    if(!id.isJsonNull() && null != id){
+                        crew.setId(id.getAsInt());
+                    }
+
                     JsonElement name = castObject.get(OBJECT_NAME);
                     if(!name.isJsonNull() && null != name && null != name.getAsString() && !name.getAsString().isEmpty()){
                         crew.setName(name.getAsString());
