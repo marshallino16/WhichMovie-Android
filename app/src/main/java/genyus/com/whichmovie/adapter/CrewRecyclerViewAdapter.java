@@ -81,6 +81,8 @@ public class CrewRecyclerViewAdapter extends RecyclerView.Adapter<CrewRecyclerVi
 
         if(crew.isClicked){
             holder.overlay.setVisibility(View.VISIBLE);
+        } else {
+            holder.overlay.setVisibility(View.GONE);
         }
     }
 

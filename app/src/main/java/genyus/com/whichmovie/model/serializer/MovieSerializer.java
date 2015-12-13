@@ -13,6 +13,7 @@ import java.util.List;
 
 import genyus.com.whichmovie.model.Movie;
 import genyus.com.whichmovie.session.GlobalVars;
+import genyus.com.whichmovie.task.listener.OnMoviesListener;
 
 /**
  * Created by anthony on 11/30/15.
@@ -36,7 +37,7 @@ public class MovieSerializer {
     private final static String OBJECT_VOTE_AVERAGE = "vote_average";
     private final static String OBJECT_VOTE_COUNT = "vote_count";
 
-    public static void fillMoviesObject(String json) {
+    public static void fillMoviesObject(String json, OnMoviesListener callback) {
 
         ArrayList<Movie> movies = new ArrayList<>();
 
@@ -125,6 +126,7 @@ public class MovieSerializer {
 
                 movies.add(movie);
             }
+            callback.OnMoviesGet();
         }
 
         GlobalVars.movies.clear();

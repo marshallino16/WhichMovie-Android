@@ -6,6 +6,7 @@ import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 
 import genyus.com.whichmovie.model.Movie;
+import genyus.com.whichmovie.task.listener.OnMovieInfoListener;
 import genyus.com.whichmovie.utils.ObjectUtils;
 
 /**
@@ -22,7 +23,7 @@ public class MovieInfosSerializer {
     private final static String OBJECT_IMDB_ = "imdb_id";
     private final static String ARRAY_PRODUCTION = "production_companies";
 
-    public static void fillConfigurationObject(String json) {
+    public static void fillConfigurationObject(String json, OnMovieInfoListener callback) {
 
         JsonParser parser = new JsonParser();
         JsonObject jo = (JsonObject) parser.parse(json);
@@ -75,6 +76,7 @@ public class MovieInfosSerializer {
 
                 }
             }
+            callback.OnMovieInfosGet();
         }
     }
 }

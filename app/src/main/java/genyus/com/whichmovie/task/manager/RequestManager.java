@@ -111,9 +111,8 @@ public class RequestManager {
             if (200 == returnedCode.code) {
                 Log.d(genyus.com.whichmovie.classes.Log.TAG, "movies json = " + returnedCode.json);
 
-                MovieSerializer.fillMoviesObject(returnedCode.json);
+                MovieSerializer.fillMoviesObject(returnedCode.json, callback);
                 currentAttempt = 0;
-                callback.OnMoviesGet();
                 return;
             } else {
                 this.getMoviesFromCategory(context, callback);
@@ -138,9 +137,8 @@ public class RequestManager {
             if (200 == returnedCode.code) {
                 Log.d(genyus.com.whichmovie.classes.Log.TAG, "movies info json = " + returnedCode.json);
 
-                MovieInfosSerializer.fillConfigurationObject(returnedCode.json);
+                MovieInfosSerializer.fillConfigurationObject(returnedCode.json, callback);
                 currentAttempt = 0;
-                callback.OnMovieInfosGet();
                 return;
             } else {
                 this.getMovieInfos(context, callback, movieId);

@@ -47,6 +47,11 @@ public class CrewSerializer {
                         crew.setProfile_path(profile_path.getAsString());
                     }
 
+                    JsonElement character = castObject.get(OBJECT_CHARACTER);
+                    if(!character.isJsonNull() && null != character && null != character.getAsString() && !character.getAsString().isEmpty()){
+                        crew.setCharacter(character.getAsString());
+                    }
+
                     movie.getCrew().add(crew);
                 }
             }
