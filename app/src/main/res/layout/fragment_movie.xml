@@ -1,13 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
-             xmlns:app="http://schemas.android.com/apk/res-auto"
-             xmlns:tools="http://schemas.android.com/tools"
-             android:id="@+id/fragment_root"
-             android:layout_width="match_parent"
-             android:layout_height="match_parent"
-             android:background="@android:color/transparent"
-             app:layout_behavior="@string/appbar_scrolling_view_behavior"
-             tools:context="genyus.com.whichmovie.MainActivity">
+<FrameLayout
+    android:id="@+id/fragment_root"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@android:color/transparent"
+    app:layout_behavior="@string/appbar_scrolling_view_behavior"
+    tools:context="genyus.com.whichmovie.MainActivity">
 
     <FrameLayout
         android:id="@+id/posterContainer"
@@ -18,7 +19,7 @@
             android:id="@+id/poster"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:scaleType="centerCrop" />
+            android:scaleType="centerCrop"/>
 
         <FrameLayout
             android:id="@+id/posterBlurContainer"
@@ -29,7 +30,7 @@
                 android:id="@+id/posterBlur"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:scaleType="centerCrop" />
+                android:scaleType="centerCrop"/>
         </FrameLayout>
 
     </FrameLayout>
@@ -43,20 +44,20 @@
         <View
             android:layout_width="match_parent"
             android:layout_height="0dp"
-            android:layout_weight="0.6" />
+            android:layout_weight="0.6"/>
 
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="0dp"
             android:layout_weight="1"
-            android:background="@drawable/elevation_shadow" />
+            android:background="@drawable/elevation_shadow"/>
     </LinearLayout>
 
     <View
         android:id="@+id/overlay"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="@color/overlay" />
+        android:background="@color/overlay"/>
 
     <LinearLayout
         android:id="@+id/header"
@@ -77,9 +78,9 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_above="@+id/hashtags"
+                android:layout_marginBottom="5dp"
                 android:gravity="left|center_vertical"
                 android:paddingLeft="16dp"
-                android:layout_marginBottom="5dp"
                 android:textAppearance="?android:attr/textAppearanceLarge"
                 android:textColor="@android:color/white"/>
 
@@ -87,16 +88,16 @@
                 android:id="@+id/hashtags"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginBottom="5dp"
                 android:layout_above="@+id/rateContainer"
+                android:layout_marginBottom="5dp"
                 android:paddingLeft="16dp"
+                app:rowDistribution="left"
+                app:rowGravity="left"
                 app:tagBackground="@android:color/transparent"
                 app:tagDrawableLeft="@drawable/tag"
                 app:tagPaddingBottom="0dp"
                 app:tagPaddingRight="5dp"
                 app:tagPaddingTop="2dp"
-                app:rowGravity="left"
-                app:rowDistribution="left"
                 app:tagTextColor="@android:color/white"/>
 
             <LinearLayout
@@ -130,7 +131,7 @@
                             android:gravity="center_vertical"
                             android:paddingLeft="10dp"
                             android:textAppearance="?android:attr/textAppearanceMedium"
-                            android:textColor="@android:color/white" />
+                            android:textColor="@android:color/white"/>
 
                     </RelativeLayout>
 
@@ -139,7 +140,7 @@
                 <View
                     android:layout_width="0dp"
                     android:layout_height="match_parent"
-                    android:layout_weight="1" />
+                    android:layout_weight="1"/>
 
             </LinearLayout>
 
@@ -148,7 +149,7 @@
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="0dp"
-            android:layout_weight="1.5" />
+            android:layout_weight="1.5"/>
 
     </LinearLayout>
 
@@ -173,7 +174,7 @@
             <View
                 android:id="@+id/margin"
                 android:layout_width="match_parent"
-                android:layout_height="0dp" />
+                android:layout_height="0dp"/>
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -194,13 +195,13 @@
                         android:paddingLeft="@dimen/activity_horizontal_margin"
                         android:text="@string/overview"
                         android:textAppearance="?android:attr/textAppearanceMedium"
-                        android:textColor="@color/progress" />
+                        android:textColor="@color/progress"/>
 
                     <View
                         android:layout_width="match_parent"
                         android:layout_height="1dp"
                         android:layout_gravity="center_vertical"
-                        android:background="@color/progress_alpha" />
+                        android:background="@color/progress_alpha"/>
 
                 </LinearLayout>
 
@@ -211,7 +212,7 @@
                     android:layout_marginBottom="5dp"
                     android:paddingLeft="@dimen/activity_horizontal_margin"
                     android:paddingRight="@dimen/activity_horizontal_margin"
-                    android:textColor="@android:color/white" />
+                    android:textColor="@android:color/white"/>
 
                 <TextView
                     android:id="@+id/synopsis"
@@ -220,7 +221,7 @@
                     android:layout_marginBottom="10dp"
                     android:paddingLeft="@dimen/activity_horizontal_margin"
                     android:paddingRight="@dimen/activity_horizontal_margin"
-                    android:textColor="@android:color/white" />
+                    android:textColor="@android:color/white"/>
 
                 <LinearLayout
                     android:layout_width="match_parent"
@@ -236,22 +237,22 @@
                         android:paddingLeft="@dimen/activity_horizontal_margin"
                         android:text="@string/cast"
                         android:textAppearance="?android:attr/textAppearanceMedium"
-                        android:textColor="@color/progress" />
+                        android:textColor="@color/progress"/>
 
                     <View
                         android:layout_width="match_parent"
                         android:layout_height="1dp"
                         android:layout_gravity="center_vertical"
-                        android:background="@color/progress_alpha" />
+                        android:background="@color/progress_alpha"/>
 
                 </LinearLayout>
 
                 <android.support.v7.widget.RecyclerView
                     android:id="@+id/cast"
-                    android:divider="@android:color/transparent"
-                    android:dividerHeight="1dp"
                     android:layout_width="match_parent"
-                    android:layout_height="127dp" />
+                    android:layout_height="127dp"
+                    android:divider="@android:color/transparent"
+                    android:dividerHeight="1dp"/>
 
                 <LinearLayout
                     android:layout_width="match_parent"
@@ -267,13 +268,13 @@
                         android:paddingLeft="@dimen/activity_horizontal_margin"
                         android:text="@string/en_chiffre"
                         android:textAppearance="?android:attr/textAppearanceMedium"
-                        android:textColor="@color/progress" />
+                        android:textColor="@color/progress"/>
 
                     <View
                         android:layout_width="match_parent"
                         android:layout_height="1dp"
                         android:layout_gravity="center_vertical"
-                        android:background="@color/progress_alpha" />
+                        android:background="@color/progress_alpha"/>
 
                 </LinearLayout>
 
@@ -293,22 +294,24 @@
                         android:paddingLeft="@dimen/activity_horizontal_margin"
                         android:text="@string/en_images"
                         android:textAppearance="?android:attr/textAppearanceMedium"
-                        android:textColor="@color/progress" />
+                        android:textColor="@color/progress"/>
 
                     <View
                         android:layout_width="match_parent"
                         android:layout_height="1dp"
                         android:layout_gravity="center_vertical"
-                        android:background="@color/progress_alpha" />
+                        android:background="@color/progress_alpha"/>
 
                 </LinearLayout>
 
-                <android.support.v7.widget.RecyclerView
+                <com.felipecsl.asymmetricgridview.library.widget.AsymmetricGridView
                     android:id="@+id/images"
-                    android:divider="@android:color/transparent"
-                    android:dividerHeight="1dp"
                     android:layout_width="match_parent"
-                    android:layout_height="450dp" />
+                    android:layout_height="400dp"
+                    android:divider="@android:color/transparent"
+                    android:dividerHeight="3dp"
+                    android:fadingEdge="none"
+                    android:focusable="false"/>
 
             </LinearLayout>
 

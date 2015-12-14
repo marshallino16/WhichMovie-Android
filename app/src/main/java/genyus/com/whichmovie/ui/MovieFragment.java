@@ -8,7 +8,6 @@ import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.support.v7.widget.StaggeredGridLayoutManager;
 import android.support.v8.renderscript.Allocation;
 import android.support.v8.renderscript.Element;
 import android.support.v8.renderscript.RenderScript;
@@ -24,6 +23,9 @@ import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import com.felipecsl.asymmetricgridview.library.Utils;
+import com.felipecsl.asymmetricgridview.library.widget.AsymmetricGridView;
+import com.felipecsl.asymmetricgridview.library.widget.AsymmetricGridViewAdapter;
 import com.github.ksoichiro.android.observablescrollview.ObservableScrollView;
 import com.github.ksoichiro.android.observablescrollview.ObservableScrollViewCallbacks;
 import com.github.ksoichiro.android.observablescrollview.ScrollState;
@@ -37,9 +39,10 @@ import java.util.ArrayList;
 import genyus.com.whichmovie.MainActivity;
 import genyus.com.whichmovie.R;
 import genyus.com.whichmovie.adapter.CrewRecyclerViewAdapter;
-import genyus.com.whichmovie.adapter.ImageRecyclerViewAdapter;
+import genyus.com.whichmovie.adapter.ImageAdapter;
 import genyus.com.whichmovie.model.Crew;
 import genyus.com.whichmovie.model.Genre;
+import genyus.com.whichmovie.model.Image;
 import genyus.com.whichmovie.model.Movie;
 import genyus.com.whichmovie.session.GlobalVars;
 import genyus.com.whichmovie.task.listener.OnMovieCrewListener;
@@ -72,7 +75,7 @@ public class MovieFragment extends Fragment implements ObservableScrollViewCallb
     private ImageView posterBlur;
     private HashtagView hashtags;
     private RecyclerView listCast;
-    private RecyclerView listImages;
+    private AsymmetricGridView listImages;
 
     private LinearLayout header;
     private FrameLayout posterBlurContainer;
@@ -128,7 +131,7 @@ public class MovieFragment extends Fragment implements ObservableScrollViewCallb
         hashtags = (HashtagView) view.findViewById(R.id.hashtags);
         synopsis = (TextView) view.findViewById(R.id.synopsis);
         listCast = (RecyclerView) view.findViewById(R.id.cast);
-        listImages = (RecyclerView) view.findViewById(R.id.images);
+        listImages = (AsymmetricGridView) view.findViewById(R.id.images);
         posterBlurContainer = (FrameLayout) view.findViewById(R.id.posterBlurContainer);
         ratingBarContainer = (RelativeLayout) view.findViewById(R.id.ratingBarContainer);
 
@@ -184,11 +187,13 @@ public class MovieFragment extends Fragment implements ObservableScrollViewCallb
         listCast.setLayoutManager(layoutManager);
 
         //images
-        listImages.setHasFixedSize(true);
-
-        StaggeredGridLayoutManager gaggeredGridLayoutManager = new StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL);
-        gaggeredGridLayoutManager.setGapStrategy(StaggeredGridLayoutManager.GAP_HANDLING_MOVE_ITEMS_BETWEEN_SPANS);
-        listImages.setLayoutManager(gaggeredGridLayoutManager);
+        /*listImages.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View view, MotionEvent motionEvent) {
+                listImages.requestDisallowInterceptTouchEvent(true);
+                return false;
+            }
+        });*/
 
         return view;
     }
@@ -277,25 +282,6 @@ public class MovieFragment extends Fragment implements ObservableScrollViewCallb
 
     @Override
     public void OnMovieInfosGet() {
-        this.activity.runOnUiThread(new Runnable() {
-            @Override
-            public void run() {
-                title.setText(Html.fromHtml("<b>" + movie.getTitle() + "</b><small> - "+movie.getRuntime()+" min</small>"));
-
-                //production
-                for(int i=0 ; i<movie.getProductionCompanies().size() ; ++i){
-                    if(productionCompanies.length() > 0){
-                        if(i == movie.getProductionCompanies().size()-1){
-                            productionCompanies.setText(productionCompanies.getText()+" & " + movie.getProductionCompanies().get(i));
-                        } else {
-                            productionCompanies.setText(productionCompanies.getText()+", " + movie.getProductionCompanies().get(i));
-                        }
-                    } else {
-                        productionCompanies.setText(getResources().getString(R.string.producted_by)+" "+movie.getProductionCompanies().get(i));
-                    }
-                }
-            }
-        });
     }
 
     @Override
@@ -305,29 +291,6 @@ public class MovieFragment extends Fragment implements ObservableScrollViewCallb
 
     @Override
     public void OnMovieCrewGet() {
-        this.activity.runOnUiThread(new Runnable() {
-            @Override
-            public void run() {
-                Log.d(genyus.com.whichmovie.classes.Log.TAG, "movie crew get");
-                ArrayList<Crew> listCrew = movie.getCrew();
-                if(listCrew.size() > 21){
-                    listCrew = new ArrayList<Crew>(movie.getCrew().subList(0, 20));
-                }
-                final CrewRecyclerViewAdapter castAdapter = new CrewRecyclerViewAdapter(getActivity(), listCrew);
-                castAdapter.setOnItemClickListener(new CrewRecyclerViewAdapter.OnCrewItemClickListener() {
-                    @Override
-                    public void onItemClick(int position, View v) {
-                        if(movie.getCrew().get(position).isClicked){
-                            movie.getCrew().get(position).isClicked = false;
-                        } else {
-                            movie.getCrew().get(position).isClicked = true;
-                        }
-                        castAdapter.notifyDataSetChanged();
-                    }
-                });
-                listCast.setAdapter(castAdapter);
-            }
-        });
     }
 
     @Override
@@ -340,11 +303,68 @@ public class MovieFragment extends Fragment implements ObservableScrollViewCallb
         this.activity.runOnUiThread(new Runnable() {
             @Override
             public void run() {
-                Log.d(genyus.com.whichmovie.classes.Log.TAG, "movie image get");
-                final ImageRecyclerViewAdapter imageAdapter = new ImageRecyclerViewAdapter(getActivity(), movie.getImages());
-                listImages.setAdapter(imageAdapter);
+                if (null != getActivity()) {
+                    //infos
+                    title.setText(Html.fromHtml("<b>" + movie.getTitle() + "</b><small> - "+movie.getRuntime()+" min</small>"));
+
+                    //production
+                    for(int i=0 ; i<movie.getProductionCompanies().size() ; ++i){
+                        if(productionCompanies.length() > 0){
+                            if(i == movie.getProductionCompanies().size()-1){
+                                productionCompanies.setText(productionCompanies.getText()+" & " + movie.getProductionCompanies().get(i));
+                            } else {
+                                productionCompanies.setText(productionCompanies.getText()+", " + movie.getProductionCompanies().get(i));
+                            }
+                        } else {
+                            productionCompanies.setText(getResources().getString(R.string.producted_by)+" "+movie.getProductionCompanies().get(i));
+                        }
+                    }
+                    //crew
+                    ArrayList<Crew> listCrew = movie.getCrew();
+                    if(listCrew.size() > 21){
+                        listCrew = new ArrayList<Crew>(movie.getCrew().subList(0, 20));
+                    }
+                    final CrewRecyclerViewAdapter castAdapter = new CrewRecyclerViewAdapter(getActivity(), listCrew);
+                    castAdapter.setOnItemClickListener(new CrewRecyclerViewAdapter.OnCrewItemClickListener() {
+                        @Override
+                        public void onItemClick(int position, View v) {
+                            if(movie.getCrew().get(position).isClicked){
+                                movie.getCrew().get(position).isClicked = false;
+                            } else {
+                                movie.getCrew().get(position).isClicked = true;
+                            }
+                            castAdapter.notifyDataSetChanged();
+                        }
+                    });
+                    listCast.setAdapter(castAdapter);
+
+                    //images
+                    Log.d(genyus.com.whichmovie.classes.Log.TAG, "movie image get");
+                    listImages.setRequestedColumnCount(3);
+                    listImages.setAllowReordering(true);
+                    //listImages.setRequestedHorizontalSpacing(Utils.dpToPx(getActivity(), 3));
+                    listImages.setDebugging(false);
+                    setNumColumns(3);
+                    //listImages.setAdapters(adapter, adapter2);
+                }
             }
         });
+    }
+
+    private AsymmetricGridViewAdapter getNewAdapter(ImageAdapter adapter) {
+        return new AsymmetricGridViewAdapter(getActivity(), listImages, adapter);
+    }
+
+    private void setNumColumns(int numColumns) {
+        listImages.setRequestedColumnCount(numColumns);
+        listImages.determineColumns();
+        listImages.setAdapter(getNewAdapter(new ImageAdapter(getActivity(), new ArrayList<Image>(movie.getImages().subList(0, movie.getImages().size()/2)))));
+    }
+
+    private void setColumnWidth(int columnWidth) {
+        listImages.setRequestedColumnWidth(Utils.dpToPx(getActivity(), columnWidth));
+        listImages.determineColumns();
+        listImages.setAdapter(getNewAdapter(new ImageAdapter(getActivity(), new ArrayList<Image>(movie.getImages().subList(0, movie.getImages().size()/2)))));
     }
 
     @Override
