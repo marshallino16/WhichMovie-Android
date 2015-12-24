@@ -46,7 +46,9 @@ public class ImageSerializer {
                             image.setPath(path.getAsString());
                         }
 
-                        movie.getImages().add(image);
+                        if(!movie.getImages().contains(image)) {
+                            movie.getImages().add(image);
+                        }
                     }
                 }
             }

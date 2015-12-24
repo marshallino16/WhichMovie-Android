@@ -23,9 +23,6 @@ import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
-import com.felipecsl.asymmetricgridview.library.Utils;
-import com.felipecsl.asymmetricgridview.library.widget.AsymmetricGridView;
-import com.felipecsl.asymmetricgridview.library.widget.AsymmetricGridViewAdapter;
 import com.github.ksoichiro.android.observablescrollview.ObservableScrollView;
 import com.github.ksoichiro.android.observablescrollview.ObservableScrollViewCallbacks;
 import com.github.ksoichiro.android.observablescrollview.ScrollState;
@@ -42,7 +39,6 @@ import genyus.com.whichmovie.adapter.CrewRecyclerViewAdapter;
 import genyus.com.whichmovie.adapter.ImageAdapter;
 import genyus.com.whichmovie.model.Crew;
 import genyus.com.whichmovie.model.Genre;
-import genyus.com.whichmovie.model.Image;
 import genyus.com.whichmovie.model.Movie;
 import genyus.com.whichmovie.session.GlobalVars;
 import genyus.com.whichmovie.task.listener.OnMovieCrewListener;
@@ -51,6 +47,7 @@ import genyus.com.whichmovie.task.listener.OnMovieInfoListener;
 import genyus.com.whichmovie.task.manager.RequestManager;
 import genyus.com.whichmovie.utils.PicassoTrustAll;
 import genyus.com.whichmovie.utils.UnitsUtils;
+import genyus.com.whichmovie.view.ExpandableHeightGridView;
 
 /**
  * Created by genyus on 29/11/15.
@@ -75,7 +72,7 @@ public class MovieFragment extends Fragment implements ObservableScrollViewCallb
     private ImageView posterBlur;
     private HashtagView hashtags;
     private RecyclerView listCast;
-    private AsymmetricGridView listImages;
+    private ExpandableHeightGridView listImages;
 
     private LinearLayout header;
     private FrameLayout posterBlurContainer;
@@ -131,7 +128,7 @@ public class MovieFragment extends Fragment implements ObservableScrollViewCallb
         hashtags = (HashtagView) view.findViewById(R.id.hashtags);
         synopsis = (TextView) view.findViewById(R.id.synopsis);
         listCast = (RecyclerView) view.findViewById(R.id.cast);
-        listImages = (AsymmetricGridView) view.findViewById(R.id.images);
+        listImages = (ExpandableHeightGridView) view.findViewById(R.id.images);
         posterBlurContainer = (FrameLayout) view.findViewById(R.id.posterBlurContainer);
         ratingBarContainer = (RelativeLayout) view.findViewById(R.id.ratingBarContainer);
 
@@ -319,6 +316,7 @@ public class MovieFragment extends Fragment implements ObservableScrollViewCallb
                             productionCompanies.setText(getResources().getString(R.string.producted_by)+" "+movie.getProductionCompanies().get(i));
                         }
                     }
+
                     //crew
                     ArrayList<Crew> listCrew = movie.getCrew();
                     if(listCrew.size() > 21){
@@ -340,31 +338,13 @@ public class MovieFragment extends Fragment implements ObservableScrollViewCallb
 
                     //images
                     Log.d(genyus.com.whichmovie.classes.Log.TAG, "movie image get");
-                    listImages.setRequestedColumnCount(3);
-                    listImages.setAllowReordering(true);
-                    //listImages.setRequestedHorizontalSpacing(Utils.dpToPx(getActivity(), 3));
-                    listImages.setDebugging(false);
-                    setNumColumns(3);
-                    //listImages.setAdapters(adapter, adapter2);
+                    ImageAdapter imageAdapter = new ImageAdapter(getContext(), movie.getImages());
+                    listImages.setNumColumns(2);
+                    listImages.setAdapter(imageAdapter);
+                    listImages.setExpanded(true);
                 }
             }
         });
-    }
-
-    private AsymmetricGridViewAdapter getNewAdapter(ImageAdapter adapter) {
-        return new AsymmetricGridViewAdapter(getActivity(), listImages, adapter);
-    }
-
-    private void setNumColumns(int numColumns) {
-        listImages.setRequestedColumnCount(numColumns);
-        listImages.determineColumns();
-        listImages.setAdapter(getNewAdapter(new ImageAdapter(getActivity(), new ArrayList<Image>(movie.getImages().subList(0, movie.getImages().size()/2)))));
-    }
-
-    private void setColumnWidth(int columnWidth) {
-        listImages.setRequestedColumnWidth(Utils.dpToPx(getActivity(), columnWidth));
-        listImages.determineColumns();
-        listImages.setAdapter(getNewAdapter(new ImageAdapter(getActivity(), new ArrayList<Image>(movie.getImages().subList(0, movie.getImages().size()/2)))));
     }
 
     @Override
