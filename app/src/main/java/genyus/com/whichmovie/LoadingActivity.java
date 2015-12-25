@@ -6,8 +6,6 @@ import android.os.Bundle;
 import android.os.PersistableBundle;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
-import android.view.animation.Animation;
-import android.view.animation.AnimationUtils;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
@@ -45,9 +43,6 @@ public class LoadingActivity extends AppCompatActivity implements OnConfiguratio
     @ViewById(R.id.app_name)
     TextView appName;
 
-    @ViewById(R.id.accroche)
-    TextView accroche;
-
     @Override
     public void onCreate(Bundle savedInstanceState, PersistableBundle persistentState) {
         super.onCreate(savedInstanceState, persistentState);
@@ -70,11 +65,8 @@ public class LoadingActivity extends AppCompatActivity implements OnConfiguratio
         waveView.setBorder(mBorderWidth, mBorderColor);
 
         Typeface font = Typeface.createFromAsset(this.getAssets(), FONT_FLAT);
-        Animation fadeIn = AnimationUtils.loadAnimation(this, R.anim.anim_in_from_bottom);
 
         appName.setTypeface(font);
-        accroche.startAnimation(fadeIn);
-        fadeIn.start();
 
         /**
          * Christmas templates
