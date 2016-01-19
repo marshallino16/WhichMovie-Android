@@ -143,7 +143,7 @@ public class MovieFragment extends Fragment implements ObservableScrollViewCallb
         //header image loading
         PicassoTrustAll.getInstance(getActivity()).load(GlobalVars.configuration.getBase_url() + GlobalVars.configuration.getPoster_sizes().get(GlobalVars.configuration.getPoster_sizes().size() - 2) + movie.getPoster_path()).noPlaceholder().into(targetPoster);
 
-        title.setText(""+Html.fromHtml("<b>" + movie.getTitle() + "</b>"));
+        title.setText(""+Html.fromHtml("<b>"+movie.getTitle()+"</b>"));
         synopsis.setText("" + movie.getOverview());
 
         //scroll settingup
@@ -298,17 +298,22 @@ public class MovieFragment extends Fragment implements ObservableScrollViewCallb
                     title.setText(Html.fromHtml("<b>" + movie.getTitle() + "</b><small> - "+movie.getRuntime()+" min</small>"));
 
                     //production
+                    CharSequence companies = null;
                     for(int i=0 ; i<movie.getProductionCompanies().size() ; ++i){
-                        if(productionCompanies.length() > 0){
+                        if(null != companies){
                             if(i == movie.getProductionCompanies().size()-1){
-                                productionCompanies.setText(productionCompanies.getText()+" & " + Html.fromHtml("<i>"+movie.getProductionCompanies().get(i) +"</i>"));
+                                companies = android.text.TextUtils.concat(companies, Html.fromHtml(" & "+"<i><u>"+movie.getProductionCompanies().get(i)+"</u></i>"));
                             } else {
-                                productionCompanies.setText(productionCompanies.getText()+", " + Html.fromHtml("<i>"+movie.getProductionCompanies().get(i)+"</i>"));
+                                companies = android.text.TextUtils.concat(companies, Html.fromHtml(", "+"<i><u>"+movie.getProductionCompanies().get(i)+"</u></i>"));
                             }
                         } else {
-                            productionCompanies.setText(getResources().getString(R.string.producted_by)+" "+movie.getProductionCompanies().get(i));
+                            companies = Html.fromHtml(getResources().getString(R.string.producted_by)+" "+"<i><u>"+movie.getProductionCompanies().get(i)+"</u></i>");
                         }
                     }
+                    for(int i=0 ; i<movie.getProductionCompanies().size() ; ++i){
+
+                    }
+                    productionCompanies.setText(companies);
 
                     //crew
                     ArrayList<Crew> listCrew = movie.getCrew();
