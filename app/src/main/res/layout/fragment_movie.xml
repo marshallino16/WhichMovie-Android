@@ -167,6 +167,9 @@
             android:id="@+id/scrollContainer"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
+            android:descendantFocusability="blocksDescendants"
+            android:focusableInTouchMode="true"
+            android:focusable="true"
             android:clipChildren="false"
             android:clipToPadding="false"
             android:orientation="vertical">
@@ -310,8 +313,9 @@
                     android:layout_height="wrap_content"
                     android:divider="@android:color/transparent"
                     android:dividerHeight="3dp"
-                    android:drawSelectorOnTop="true"
                     android:fadingEdge="none"
+                    android:focusable="false"
+                    android:focusableInTouchMode="false"
                     android:gravity="center"
                     android:numColumns="auto_fit"
                     android:stretchMode="columnWidth"/>

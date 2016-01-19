@@ -39,6 +39,7 @@ import genyus.com.whichmovie.adapter.CrewRecyclerViewAdapter;
 import genyus.com.whichmovie.adapter.ImageAdapter;
 import genyus.com.whichmovie.model.Crew;
 import genyus.com.whichmovie.model.Genre;
+import genyus.com.whichmovie.model.Image;
 import genyus.com.whichmovie.model.Movie;
 import genyus.com.whichmovie.session.GlobalVars;
 import genyus.com.whichmovie.task.listener.OnMovieCrewListener;
@@ -134,6 +135,7 @@ public class MovieFragment extends Fragment implements ObservableScrollViewCallb
 
         header = (LinearLayout) view.findViewById(R.id.header);
         scrollView = (ObservableScrollView) view.findViewById(R.id.scroll);
+        scrollView.requestFocus();
 
         overlay.setAlpha(0);
         posterBlurContainer.setAlpha(0);
@@ -141,13 +143,13 @@ public class MovieFragment extends Fragment implements ObservableScrollViewCallb
         //header image loading
         PicassoTrustAll.getInstance(getActivity()).load(GlobalVars.configuration.getBase_url() + GlobalVars.configuration.getPoster_sizes().get(GlobalVars.configuration.getPoster_sizes().size() - 2) + movie.getPoster_path()).noPlaceholder().into(targetPoster);
 
-        title.setText(""+Html.fromHtml("<bold>" + movie.getTitle() + "</bold>"));
+        title.setText(""+Html.fromHtml("<b>" + movie.getTitle() + "</b>"));
         synopsis.setText("" + movie.getOverview());
 
         //scroll settingup
         height = UnitsUtils.getScreenPercentHeightSize(getActivity(), 83f);
         margin.setLayoutParams(new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, Math.round(height)));
-        //scrollView.setTouchInterceptionViewGroup((ViewGroup) view.findViewById(R.id.fragment_root));
+        scrollView.setTouchInterceptionViewGroup((ViewGroup) view.findViewById(R.id.fragment_root));
         scrollView.setScrollViewCallbacks(this);
 
         //rating
@@ -182,15 +184,6 @@ public class MovieFragment extends Fragment implements ObservableScrollViewCallb
         listCast.setHasFixedSize(true);
         LinearLayoutManager layoutManager = new LinearLayoutManager(getActivity(), LinearLayoutManager.HORIZONTAL, false);
         listCast.setLayoutManager(layoutManager);
-
-        //images
-        /*listImages.setOnTouchListener(new View.OnTouchListener() {
-            @Override
-            public boolean onTouch(View view, MotionEvent motionEvent) {
-                listImages.requestDisallowInterceptTouchEvent(true);
-                return false;
-            }
-        });*/
 
         return view;
     }
@@ -308,9 +301,9 @@ public class MovieFragment extends Fragment implements ObservableScrollViewCallb
                     for(int i=0 ; i<movie.getProductionCompanies().size() ; ++i){
                         if(productionCompanies.length() > 0){
                             if(i == movie.getProductionCompanies().size()-1){
-                                productionCompanies.setText(productionCompanies.getText()+" & " + movie.getProductionCompanies().get(i));
+                                productionCompanies.setText(productionCompanies.getText()+" & " + Html.fromHtml("<i>"+movie.getProductionCompanies().get(i) +"</i>"));
                             } else {
-                                productionCompanies.setText(productionCompanies.getText()+", " + movie.getProductionCompanies().get(i));
+                                productionCompanies.setText(productionCompanies.getText()+", " + Html.fromHtml("<i>"+movie.getProductionCompanies().get(i)+"</i>"));
                             }
                         } else {
                             productionCompanies.setText(getResources().getString(R.string.producted_by)+" "+movie.getProductionCompanies().get(i));
@@ -320,7 +313,7 @@ public class MovieFragment extends Fragment implements ObservableScrollViewCallb
                     //crew
                     ArrayList<Crew> listCrew = movie.getCrew();
                     if(listCrew.size() > 21){
-                        listCrew = new ArrayList<Crew>(movie.getCrew().subList(0, 20));
+                        listCrew = new ArrayList<>(movie.getCrew().subList(0, 20));
                     }
                     final CrewRecyclerViewAdapter castAdapter = new CrewRecyclerViewAdapter(getActivity(), listCrew);
                     castAdapter.setOnItemClickListener(new CrewRecyclerViewAdapter.OnCrewItemClickListener() {
@@ -337,8 +330,12 @@ public class MovieFragment extends Fragment implements ObservableScrollViewCallb
                     listCast.setAdapter(castAdapter);
 
                     //images
+                    ArrayList<Image> listImage =  movie.getImages();
+                    if(listImage.size() > 10){
+                        listImage = new ArrayList<>( movie.getImages().subList(0, 9));
+                    }
                     Log.d(genyus.com.whichmovie.classes.Log.TAG, "movie image get");
-                    ImageAdapter imageAdapter = new ImageAdapter(getContext(), movie.getImages());
+                    ImageAdapter imageAdapter = new ImageAdapter(getContext(), listImage);
                     listImages.setNumColumns(2);
                     listImages.setAdapter(imageAdapter);
                     listImages.setExpanded(true);

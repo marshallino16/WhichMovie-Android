@@ -34,7 +34,7 @@ public class ImageAdapter extends ArrayAdapter<Image> {
 
         ImageView image = (ImageView) convertView.findViewById(R.id.image);
         Image imageObject = listImages.get(position);
-        PicassoTrustAll.getInstance(context).load(GlobalVars.configuration.getBase_url() + GlobalVars.configuration.getBackdrop_sizes().get(1) + imageObject.getPath()).placeholder(R.drawable.heisenberg).into(image);
+        PicassoTrustAll.getInstance(context).load(GlobalVars.configuration.getBase_url() + GlobalVars.configuration.getBackdrop_sizes().get(1) + imageObject.getPath()).placeholder(android.R.color.transparent).into(image);
 
         return convertView;
     }
