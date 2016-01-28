@@ -143,6 +143,19 @@
 
             </LinearLayout>
 
+            <TextView
+                android:id="@+id/next"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentBottom="true"
+                android:layout_alignParentRight="true"
+                android:layout_marginBottom="16dp"
+                android:background="@drawable/fab_label_background"
+                android:gravity="center"
+                android:text="next"
+                android:textAppearance="?android:attr/textAppearanceMedium"
+                android:textColor="@android:color/white" />
+
         </RelativeLayout>
 
         <RelativeLayout
@@ -320,7 +333,6 @@
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:text="@string/budget"
-                                android:textAppearance="?android:attr/textAppearanceMedium"
                                 android:textColor="@android:color/white" />
 
                         </LinearLayout>
@@ -359,7 +371,6 @@
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:text="@string/revenue"
-                                android:textAppearance="?android:attr/textAppearanceMedium"
                                 android:textColor="@android:color/white" />
 
                         </LinearLayout>

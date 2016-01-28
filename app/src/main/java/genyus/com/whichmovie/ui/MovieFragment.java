@@ -37,6 +37,7 @@ import genyus.com.whichmovie.MainActivity;
 import genyus.com.whichmovie.R;
 import genyus.com.whichmovie.adapter.CrewRecyclerViewAdapter;
 import genyus.com.whichmovie.adapter.ImageAdapter;
+import genyus.com.whichmovie.listener.OnMoviePassed;
 import genyus.com.whichmovie.model.Crew;
 import genyus.com.whichmovie.model.Genre;
 import genyus.com.whichmovie.model.Image;
@@ -64,6 +65,7 @@ public class MovieFragment extends Fragment implements ObservableScrollViewCallb
     private float height = 0;
 
     //Views
+    private TextView next;
     private View margin, overlay;
     private TextView title, vote, synopsis, productionCompanies;
     private CurrencyTextView budget, revenue;
@@ -116,6 +118,7 @@ public class MovieFragment extends Fragment implements ObservableScrollViewCallb
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         view = inflater.inflate(R.layout.fragment_movie, container, false);
 
+        next = (TextView) view.findViewById(R.id.next);
         margin = view.findViewById(R.id.margin);
         overlay = view.findViewById(R.id.overlay);
         budget = (CurrencyTextView) view.findViewById(R.id.budget);
@@ -184,6 +187,17 @@ public class MovieFragment extends Fragment implements ObservableScrollViewCallb
         LinearLayoutManager layoutManager = new LinearLayoutManager(getActivity(), LinearLayoutManager.HORIZONTAL, false);
         listCast.setLayoutManager(layoutManager);
 
+        //next
+        next.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Log.d(genyus.com.whichmovie.classes.Log.TAG, "Next clicked");
+                if(activity instanceof OnMoviePassed){
+                    ((OnMoviePassed) activity).OnMoviePassed(MovieFragment.this);
+                }
+            }
+        });
+
         return view;
     }
 
@@ -215,6 +229,7 @@ public class MovieFragment extends Fragment implements ObservableScrollViewCallb
         title.setAlpha(1 - ScrollUtils.getFloat((float) scrollY/ flexibleRange, 0, 1));
         posterBlurContainer.setAlpha(ScrollUtils.getFloat((float) scrollY / flexibleRange, 0, 1));
         ratingBarContainer.setAlpha(1 - ScrollUtils.getFloat((float) scrollY * 2.4f / flexibleRange, 0, 1));
+        next.setAlpha(1 - ScrollUtils.getFloat((float) scrollY * 2.4f / flexibleRange, 0, 1));
         hashtags.setAlpha(1 - ScrollUtils.getFloat((float) scrollY * 2.4f / flexibleRange, 0, 1));
         ((MainActivity) getActivity()).categories.setTranslationY(ScrollUtils.getFloat(-scrollY / 2, minOverlayTransitionYTitle, 0));
     }

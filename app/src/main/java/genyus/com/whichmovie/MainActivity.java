@@ -17,6 +17,7 @@ import java.util.ArrayList;
 
 import genyus.com.whichmovie.adapter.CategoryAdapter;
 import genyus.com.whichmovie.adapter.MoviePagerAdapter;
+import genyus.com.whichmovie.listener.OnMoviePassed;
 import genyus.com.whichmovie.model.Movie;
 import genyus.com.whichmovie.session.GlobalVars;
 import genyus.com.whichmovie.task.listener.OnMoviesListener;
@@ -27,7 +28,7 @@ import genyus.com.whichmovie.utils.PreferencesUtils;
 import genyus.com.whichmovie.view.SwipeViewPager;
 
 @EActivity(R.layout.activity_main)
-public class MainActivity extends AppCompatActivity implements OnMoviesListener {
+public class MainActivity extends AppCompatActivity implements OnMoviesListener, OnMoviePassed {
 
     private ArrayList<MovieFragment> moviesFragments = new ArrayList<>();
     private MoviePagerAdapter movieAdapter;
@@ -56,7 +57,7 @@ public class MainActivity extends AppCompatActivity implements OnMoviesListener 
         movieAdapter = new MoviePagerAdapter(this.getSupportFragmentManager(), moviesFragments, this);
         swipePager.setAdapter(movieAdapter);
         swipePager.setOffscreenPageLimit(1);
-        //swipePager.setPagingEnabled(false);
+        swipePager.setPagingEnabled(false);
 
         categoryAdapter = new CategoryAdapter(this, R.layout.spinner_categories, GlobalVars.genres);
         categories.setAdapter(categoryAdapter);
@@ -119,6 +120,13 @@ public class MainActivity extends AppCompatActivity implements OnMoviesListener 
     @Override
     public void OnMoviesFailed(String reason) {
         Log.e(genyus.com.whichmovie.classes.Log.TAG, "Error getting movies : " + reason);
+    }
+
+    @Override
+    public void OnMoviePassed(MovieFragment fragment) {
+        if(null != swipePager){
+            swipePager.setCurrentItem(swipePager.getCurrentItem()+1);
+        }
     }
 
     private void generateFragmentFromMovies(){
