@@ -13,8 +13,7 @@
                    android:id="@+id/profile"
                    android:layout_width="match_parent"
                    android:layout_height="match_parent"
-                   android:scaleType="centerCrop"
-                   android:src="@drawable/heisenberg" />
+                   android:scaleType="centerCrop" />
 
         <View
             android:layout_width="match_parent"

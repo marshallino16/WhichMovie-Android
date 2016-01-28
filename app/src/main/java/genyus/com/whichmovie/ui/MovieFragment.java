@@ -48,6 +48,7 @@ import genyus.com.whichmovie.task.listener.OnMovieInfoListener;
 import genyus.com.whichmovie.task.manager.RequestManager;
 import genyus.com.whichmovie.utils.PicassoTrustAll;
 import genyus.com.whichmovie.utils.UnitsUtils;
+import genyus.com.whichmovie.view.CurrencyTextView;
 import genyus.com.whichmovie.view.ExpandableHeightGridView;
 
 /**
@@ -63,14 +64,10 @@ public class MovieFragment extends Fragment implements ObservableScrollViewCallb
     private float height = 0;
 
     //Views
-    private View margin;
-    private View overlay;
-    private TextView title;
-    private TextView vote;
-    private TextView synopsis;
-    private TextView productionCompanies;
-    private ImageView poster;
-    private ImageView posterBlur;
+    private View margin, overlay;
+    private TextView title, vote, synopsis, productionCompanies;
+    private CurrencyTextView budget, revenue;
+    private ImageView poster, posterBlur;
     private HashtagView hashtags;
     private RecyclerView listCast;
     private ExpandableHeightGridView listImages;
@@ -121,6 +118,8 @@ public class MovieFragment extends Fragment implements ObservableScrollViewCallb
 
         margin = view.findViewById(R.id.margin);
         overlay = view.findViewById(R.id.overlay);
+        budget = (CurrencyTextView) view.findViewById(R.id.budget);
+        revenue = (CurrencyTextView) view.findViewById(R.id.revenue);
         poster = (ImageView) view.findViewById(R.id.poster);
         posterBlur = (ImageView) view.findViewById(R.id.posterBlur);
         vote = (TextView) view.findViewById(R.id.vote);
@@ -296,6 +295,17 @@ public class MovieFragment extends Fragment implements ObservableScrollViewCallb
                 if (null != getActivity()) {
                     //infos
                     title.setText(Html.fromHtml("<b>" + movie.getTitle() + "</b><small> - "+movie.getRuntime()+" min</small>"));
+                    if(0 != movie.getBudget()){
+                        budget.setText(""+movie.getBudget());
+                    } else {
+                        budget.setText(R.string.unknown);
+                    }
+
+                    if(0 != movie.getRevenue()){
+                        revenue.setText(""+movie.getRevenue());
+                    } else {
+                        revenue.setText(R.string.unknown);
+                    }
 
                     //production
                     CharSequence companies = null;
@@ -304,7 +314,7 @@ public class MovieFragment extends Fragment implements ObservableScrollViewCallb
                             if(i == movie.getProductionCompanies().size()-1){
                                 companies = android.text.TextUtils.concat(companies, Html.fromHtml(" & "+"<i><u>"+movie.getProductionCompanies().get(i)+"</u></i>"));
                             } else {
-                                companies = android.text.TextUtils.concat(companies, Html.fromHtml(", "+"<i><u>"+movie.getProductionCompanies().get(i)+"</u></i>"));
+                                companies = android.text.TextUtils.concat(companies, Html.fromHtml(", "+"<i><u>"+movie.getProductionCompanies().get(i)+"</u></i> "));
                             }
                         } else {
                             companies = Html.fromHtml(getResources().getString(R.string.producted_by)+" "+"<i><u>"+movie.getProductionCompanies().get(i)+"</u></i>");
