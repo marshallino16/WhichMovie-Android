@@ -265,7 +265,7 @@
                 <android.support.v7.widget.RecyclerView
                     android:id="@+id/cast"
                     android:layout_width="match_parent"
-                    android:layout_height="127dp"
+                    android:layout_height="180dp"
                     android:divider="@android:color/transparent"
                     android:dividerHeight="1dp" />
 

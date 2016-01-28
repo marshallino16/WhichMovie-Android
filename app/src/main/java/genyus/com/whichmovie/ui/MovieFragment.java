@@ -181,6 +181,12 @@ public class MovieFragment extends Fragment implements ObservableScrollViewCallb
             }
 
         });
+        hashtags.addOnTagClickListener(new HashtagView.TagsClickListener() {
+            @Override
+            public void onItemClicked(Object item) {
+                Log.d(genyus.com.whichmovie.classes.Log.TAG, "Tag click = " + item.toString());
+            }
+        });
 
         //cast
         listCast.setHasFixedSize(true);
@@ -332,7 +338,7 @@ public class MovieFragment extends Fragment implements ObservableScrollViewCallb
                                 companies = android.text.TextUtils.concat(companies, Html.fromHtml(", "+"<i><u>"+movie.getProductionCompanies().get(i)+"</u></i> "));
                             }
                         } else {
-                            companies = Html.fromHtml(getResources().getString(R.string.producted_by)+" "+"<i><u>"+movie.getProductionCompanies().get(i)+"</u></i>");
+                            companies = Html.fromHtml(getResources().getString(R.string.producted_by)+" "+"<i><u>"+movie.getProductionCompanies().get(i)+"</u></i> ");
                         }
                     }
                     for(int i=0 ; i<movie.getProductionCompanies().size() ; ++i){
