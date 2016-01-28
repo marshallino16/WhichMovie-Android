@@ -6,6 +6,7 @@ import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.support.v7.graphics.Palette;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v8.renderscript.Allocation;
@@ -48,6 +49,7 @@ import genyus.com.whichmovie.task.listener.OnMovieImageListener;
 import genyus.com.whichmovie.task.listener.OnMovieInfoListener;
 import genyus.com.whichmovie.task.manager.RequestManager;
 import genyus.com.whichmovie.utils.PicassoTrustAll;
+import genyus.com.whichmovie.utils.ThemeUtils;
 import genyus.com.whichmovie.utils.UnitsUtils;
 import genyus.com.whichmovie.view.CurrencyTextView;
 import genyus.com.whichmovie.view.ExpandableHeightGridView;
@@ -261,6 +263,16 @@ public class MovieFragment extends Fragment implements ObservableScrollViewCallb
             posterBlur.setScaleY(1.2f);
             poster.setScaleX(1.2f);
             poster.setScaleY(1.2f);
+
+            Palette.generateAsync(bitmap, new Palette.PaletteAsyncListener() {
+                @Override
+                public void onGenerated(Palette palette) {
+                    Palette.Swatch darkMuted = palette.getDarkMutedSwatch();
+                    if (darkMuted != null) {
+                        ThemeUtils.revealColorAnimateStatusBar(getActivity(), darkMuted.getRgb());
+                    }
+                }
+            });
         }
 
         @Override
