@@ -288,23 +288,23 @@ public class MovieFragment extends Fragment implements ObservableScrollViewCallb
                             gradientDrawable.setColor(darkMuted.getRgb());
                         }
 
-                        if (backgroundBudget instanceof ShapeDrawable) {
-                            // cast to 'ShapeDrawable'
-                            ShapeDrawable shapeDrawable = (ShapeDrawable)backgroundBudget;
-                            shapeDrawable.getPaint().setColor(darkMuted.getRgb());
-                        } else if (backgroundBudget instanceof GradientDrawable) {
-                            // cast to 'GradientDrawable'
-                            GradientDrawable gradientDrawable = (GradientDrawable)backgroundBudget;
-                            gradientDrawable.setColor(darkMuted.getRgb());
-                        }
-
                         if (backgroundRevenue instanceof ShapeDrawable) {
                             // cast to 'ShapeDrawable'
                             ShapeDrawable shapeDrawable = (ShapeDrawable)backgroundRevenue;
-                            shapeDrawable.getPaint().setColor(ThemeUtils.adjustAlpha(darkMuted.getRgb(), 85f));
+                            shapeDrawable.getPaint().setColor(darkMuted.getRgb());
                         } else if (backgroundRevenue instanceof GradientDrawable) {
                             // cast to 'GradientDrawable'
                             GradientDrawable gradientDrawable = (GradientDrawable)backgroundRevenue;
+                            gradientDrawable.setColor(darkMuted.getRgb());
+                        }
+
+                        if (backgroundBudget instanceof ShapeDrawable) {
+                            // cast to 'ShapeDrawable'
+                            ShapeDrawable shapeDrawable = (ShapeDrawable)backgroundBudget;
+                            shapeDrawable.getPaint().setColor(ThemeUtils.adjustAlpha(darkMuted.getRgb(), 85f));
+                        } else if (backgroundBudget instanceof GradientDrawable) {
+                            // cast to 'GradientDrawable'
+                            GradientDrawable gradientDrawable = (GradientDrawable)backgroundBudget;
                             gradientDrawable.setColor(ThemeUtils.adjustAlpha(darkMuted.getRgb(), 85f));
                         }
 
