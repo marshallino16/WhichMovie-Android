@@ -6,6 +6,7 @@
 
     <!-- version -->
     <string name="version">version 1.0.0.alpha.INT</string>
+    <string name="made_in_france">made with ❤ for you in France.</string>
 
     <!-- internet -->
     <string name="no_internet">No internet connection.</string>

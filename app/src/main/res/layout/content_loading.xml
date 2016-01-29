@@ -76,7 +76,7 @@
             android:shadowDx="1"
             android:shadowDy="1"
             android:shadowRadius="2"
-            android:text="@string/version"
+            android:text="@string/made_in_france"
             android:textAppearance="?android:attr/textAppearanceSmall"
             android:textColor="@android:color/white"/>
 
