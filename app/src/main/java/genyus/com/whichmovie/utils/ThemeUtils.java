@@ -6,6 +6,7 @@ import android.app.Activity;
 import android.graphics.Color;
 import android.os.Build;
 import android.view.Window;
+import android.view.WindowManager;
 
 /**
  * Created by GENyUS on 28/01/16.
@@ -29,6 +30,15 @@ public class ThemeUtils {
             });
 
             anim.setDuration(300).start();
+        }
+    }
+
+    public static void ColorStatusBar(final Activity activity, final int toColor) {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP && null != activity) {
+            final Window window = activity.getWindow();
+            window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
+            window.clearFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
+            window.setStatusBarColor(toColor);
         }
     }
 

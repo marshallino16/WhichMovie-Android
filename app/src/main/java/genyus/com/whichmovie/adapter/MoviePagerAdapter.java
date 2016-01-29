@@ -41,6 +41,6 @@ public class MoviePagerAdapter extends FragmentStatePagerAdapter {
 
     @Override
     public int getCount() {
-        return 1;
+        return listMovies.size();
     }
 }

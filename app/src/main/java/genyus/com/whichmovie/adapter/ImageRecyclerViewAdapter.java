@@ -57,7 +57,7 @@ public class ImageRecyclerViewAdapter extends RecyclerView.Adapter<ImageRecycler
     @Override
     public void onBindViewHolder(DataObjectHolder holder, int position) {
         Image image = listImage.get(position);
-        PicassoTrustAll.getInstance(context).load(GlobalVars.configuration.getBase_url() + GlobalVars.configuration.getBackdrop_sizes().get(1) + image.getPath()).placeholder(R.drawable.heisenberg).into(holder.profile);
+        PicassoTrustAll.getInstance(context).load(GlobalVars.configuration.getBase_url() + GlobalVars.configuration.getBackdrop_sizes().get(1) + image.getPath()).placeholder(android.R.color.transparent).into(holder.profile);
     }
 
     public void addItem(Image dataObj, int index) {

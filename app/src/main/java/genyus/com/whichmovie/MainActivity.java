@@ -54,7 +54,7 @@ public class MainActivity extends AppCompatActivity implements OnMoviesListener,
 
         generateFragmentFromMovies();
 
-        movieAdapter = new MoviePagerAdapter(this.getSupportFragmentManager(), moviesFragments, this);
+        movieAdapter = new MoviePagerAdapter(this.getSupportFragmentManager(), new ArrayList<MovieFragment>(), this);
         swipePager.setAdapter(movieAdapter);
         swipePager.setOffscreenPageLimit(1);
         swipePager.setPagingEnabled(false);
@@ -125,7 +125,8 @@ public class MainActivity extends AppCompatActivity implements OnMoviesListener,
     @Override
     public void OnMoviePassed(MovieFragment fragment) {
         if(null != swipePager){
-            swipePager.setCurrentItem(swipePager.getCurrentItem()+1);
+            Log.e(genyus.com.whichmovie.classes.Log.TAG, "Change viewpager position.");
+            swipePager.setCurrentItem(swipePager.getCurrentItem()+1, true);
         }
     }
 

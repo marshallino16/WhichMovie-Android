@@ -1,10 +1,12 @@
 package genyus.com.whichmovie.ui;
 
 import android.app.Activity;
+import android.content.res.ColorStateList;
 import android.graphics.Bitmap;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
 import android.support.v7.graphics.Palette;
 import android.support.v7.widget.LinearLayoutManager;
@@ -67,7 +69,7 @@ public class MovieFragment extends Fragment implements ObservableScrollViewCallb
     private float height = 0;
 
     //Views
-    private TextView next;
+    private FloatingActionButton next;
     private View margin, overlay;
     private TextView title, vote, synopsis, productionCompanies;
     private CurrencyTextView budget, revenue;
@@ -120,7 +122,7 @@ public class MovieFragment extends Fragment implements ObservableScrollViewCallb
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         view = inflater.inflate(R.layout.fragment_movie, container, false);
 
-        next = (TextView) view.findViewById(R.id.next);
+        next = (FloatingActionButton) view.findViewById(R.id.fab);
         margin = view.findViewById(R.id.margin);
         overlay = view.findViewById(R.id.overlay);
         budget = (CurrencyTextView) view.findViewById(R.id.budget);
@@ -200,7 +202,7 @@ public class MovieFragment extends Fragment implements ObservableScrollViewCallb
             @Override
             public void onClick(View v) {
                 Log.d(genyus.com.whichmovie.classes.Log.TAG, "Next clicked");
-                if(activity instanceof OnMoviePassed){
+                if(activity instanceof MainActivity){
                     ((OnMoviePassed) activity).OnMoviePassed(MovieFragment.this);
                 }
             }
@@ -237,7 +239,6 @@ public class MovieFragment extends Fragment implements ObservableScrollViewCallb
         title.setAlpha(1 - ScrollUtils.getFloat((float) scrollY/ flexibleRange, 0, 1));
         posterBlurContainer.setAlpha(ScrollUtils.getFloat((float) scrollY / flexibleRange, 0, 1));
         ratingBarContainer.setAlpha(1 - ScrollUtils.getFloat((float) scrollY * 2.4f / flexibleRange, 0, 1));
-        next.setAlpha(1 - ScrollUtils.getFloat((float) scrollY * 2.4f / flexibleRange, 0, 1));
         hashtags.setAlpha(1 - ScrollUtils.getFloat((float) scrollY * 2.4f / flexibleRange, 0, 1));
         ((MainActivity) getActivity()).categories.setTranslationY(ScrollUtils.getFloat(-scrollY / 2, minOverlayTransitionYTitle, 0));
     }
@@ -269,7 +270,8 @@ public class MovieFragment extends Fragment implements ObservableScrollViewCallb
                 public void onGenerated(Palette palette) {
                     Palette.Swatch darkMuted = palette.getDarkMutedSwatch();
                     if (darkMuted != null) {
-                        ThemeUtils.revealColorAnimateStatusBar(getActivity(), darkMuted.getRgb());
+                        next.setBackgroundTintList(ColorStateList.valueOf(darkMuted.getRgb()));
+                        ThemeUtils.ColorStatusBar(getActivity(), darkMuted.getRgb());
                     }
                 }
             });
