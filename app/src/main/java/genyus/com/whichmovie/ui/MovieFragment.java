@@ -270,62 +270,11 @@ public class MovieFragment extends Fragment implements ObservableScrollViewCallb
             Palette.generateAsync(bitmap, new Palette.PaletteAsyncListener() {
                 @Override
                 public void onGenerated(Palette palette) {
-                    Palette.Swatch darkMuted = palette.getVibrantSwatch();
-                    if (darkMuted != null) {
-                        next.setBackgroundTintList(ColorStateList.valueOf(darkMuted.getRgb()));
-                        Drawable backgroundProgress = progress.getBackground();
-                        Drawable backgroundProgressAlpha = progressAlpha.getBackground();
-                        Drawable backgroundBudget = view.findViewById(R.id.budget_indicator).getBackground();
-                        Drawable backgroundRevenue = view.findViewById(R.id.revenue_indicator).getBackground();
+                    Palette.Swatch vibrant = palette.getVibrantSwatch();
+                    Palette.Swatch vibrantDark = palette.getDarkVibrantSwatch();
 
-                        if (backgroundProgress instanceof ShapeDrawable) {
-                            // cast to 'ShapeDrawable'
-                            ShapeDrawable shapeDrawable = (ShapeDrawable)backgroundProgress;
-                            shapeDrawable.getPaint().setColor(darkMuted.getRgb());
-                        } else if (backgroundProgress instanceof GradientDrawable) {
-                            // cast to 'GradientDrawable'
-                            GradientDrawable gradientDrawable = (GradientDrawable)backgroundProgress;
-                            gradientDrawable.setColor(darkMuted.getRgb());
-                        }
-
-                        if (backgroundRevenue instanceof ShapeDrawable) {
-                            // cast to 'ShapeDrawable'
-                            ShapeDrawable shapeDrawable = (ShapeDrawable)backgroundRevenue;
-                            shapeDrawable.getPaint().setColor(darkMuted.getRgb());
-                        } else if (backgroundRevenue instanceof GradientDrawable) {
-                            // cast to 'GradientDrawable'
-                            GradientDrawable gradientDrawable = (GradientDrawable)backgroundRevenue;
-                            gradientDrawable.setColor(darkMuted.getRgb());
-                        }
-
-                        if (backgroundBudget instanceof ShapeDrawable) {
-                            // cast to 'ShapeDrawable'
-                            ShapeDrawable shapeDrawable = (ShapeDrawable)backgroundBudget;
-                            shapeDrawable.getPaint().setColor(ThemeUtils.adjustAlpha(darkMuted.getRgb(), 85f));
-                        } else if (backgroundBudget instanceof GradientDrawable) {
-                            // cast to 'GradientDrawable'
-                            GradientDrawable gradientDrawable = (GradientDrawable)backgroundBudget;
-                            gradientDrawable.setColor(ThemeUtils.adjustAlpha(darkMuted.getRgb(), 85f));
-                        }
-
-                        if (backgroundProgressAlpha instanceof ShapeDrawable) {
-                            // cast to 'ShapeDrawable'
-                            ShapeDrawable shapeDrawable = (ShapeDrawable)backgroundProgressAlpha;
-                            shapeDrawable.getPaint().setColor(ThemeUtils.adjustAlpha(darkMuted.getRgb(), 85f));
-                        } else if (backgroundProgressAlpha instanceof GradientDrawable) {
-                            // cast to 'GradientDrawable'
-                            GradientDrawable gradientDrawable = (GradientDrawable)backgroundProgressAlpha;
-                            gradientDrawable.setColor(ThemeUtils.adjustAlpha(darkMuted.getRgb(), 85f));
-                        }
-
-                        ((TextView)view.findViewById(R.id.title1)).setTextColor(darkMuted.getRgb());
-                        ((TextView)view.findViewById(R.id.title2)).setTextColor(darkMuted.getRgb());
-                        ((TextView)view.findViewById(R.id.title3)).setTextColor(darkMuted.getRgb());
-                        ((TextView)view.findViewById(R.id.title4)).setTextColor(darkMuted.getRgb());
-                        view.findViewById(R.id.line1).setBackgroundColor(darkMuted.getRgb());
-                        view.findViewById(R.id.line2).setBackgroundColor(darkMuted.getRgb());
-                        view.findViewById(R.id.line3).setBackgroundColor(darkMuted.getRgb());
-                        view.findViewById(R.id.line4).setBackgroundColor(darkMuted.getRgb());
+                    if(null != vibrant && null != vibrantDark) {
+                        tintAllViews(vibrant, vibrantDark);
                     }
                 }
             });
@@ -451,5 +400,62 @@ public class MovieFragment extends Fragment implements ObservableScrollViewCallb
     @Override
     public void OnMovieImageFailed(String reason) {
         Log.e(genyus.com.whichmovie.classes.Log.TAG, "Error getting images crew : " + reason);
+    }
+
+    private void tintAllViews(Palette.Swatch vibrant, Palette.Swatch vibrantDark){
+        next.setBackgroundTintList(ColorStateList.valueOf(vibrant.getRgb()));
+        Drawable backgroundProgress = progress.getBackground();
+        Drawable backgroundProgressAlpha = progressAlpha.getBackground();
+        Drawable backgroundBudget = view.findViewById(R.id.budget_indicator).getBackground();
+        Drawable backgroundRevenue = view.findViewById(R.id.revenue_indicator).getBackground();
+
+        if (backgroundProgress instanceof ShapeDrawable) {
+            // cast to 'ShapeDrawable'
+            ShapeDrawable shapeDrawable = (ShapeDrawable)backgroundProgress;
+            shapeDrawable.getPaint().setColor(vibrant.getRgb());
+        } else if (backgroundProgress instanceof GradientDrawable) {
+            // cast to 'GradientDrawable'
+            GradientDrawable gradientDrawable = (GradientDrawable)backgroundProgress;
+            gradientDrawable.setColor(vibrant.getRgb());
+        }
+
+        if (backgroundRevenue instanceof ShapeDrawable) {
+            // cast to 'ShapeDrawable'
+            ShapeDrawable shapeDrawable = (ShapeDrawable)backgroundRevenue;
+            shapeDrawable.getPaint().setColor(vibrant.getRgb());
+        } else if (backgroundRevenue instanceof GradientDrawable) {
+            // cast to 'GradientDrawable'
+            GradientDrawable gradientDrawable = (GradientDrawable)backgroundRevenue;
+            gradientDrawable.setColor(vibrant.getRgb());
+        }
+
+        if (backgroundBudget instanceof ShapeDrawable) {
+            // cast to 'ShapeDrawable'
+            ShapeDrawable shapeDrawable = (ShapeDrawable)backgroundBudget;
+            shapeDrawable.getPaint().setColor(ThemeUtils.adjustAlpha(vibrantDark.getRgb(), 85f));
+        } else if (backgroundBudget instanceof GradientDrawable) {
+            // cast to 'GradientDrawable'
+            GradientDrawable gradientDrawable = (GradientDrawable)backgroundBudget;
+            gradientDrawable.setColor(ThemeUtils.adjustAlpha(vibrantDark.getRgb(), 85f));
+        }
+
+        if (backgroundProgressAlpha instanceof ShapeDrawable) {
+            // cast to 'ShapeDrawable'
+            ShapeDrawable shapeDrawable = (ShapeDrawable)backgroundProgressAlpha;
+            shapeDrawable.getPaint().setColor(ThemeUtils.adjustAlpha(vibrantDark.getRgb(), 85f));
+        } else if (backgroundProgressAlpha instanceof GradientDrawable) {
+            // cast to 'GradientDrawable'
+            GradientDrawable gradientDrawable = (GradientDrawable)backgroundProgressAlpha;
+            gradientDrawable.setColor(ThemeUtils.adjustAlpha(vibrantDark.getRgb(), 85f));
+        }
+
+        ((TextView)view.findViewById(R.id.title1)).setTextColor(vibrant.getRgb());
+        ((TextView)view.findViewById(R.id.title2)).setTextColor(vibrant.getRgb());
+        ((TextView)view.findViewById(R.id.title3)).setTextColor(vibrant.getRgb());
+        ((TextView)view.findViewById(R.id.title4)).setTextColor(vibrant.getRgb());
+        view.findViewById(R.id.line1).setBackgroundColor(vibrant.getRgb());
+        view.findViewById(R.id.line2).setBackgroundColor(vibrant.getRgb());
+        view.findViewById(R.id.line3).setBackgroundColor(vibrant.getRgb());
+        view.findViewById(R.id.line4).setBackgroundColor(vibrant.getRgb());
     }
 }

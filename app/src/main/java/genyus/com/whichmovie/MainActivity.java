@@ -59,7 +59,7 @@ public class MainActivity extends AppCompatActivity implements OnMoviesListener,
         swipePager.setOffscreenPageLimit(1);
         swipePager.setPagingEnabled(false);
 
-        categoryAdapter = new CategoryAdapter(this, R.layout.spinner_categories, GlobalVars.genres);
+        categoryAdapter = new CategoryAdapter(this, R.layout.row_spinner_categories, GlobalVars.genres);
         categories.setAdapter(categoryAdapter);
         categories.setSelection(ObjectUtils.getGenrePositionById(PreferencesUtils.getDefaultCategory(this)));
         categories.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {

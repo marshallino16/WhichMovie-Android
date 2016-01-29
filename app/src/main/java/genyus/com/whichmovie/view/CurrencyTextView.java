@@ -39,7 +39,7 @@ public class CurrencyTextView extends TextView {
             e.printStackTrace();
         }
 
-        super.setText(Html.fromHtml("<b>$</b>"+price.replaceAll(",", " ")), type);
+        super.setText(Html.fromHtml("<b>$</b> "+price.replaceAll(",", " ")), type);
     }
 
     @Override

@@ -6,17 +6,21 @@ import android.os.Bundle;
 import android.os.PersistableBundle;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
+import android.view.View;
 import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.google.android.gms.analytics.GoogleAnalytics;
 import com.google.android.gms.analytics.Logger;
 
 import org.androidannotations.annotations.AfterViews;
+import org.androidannotations.annotations.Click;
 import org.androidannotations.annotations.EActivity;
 import org.androidannotations.annotations.UiThread;
 import org.androidannotations.annotations.ViewById;
 
+import genyus.com.whichmovie.animation.ExpandCollapse;
 import genyus.com.whichmovie.classes.Analytics;
 import genyus.com.whichmovie.session.GlobalVarsAnalytics;
 import genyus.com.whichmovie.task.listener.OnCategoriesListener;
@@ -36,6 +40,9 @@ public class LoadingActivity extends AppCompatActivity implements OnConfiguratio
 
     @ViewById(R.id.flakeContainer)
     LinearLayout flakeContainer;
+
+    @ViewById(R.id.retry_container)
+    RelativeLayout retryContainer;
 
     @ViewById(R.id.wave)
     WaveView waveView;
@@ -157,10 +164,28 @@ public class LoadingActivity extends AppCompatActivity implements OnConfiguratio
     @Override
     public void OnConfigurationFailed(String reason) {
         Log.e(genyus.com.whichmovie.classes.Log.TAG, "Error getting configuration : " + reason);
+
+        /**
+         * Network error
+         */
+        runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                ExpandCollapse.expand(retryContainer);
+            }
+        });
     }
 
     @Override
     public void OnMoviesFailed(String reason) {
         Log.e(genyus.com.whichmovie.classes.Log.TAG, "Error getting movies : " + reason);
+    }
+
+    @Click(R.id.retry)
+    public void retryNetworkCalls(View v){
+        ExpandCollapse.collapse(retryContainer);
+        mWaveHelper.cancel();
+        mWaveHelper.start();
+        initGlobalVars();
     }
 }

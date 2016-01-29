@@ -29,7 +29,7 @@ public class ImageAdapter extends ArrayAdapter<Image> {
         LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 
         if (convertView == null) {
-            convertView = inflater.inflate(R.layout.image_movie, null);
+            convertView = inflater.inflate(R.layout.row_image_movie, null);
         }
 
         ImageView image = (ImageView) convertView.findViewById(R.id.image);
