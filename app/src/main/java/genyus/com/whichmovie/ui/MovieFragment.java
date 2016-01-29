@@ -4,6 +4,8 @@ import android.app.Activity;
 import android.content.res.ColorStateList;
 import android.graphics.Bitmap;
 import android.graphics.drawable.Drawable;
+import android.graphics.drawable.GradientDrawable;
+import android.graphics.drawable.ShapeDrawable;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.design.widget.FloatingActionButton;
@@ -70,7 +72,7 @@ public class MovieFragment extends Fragment implements ObservableScrollViewCallb
 
     //Views
     private FloatingActionButton next;
-    private View margin, overlay;
+    private View margin, overlay, progressAlpha, progress;
     private TextView title, vote, synopsis, productionCompanies;
     private CurrencyTextView budget, revenue;
     private ImageView poster, posterBlur;
@@ -159,8 +161,8 @@ public class MovieFragment extends Fragment implements ObservableScrollViewCallb
         scrollView.setScrollViewCallbacks(this);
 
         //rating
-        View progressAlpha = new View(getActivity(), null);
-        View progress = new View(getActivity(), null);
+        progressAlpha = new View(getActivity(), null);
+        progress = new View(getActivity(), null);
 
         progressAlpha.setBackgroundResource(R.drawable.round_progress_alpha);
         progress.setBackgroundResource(R.drawable.round_progress);
@@ -268,10 +270,62 @@ public class MovieFragment extends Fragment implements ObservableScrollViewCallb
             Palette.generateAsync(bitmap, new Palette.PaletteAsyncListener() {
                 @Override
                 public void onGenerated(Palette palette) {
-                    Palette.Swatch darkMuted = palette.getDarkMutedSwatch();
+                    Palette.Swatch darkMuted = palette.getVibrantSwatch();
                     if (darkMuted != null) {
                         next.setBackgroundTintList(ColorStateList.valueOf(darkMuted.getRgb()));
-                        ThemeUtils.ColorStatusBar(getActivity(), darkMuted.getRgb());
+                        Drawable backgroundProgress = progress.getBackground();
+                        Drawable backgroundProgressAlpha = progressAlpha.getBackground();
+                        Drawable backgroundBudget = view.findViewById(R.id.budget_indicator).getBackground();
+                        Drawable backgroundRevenue = view.findViewById(R.id.revenue_indicator).getBackground();
+
+                        if (backgroundProgress instanceof ShapeDrawable) {
+                            // cast to 'ShapeDrawable'
+                            ShapeDrawable shapeDrawable = (ShapeDrawable)backgroundProgress;
+                            shapeDrawable.getPaint().setColor(darkMuted.getRgb());
+                        } else if (backgroundProgress instanceof GradientDrawable) {
+                            // cast to 'GradientDrawable'
+                            GradientDrawable gradientDrawable = (GradientDrawable)backgroundProgress;
+                            gradientDrawable.setColor(darkMuted.getRgb());
+                        }
+
+                        if (backgroundBudget instanceof ShapeDrawable) {
+                            // cast to 'ShapeDrawable'
+                            ShapeDrawable shapeDrawable = (ShapeDrawable)backgroundBudget;
+                            shapeDrawable.getPaint().setColor(darkMuted.getRgb());
+                        } else if (backgroundBudget instanceof GradientDrawable) {
+                            // cast to 'GradientDrawable'
+                            GradientDrawable gradientDrawable = (GradientDrawable)backgroundBudget;
+                            gradientDrawable.setColor(darkMuted.getRgb());
+                        }
+
+                        if (backgroundRevenue instanceof ShapeDrawable) {
+                            // cast to 'ShapeDrawable'
+                            ShapeDrawable shapeDrawable = (ShapeDrawable)backgroundRevenue;
+                            shapeDrawable.getPaint().setColor(ThemeUtils.adjustAlpha(darkMuted.getRgb(), 85f));
+                        } else if (backgroundRevenue instanceof GradientDrawable) {
+                            // cast to 'GradientDrawable'
+                            GradientDrawable gradientDrawable = (GradientDrawable)backgroundRevenue;
+                            gradientDrawable.setColor(ThemeUtils.adjustAlpha(darkMuted.getRgb(), 85f));
+                        }
+
+                        if (backgroundProgressAlpha instanceof ShapeDrawable) {
+                            // cast to 'ShapeDrawable'
+                            ShapeDrawable shapeDrawable = (ShapeDrawable)backgroundProgressAlpha;
+                            shapeDrawable.getPaint().setColor(ThemeUtils.adjustAlpha(darkMuted.getRgb(), 85f));
+                        } else if (backgroundProgressAlpha instanceof GradientDrawable) {
+                            // cast to 'GradientDrawable'
+                            GradientDrawable gradientDrawable = (GradientDrawable)backgroundProgressAlpha;
+                            gradientDrawable.setColor(ThemeUtils.adjustAlpha(darkMuted.getRgb(), 85f));
+                        }
+
+                        ((TextView)view.findViewById(R.id.title1)).setTextColor(darkMuted.getRgb());
+                        ((TextView)view.findViewById(R.id.title2)).setTextColor(darkMuted.getRgb());
+                        ((TextView)view.findViewById(R.id.title3)).setTextColor(darkMuted.getRgb());
+                        ((TextView)view.findViewById(R.id.title4)).setTextColor(darkMuted.getRgb());
+                        view.findViewById(R.id.line1).setBackgroundColor(darkMuted.getRgb());
+                        view.findViewById(R.id.line2).setBackgroundColor(darkMuted.getRgb());
+                        view.findViewById(R.id.line3).setBackgroundColor(darkMuted.getRgb());
+                        view.findViewById(R.id.line4).setBackgroundColor(darkMuted.getRgb());
                     }
                 }
             });

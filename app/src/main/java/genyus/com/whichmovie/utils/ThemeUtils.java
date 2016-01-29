@@ -6,7 +6,6 @@ import android.app.Activity;
 import android.graphics.Color;
 import android.os.Build;
 import android.view.Window;
-import android.view.WindowManager;
 
 /**
  * Created by GENyUS on 28/01/16.
@@ -33,15 +32,6 @@ public class ThemeUtils {
         }
     }
 
-    public static void ColorStatusBar(final Activity activity, final int toColor) {
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP && null != activity) {
-            final Window window = activity.getWindow();
-            window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
-            window.clearFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
-            window.setStatusBarColor(toColor);
-        }
-    }
-
     private static int blendColors(int from, int to, float ratio) {
         final float inverseRatio = 1f - ratio;
 
@@ -50,5 +40,13 @@ public class ThemeUtils {
         final float b = Color.blue(to) * ratio + Color.blue(from) * inverseRatio;
 
         return Color.rgb((int) r, (int) g, (int) b);
+    }
+
+    public static int adjustAlpha(int color, float factor) {
+        int alpha = Math.round(Color.alpha(color) * factor);
+        int red = Color.red(color);
+        int green = Color.green(color);
+        int blue = Color.blue(color);
+        return Color.argb(alpha, red, green, blue);
     }
 }
