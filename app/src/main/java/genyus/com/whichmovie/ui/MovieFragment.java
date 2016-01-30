@@ -154,7 +154,7 @@ public class MovieFragment extends Fragment implements ObservableScrollViewCallb
 
         title.setText(""+Html.fromHtml("<b>"+movie.getTitle()+"</b>"));
         synopsis.setText("" + movie.getOverview());
-        releaseDate.setText(movie.getRelease_date());
+        releaseDate.setText(getResources().getString(R.string.released)+ " " + movie.getRelease_date());
 
         //scroll settingup
         height = UnitsUtils.getScreenPercentHeightSize(getActivity(), 83f);
