@@ -126,9 +126,15 @@ public class MainActivity extends AppCompatActivity implements OnMoviesListener,
     public void OnMoviePassed(MovieFragment fragment) {
         if(null != swipePager){
             Log.e(genyus.com.whichmovie.classes.Log.TAG, "Change viewpager position.");
-            moviesFragments.remove(fragment);
-            movieAdapter.notifyDataSetChanged();
-            //swipePager.setCurrentItem(swipePager.getCurrentItem()+1, true);
+            if(null != moviesFragments){
+                if(1 < moviesFragments.size()){
+                    moviesFragments.remove(fragment);
+                    movieAdapter.notifyDataSetChanged();
+                } else {
+                    //TODO
+                    //search more movies
+                }
+            }
         }
     }
 
