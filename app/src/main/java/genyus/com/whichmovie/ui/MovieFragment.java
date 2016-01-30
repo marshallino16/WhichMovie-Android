@@ -52,6 +52,7 @@ import genyus.com.whichmovie.session.GlobalVars;
 import genyus.com.whichmovie.task.listener.OnMovieCrewListener;
 import genyus.com.whichmovie.task.listener.OnMovieImageListener;
 import genyus.com.whichmovie.task.listener.OnMovieInfoListener;
+import genyus.com.whichmovie.task.listener.OnMovieVideoListener;
 import genyus.com.whichmovie.task.manager.RequestManager;
 import genyus.com.whichmovie.utils.PicassoTrustAll;
 import genyus.com.whichmovie.utils.ThemeUtils;
@@ -62,7 +63,7 @@ import genyus.com.whichmovie.view.ExpandableHeightGridView;
 /**
  * Created by genyus on 29/11/15.
  */
-public class MovieFragment extends Fragment implements ObservableScrollViewCallbacks, OnMovieInfoListener, OnMovieCrewListener, OnMovieImageListener {
+public class MovieFragment extends Fragment implements ObservableScrollViewCallbacks, OnMovieInfoListener, OnMovieCrewListener, OnMovieImageListener, OnMovieVideoListener {
 
     private Activity activity;
 
@@ -109,6 +110,7 @@ public class MovieFragment extends Fragment implements ObservableScrollViewCallb
                     RequestManager.getInstance(MovieFragment.this.activity).getMovieInfos(MovieFragment.this.activity, MovieFragment.this, movie.getId());
                     RequestManager.getInstance(MovieFragment.this.activity).getMovieCrew(MovieFragment.this, movie.getId());
                     RequestManager.getInstance(MovieFragment.this.activity).getMovieImages(MovieFragment.this, movie.getId());
+                    RequestManager.getInstance(MovieFragment.this.activity).getMovieVideos(MovieFragment.this, movie.getId());
                 }
             }.start();
         }
@@ -172,7 +174,7 @@ public class MovieFragment extends Fragment implements ObservableScrollViewCallb
         //scroll settingup
         height = UnitsUtils.getScreenPercentHeightSize(getActivity(), 83f);
         margin.setLayoutParams(new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, Math.round(height)));
-        scrollView.setTouchInterceptionViewGroup((ViewGroup) view.findViewById(R.id.fragment_root));
+        //scrollView.setTouchInterceptionViewGroup((ViewGroup) view.findViewById(R.id.fragment_root));
         scrollView.setScrollViewCallbacks(this);
 
         //rating
@@ -352,6 +354,15 @@ public class MovieFragment extends Fragment implements ObservableScrollViewCallb
 
     @Override
     public void OnMovieImageGet() {
+    }
+
+    @Override
+    public void OnMovieImageFailed(String reason) {
+        Log.e(genyus.com.whichmovie.classes.Log.TAG, "Error getting images : " + reason);
+    }
+
+    @Override
+    public void OnMovieVideoGet() {
         this.activity.runOnUiThread(new Runnable() {
             @Override
             public void run() {
@@ -423,8 +434,8 @@ public class MovieFragment extends Fragment implements ObservableScrollViewCallb
     }
 
     @Override
-    public void OnMovieImageFailed(String reason) {
-        Log.e(genyus.com.whichmovie.classes.Log.TAG, "Error getting images crew : " + reason);
+    public void OnMovieVideoFailed(String reason) {
+        Log.e(genyus.com.whichmovie.classes.Log.TAG, "Error getting video : " + reason);
     }
 
     private void tintAllViews(Palette.Swatch vibrant, Palette.Swatch vibrantDark){

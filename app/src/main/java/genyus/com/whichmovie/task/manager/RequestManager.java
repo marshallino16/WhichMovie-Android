@@ -16,11 +16,13 @@ import genyus.com.whichmovie.model.serializer.CrewSerializer;
 import genyus.com.whichmovie.model.serializer.ImageSerializer;
 import genyus.com.whichmovie.model.serializer.MovieInfosSerializer;
 import genyus.com.whichmovie.model.serializer.MovieSerializer;
+import genyus.com.whichmovie.model.serializer.VideoSerializer;
 import genyus.com.whichmovie.task.listener.OnCategoriesListener;
 import genyus.com.whichmovie.task.listener.OnConfigurationListener;
 import genyus.com.whichmovie.task.listener.OnMovieCrewListener;
 import genyus.com.whichmovie.task.listener.OnMovieImageListener;
 import genyus.com.whichmovie.task.listener.OnMovieInfoListener;
+import genyus.com.whichmovie.task.listener.OnMovieVideoListener;
 import genyus.com.whichmovie.task.listener.OnMoviesListener;
 import genyus.com.whichmovie.utils.PreferencesUtils;
 import genyus.com.whichmovie.utils.UnitsUtils;
@@ -227,7 +229,7 @@ public class RequestManager {
         RequestReturn returnedCode = RequestSender.sendRequestGet(APIConst.API_BASE_URL, APIConst.API_IMAGES_MOVIE(movieId), nameValuePairs);
         if (null != returnedCode && !returnedCode.json.contains("Authentication error")) {
             if (200 == returnedCode.code) {
-                Log.d(genyus.com.whichmovie.classes.Log.TAG, "movies crew json = " + returnedCode.json);
+                Log.d(genyus.com.whichmovie.classes.Log.TAG, "movies image json = " + returnedCode.json);
 
                 ImageSerializer.fillImagesObject(returnedCode.json, callback);
                 currentAttempt = 0;
@@ -246,7 +248,29 @@ public class RequestManager {
         }
     }
 
-    public void getMovieVideos(){
+    public void getMovieVideos(OnMovieVideoListener callback, int movieId){
+        currentAttempt += 1;
+        ArrayList<NameValuePair> nameValuePairs = new ArrayList<>();
+        nameValuePairs.add(new BasicNameValuePair("api_key", APIConst.API_TOKEN));
+        RequestReturn returnedCode = RequestSender.sendRequestGet(APIConst.API_BASE_URL, APIConst.API_VIDEOS_MOVIE(movieId), nameValuePairs);
+        if (null != returnedCode && !returnedCode.json.contains("Authentication error")) {
+            if (200 == returnedCode.code) {
+                Log.d(genyus.com.whichmovie.classes.Log.TAG, "movies video json = " + returnedCode.json);
 
+                VideoSerializer.fillVideosObject(returnedCode.json, callback);
+                currentAttempt = 0;
+                return;
+            } else {
+                this.getMovieVideos(callback, movieId);
+            }
+        } else {
+            if (ATTEMPT_MAX == currentAttempt) {
+                currentAttempt = 0;
+                callback.OnMovieVideoFailed(null);
+                return;
+            } else {
+                this.getMovieVideos(callback, movieId);
+            }
+        }
     }
 }

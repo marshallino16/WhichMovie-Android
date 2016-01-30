@@ -5,8 +5,6 @@ import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 
-import java.util.ArrayList;
-
 import genyus.com.whichmovie.model.Image;
 import genyus.com.whichmovie.model.Movie;
 import genyus.com.whichmovie.task.listener.OnMovieImageListener;
@@ -22,8 +20,6 @@ public class ImageSerializer {
     private final static String OBJECT_PATH = "file_path";
 
     public static void fillImagesObject(String json, OnMovieImageListener callback) {
-
-        ArrayList<Movie> movies = new ArrayList<>();
 
         JsonParser parser = new JsonParser();
         JsonObject jo = (JsonObject) parser.parse(json);

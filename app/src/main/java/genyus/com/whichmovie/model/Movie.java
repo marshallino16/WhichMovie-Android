@@ -15,6 +15,7 @@ public class Movie implements Serializable {
     private ArrayList<Integer> genre_ids = new ArrayList<>();
     private ArrayList<String> productionCompanies = new ArrayList<>();
     private ArrayList<Image> images = new ArrayList<>();
+    private ArrayList<Video> videos = new ArrayList<>();
     private String original_language;
     private String original_title;
     private String overview;
@@ -217,5 +218,13 @@ public class Movie implements Serializable {
 
     public void setImages(ArrayList<Image> images) {
         this.images = images;
+    }
+
+    public ArrayList<Video> getVideos() {
+        return videos;
+    }
+
+    public void setVideos(ArrayList<Video> videos) {
+        this.videos = videos;
     }
 }
