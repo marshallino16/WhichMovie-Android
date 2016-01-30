@@ -29,6 +29,9 @@
 
         <activity
             android:name=".MainActivity_"/>
+
+        <activity
+            android:name=".WebviewActivity_"/>
     </application>
 
 </manifest>

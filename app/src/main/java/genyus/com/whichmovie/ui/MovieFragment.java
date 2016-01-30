@@ -40,6 +40,7 @@ import java.util.ArrayList;
 
 import genyus.com.whichmovie.MainActivity;
 import genyus.com.whichmovie.R;
+import genyus.com.whichmovie.WebviewActivity_;
 import genyus.com.whichmovie.adapter.CrewRecyclerViewAdapter;
 import genyus.com.whichmovie.adapter.ImageAdapter;
 import genyus.com.whichmovie.listener.OnMoviePassed;
@@ -160,6 +161,12 @@ public class MovieFragment extends Fragment implements ObservableScrollViewCallb
         //Website homepage
         if(null != movie.getHomepage() && !movie.getHomepage().isEmpty()){
             homepage.setVisibility(View.VISIBLE);
+            homepage.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    WebviewActivity_.intent(getActivity()).movieName(movie.getTitle()).link(movie.getHomepage()).start();
+                }
+            });
         }
 
         //scroll settingup
@@ -450,21 +457,21 @@ public class MovieFragment extends Fragment implements ObservableScrollViewCallb
         if (backgroundBudget instanceof ShapeDrawable) {
             // cast to 'ShapeDrawable'
             ShapeDrawable shapeDrawable = (ShapeDrawable)backgroundBudget;
-            shapeDrawable.getPaint().setColor(ThemeUtils.adjustAlpha(vibrantDark.getRgb(), 85f));
+            shapeDrawable.getPaint().setColor(ThemeUtils.adjustAlpha(vibrantDark.getRgb(), 70f));
         } else if (backgroundBudget instanceof GradientDrawable) {
             // cast to 'GradientDrawable'
             GradientDrawable gradientDrawable = (GradientDrawable)backgroundBudget;
-            gradientDrawable.setColor(ThemeUtils.adjustAlpha(vibrantDark.getRgb(), 85f));
+            gradientDrawable.setColor(ThemeUtils.adjustAlpha(vibrantDark.getRgb(), 70f));
         }
 
         if (backgroundProgressAlpha instanceof ShapeDrawable) {
             // cast to 'ShapeDrawable'
             ShapeDrawable shapeDrawable = (ShapeDrawable)backgroundProgressAlpha;
-            shapeDrawable.getPaint().setColor(ThemeUtils.adjustAlpha(vibrantDark.getRgb(), 85f));
+            shapeDrawable.getPaint().setColor(ThemeUtils.adjustAlpha(vibrantDark.getRgb(), 70f));
         } else if (backgroundProgressAlpha instanceof GradientDrawable) {
             // cast to 'GradientDrawable'
             GradientDrawable gradientDrawable = (GradientDrawable)backgroundProgressAlpha;
-            gradientDrawable.setColor(ThemeUtils.adjustAlpha(vibrantDark.getRgb(), 85f));
+            gradientDrawable.setColor(ThemeUtils.adjustAlpha(vibrantDark.getRgb(), 70f));
         }
 
         ((TextView)view.findViewById(R.id.title1)).setTextColor(vibrant.getRgb());

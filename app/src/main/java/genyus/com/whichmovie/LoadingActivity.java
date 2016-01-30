@@ -89,7 +89,6 @@ public class LoadingActivity extends AppCompatActivity implements OnConfiguratio
         super.onPause();
         mWaveHelper.cancel();
         //flakeView.pause();
-        overridePendingTransition(R.anim.right_in, R.anim.left_out);
     }
 
     @Override
