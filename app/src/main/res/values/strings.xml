@@ -31,4 +31,9 @@ Quam libero nulla netus eu porta curae, ut nulla bibendum facilisis et urna sed,
     <string name="budget">Budget</string>
     <string name="revenue">Revenue</string>
 
+    <!-- youtube -->
+    <string name="player_error">Error initializing YouTube player</string>
+    <string name="seek_to">Jump To</string>
+    <string name="seek_to_hint">Seconds</string>
+
 </resources>
