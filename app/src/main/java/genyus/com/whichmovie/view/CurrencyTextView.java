@@ -8,6 +8,8 @@ import android.widget.TextView;
 import java.text.DecimalFormat;
 import java.text.DecimalFormatSymbols;
 
+import genyus.com.whichmovie.R;
+
 public class CurrencyTextView extends TextView {
 
     String rawText;
@@ -27,19 +29,23 @@ public class CurrencyTextView extends TextView {
 
     @Override
     public void setText(CharSequence text, BufferType type) {
-        rawText = text.toString();
-        String price = text.toString();
-        try {
+        if(text.equals(getContext().getResources().getString(R.string.unknown))){
+            super.setText(text, type);
+        } else {
+            rawText = text.toString();
+            String price = text.toString();
+            try {
 
-            DecimalFormatSymbols symbols = new DecimalFormatSymbols();
-            symbols.setDecimalSeparator(',');
-            DecimalFormat decimalFormat = new DecimalFormat("###,###,###,###", symbols);
-            price = decimalFormat.format(Integer.parseInt(text.toString()));
-        }catch (Exception e){
-            e.printStackTrace();
+                DecimalFormatSymbols symbols = new DecimalFormatSymbols();
+                symbols.setDecimalSeparator(',');
+                DecimalFormat decimalFormat = new DecimalFormat("###,###,###,###", symbols);
+                price = decimalFormat.format(Integer.parseInt(text.toString()));
+            }catch (Exception e){
+                e.printStackTrace();
+            }
+
+            super.setText(Html.fromHtml("<b>$</b> "+price.replaceAll(",", " ")), type);
         }
-
-        super.setText(Html.fromHtml("<b>$</b> "+price.replaceAll(",", " ")), type);
     }
 
     @Override

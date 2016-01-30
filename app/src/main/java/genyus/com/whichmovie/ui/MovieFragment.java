@@ -219,6 +219,16 @@ public class MovieFragment extends Fragment implements ObservableScrollViewCallb
         this.activity = activity;
     }
 
+    @Override
+    public void onDestroyView() {
+        super.onDestroyView();
+        //((BitmapDrawable)poster.getDrawable()).getBitmap().recycle();
+        //((BitmapDrawable)posterBlur.getDrawable()).getBitmap().recycle();
+        ratingBarContainer.removeAllViews();
+        view = null;
+        System.gc();
+    }
+
     @Nullable
     @Override
     public View getView() {
