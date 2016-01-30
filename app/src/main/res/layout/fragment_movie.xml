@@ -245,6 +245,7 @@
                     android:layout_marginBottom="10dp"
                     android:drawableLeft="@drawable/ic_open_in_new_white_24dp"
                     android:drawablePadding="8dp"
+                    android:gravity="center_vertical"
                     android:paddingLeft="@dimen/activity_horizontal_margin"
                     android:paddingRight="@dimen/activity_horizontal_margin"
                     android:text="@string/homepage"
