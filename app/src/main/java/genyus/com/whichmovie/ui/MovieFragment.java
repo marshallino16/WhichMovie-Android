@@ -73,7 +73,7 @@ public class MovieFragment extends Fragment implements ObservableScrollViewCallb
     //Views
     private FloatingActionButton next;
     private View margin, overlay, progressAlpha, progress;
-    private TextView title, vote, synopsis, productionCompanies, releaseDate;
+    private TextView title, vote, synopsis, productionCompanies, releaseDate, homepage;
     private CurrencyTextView budget, revenue;
     private ImageView poster, posterBlur;
     private HashtagView hashtags;
@@ -137,6 +137,7 @@ public class MovieFragment extends Fragment implements ObservableScrollViewCallb
         productionCompanies = (TextView) view.findViewById(R.id.productionCompanies);
         hashtags = (HashtagView) view.findViewById(R.id.hashtags);
         synopsis = (TextView) view.findViewById(R.id.synopsis);
+        homepage = (TextView) view.findViewById(R.id.homepage);
         listCast = (RecyclerView) view.findViewById(R.id.cast);
         listImages = (ExpandableHeightGridView) view.findViewById(R.id.images);
         posterBlurContainer = (FrameLayout) view.findViewById(R.id.posterBlurContainer);
@@ -155,6 +156,11 @@ public class MovieFragment extends Fragment implements ObservableScrollViewCallb
         title.setText(""+Html.fromHtml("<b>"+movie.getTitle()+"</b>"));
         synopsis.setText("" + movie.getOverview());
         releaseDate.setText(getResources().getString(R.string.released)+ " " + movie.getRelease_date());
+
+        //Website homepage
+        if(null != movie.getHomepage() && !movie.getHomepage().isEmpty()){
+            homepage.setVisibility(View.VISIBLE);
+        }
 
         //scroll settingup
         height = UnitsUtils.getScreenPercentHeightSize(getActivity(), 83f);
