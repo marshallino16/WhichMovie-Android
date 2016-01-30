@@ -73,7 +73,7 @@ public class MovieFragment extends Fragment implements ObservableScrollViewCallb
     //Views
     private FloatingActionButton next;
     private View margin, overlay, progressAlpha, progress;
-    private TextView title, vote, synopsis, productionCompanies;
+    private TextView title, vote, synopsis, productionCompanies, releaseDate;
     private CurrencyTextView budget, revenue;
     private ImageView poster, posterBlur;
     private HashtagView hashtags;
@@ -133,6 +133,7 @@ public class MovieFragment extends Fragment implements ObservableScrollViewCallb
         posterBlur = (ImageView) view.findViewById(R.id.posterBlur);
         vote = (TextView) view.findViewById(R.id.vote);
         title = (TextView) view.findViewById(R.id.title);
+        releaseDate = (TextView) view.findViewById(R.id.release_date);
         productionCompanies = (TextView) view.findViewById(R.id.productionCompanies);
         hashtags = (HashtagView) view.findViewById(R.id.hashtags);
         synopsis = (TextView) view.findViewById(R.id.synopsis);
@@ -153,6 +154,7 @@ public class MovieFragment extends Fragment implements ObservableScrollViewCallb
 
         title.setText(""+Html.fromHtml("<b>"+movie.getTitle()+"</b>"));
         synopsis.setText("" + movie.getOverview());
+        releaseDate.setText(movie.getRelease_date());
 
         //scroll settingup
         height = UnitsUtils.getScreenPercentHeightSize(getActivity(), 83f);
