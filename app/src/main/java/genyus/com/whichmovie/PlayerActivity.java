@@ -41,7 +41,7 @@ public class PlayerActivity extends YouTubeBaseActivity implements YouTubePlayer
     }
 
     @AfterViews
-    protected void afterViews(){
+    protected void afterViews() {
         youtubePlayerView.initialize(Config.YOUTUBE_API_KEY_DEBUG, this);
     }
 
@@ -60,6 +60,9 @@ public class PlayerActivity extends YouTubeBaseActivity implements YouTubePlayer
     @Override
     public void onInitializationSuccess(YouTubePlayer.Provider provider,
                                         YouTubePlayer player, boolean wasRestored) {
+        /** add listeners to YouTubePlayer instance **/
+        player.setPlayerStateChangeListener(playerStateChangeListener);
+        player.setPlaybackEventListener(playbackEventListener);
         if (!wasRestored) {
 
             // loadVideo() will auto play video
@@ -67,7 +70,7 @@ public class PlayerActivity extends YouTubeBaseActivity implements YouTubePlayer
             player.loadVideo(videoKey);
 
             // Hiding player controls
-            player.setPlayerStyle(YouTubePlayer.PlayerStyle.CHROMELESS);
+            player.setPlayerStyle(YouTubePlayer.PlayerStyle.DEFAULT);
         }
     }
 
@@ -87,4 +90,55 @@ public class PlayerActivity extends YouTubeBaseActivity implements YouTubePlayer
     public void onFullscreen(boolean b) {
 
     }
+
+    private YouTubePlayer.PlaybackEventListener playbackEventListener = new YouTubePlayer.PlaybackEventListener() {
+
+        @Override
+        public void onBuffering(boolean arg0) {
+        }
+
+        @Override
+        public void onPaused() {
+        }
+
+        @Override
+        public void onPlaying() {
+        }
+
+        @Override
+        public void onSeekTo(int arg0) {
+        }
+
+        @Override
+        public void onStopped() {
+        }
+
+    };
+
+    private YouTubePlayer.PlayerStateChangeListener playerStateChangeListener = new YouTubePlayer.PlayerStateChangeListener() {
+
+        @Override
+        public void onAdStarted() {
+        }
+
+        @Override
+        public void onError(YouTubePlayer.ErrorReason arg0) {
+        }
+
+        @Override
+        public void onLoaded(String arg0) {
+        }
+
+        @Override
+        public void onLoading() {
+        }
+
+        @Override
+        public void onVideoEnded() {
+        }
+
+        @Override
+        public void onVideoStarted() {
+        }
+    };
 }
