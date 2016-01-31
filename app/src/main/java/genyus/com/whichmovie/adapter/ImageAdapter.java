@@ -12,20 +12,28 @@ import android.widget.ImageView;
 import java.util.ArrayList;
 
 import genyus.com.whichmovie.MainActivity;
+import genyus.com.whichmovie.PhotoViewerFragment;
 import genyus.com.whichmovie.PhotoViewerFragment_;
 import genyus.com.whichmovie.R;
 import genyus.com.whichmovie.model.Image;
 import genyus.com.whichmovie.session.GlobalVars;
+import genyus.com.whichmovie.ui.MovieFragment;
 import genyus.com.whichmovie.utils.PicassoTrustAll;
 
 public class ImageAdapter extends ArrayAdapter<Image> {
+
     private Context context;
+    private MovieFragment parentFragment;
     private final ArrayList<Image> listImages;
 
-    public ImageAdapter(Context context, ArrayList<Image> listImages) {
+    private int fragmentContainer;
+
+    public ImageAdapter(Context context, ArrayList<Image> listImages, MovieFragment parentFragment, int fragmentContainer) {
         super(context, 0, listImages);
         this.context = context;
         this.listImages = listImages;
+        this.parentFragment = parentFragment;
+        this.fragmentContainer = fragmentContainer;
     }
 
     public View getView(final int position, View convertView, ViewGroup parent) {
@@ -43,9 +51,12 @@ public class ImageAdapter extends ArrayAdapter<Image> {
             @Override
             public void onClick(View view) {
                 Log.d(genyus.com.whichmovie.classes.Log.TAG, "click image");
+                PhotoViewerFragment fragment = PhotoViewerFragment_.builder().positionImage(position).listImagesSlide(listImages).vibrantRGB(parentFragment.vibrantRGB).build();
                 FragmentTransaction transaction = ((MainActivity)context).getFragmentManager().beginTransaction();
-                transaction.replace(R.id.fragmentContainer, PhotoViewerFragment_.builder().positionImage(position).listImagesSlide(listImages).build());
-                transaction.commit();
+                Log.d(genyus.com.whichmovie.classes.Log.TAG, "fragment = " + fragment);
+                transaction.setTransitionStyle(FragmentTransaction.TRANSIT_FRAGMENT_FADE);
+                transaction.replace(fragmentContainer, fragment, null);
+                transaction.addToBackStack(null).commit();
             }
         });
 

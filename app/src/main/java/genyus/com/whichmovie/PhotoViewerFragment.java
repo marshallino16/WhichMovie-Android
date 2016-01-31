@@ -1,8 +1,10 @@
 package genyus.com.whichmovie;
 
 import android.app.Fragment;
+import android.content.res.ColorStateList;
 import android.os.AsyncTask;
 import android.os.Environment;
+import android.support.design.widget.FloatingActionButton;
 import android.support.v4.view.ViewPager;
 import android.view.KeyEvent;
 import android.view.View;
@@ -38,13 +40,16 @@ public class PhotoViewerFragment extends Fragment implements View.OnClickListene
     int positionImage;
 
     @FragmentArg
+    int vibrantRGB;
+
+    @FragmentArg
     ArrayList<Image> listImagesSlide = new ArrayList<>();
 
     @ViewById(R.id.quit)
     ImageView quit;
 
     @ViewById(R.id.save)
-    ImageView save;
+    FloatingActionButton save;
 
     @ViewById(R.id.viewpager)
     ViewPager slideShow;
@@ -62,6 +67,10 @@ public class PhotoViewerFragment extends Fragment implements View.OnClickListene
             if (listImagesSlide.size() > positionImage) {
                 slideShow.setCurrentItem(positionImage);
             }
+        }
+
+        if(-1 != vibrantRGB){
+            save.setBackgroundTintList(ColorStateList.valueOf(vibrantRGB));
         }
     }
 

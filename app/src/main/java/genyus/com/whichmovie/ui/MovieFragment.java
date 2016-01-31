@@ -76,6 +76,7 @@ public class MovieFragment extends Fragment implements ObservableScrollViewCallb
     private Movie movie;
     private View view;
 
+    public int vibrantRGB = -1;
     private float height = 0;
 
     //Views
@@ -149,7 +150,7 @@ public class MovieFragment extends Fragment implements ObservableScrollViewCallb
         synopsis = (TextView) view.findViewById(R.id.synopsis);
         homepage = (TextView) view.findViewById(R.id.homepage);
         listCast = (RecyclerView) view.findViewById(R.id.cast);
-        fragmentContainer = (FrameLayout) view.findViewById(R.id.fragmentContainer);
+        fragmentContainer = (FrameLayout) view.findViewById(R.id.fragment_root);
         firstVideoImage = (ImageView) view.findViewById(R.id.first_video_thumbnail);
         firstVideoControl = (RelativeLayout) view.findViewById(R.id.first_video_control);
         videoContainer = (LinearLayout) view.findViewById(R.id.video_container);
@@ -444,7 +445,7 @@ public class MovieFragment extends Fragment implements ObservableScrollViewCallb
                         listImage = new ArrayList<>( movie.getImages().subList(0, 9));
                     }
                     Log.d(genyus.com.whichmovie.classes.Log.TAG, "movie image get");
-                    ImageAdapter imageAdapter = new ImageAdapter(getContext(), listImage);
+                    ImageAdapter imageAdapter = new ImageAdapter(getContext(), listImage, MovieFragment.this, R.id.fragment_root);
                     listImages.setNumColumns(2);
                     listImages.setAdapter(imageAdapter);
                     listImages.setExpanded(true);
@@ -499,6 +500,7 @@ public class MovieFragment extends Fragment implements ObservableScrollViewCallb
     }
 
     private void tintAllViews(Palette.Swatch vibrant, Palette.Swatch vibrantDark){
+        vibrantRGB = vibrant.getRgb();
         next.setBackgroundTintList(ColorStateList.valueOf(vibrant.getRgb()));
         Drawable backgroundProgress = progress.getBackground();
         Drawable backgroundProgressAlpha = progressAlpha.getBackground();
