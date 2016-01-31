@@ -1,6 +1,8 @@
 package genyus.com.whichmovie.adapter;
 
+import android.app.FragmentTransaction;
 import android.content.Context;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -9,6 +11,8 @@ import android.widget.ImageView;
 
 import java.util.ArrayList;
 
+import genyus.com.whichmovie.MainActivity;
+import genyus.com.whichmovie.PhotoViewerFragment_;
 import genyus.com.whichmovie.R;
 import genyus.com.whichmovie.model.Image;
 import genyus.com.whichmovie.session.GlobalVars;
@@ -24,7 +28,7 @@ public class ImageAdapter extends ArrayAdapter<Image> {
         this.listImages = listImages;
     }
 
-    public View getView(int position, View convertView, ViewGroup parent) {
+    public View getView(final int position, View convertView, ViewGroup parent) {
 
         LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 
@@ -35,6 +39,15 @@ public class ImageAdapter extends ArrayAdapter<Image> {
         ImageView image = (ImageView) convertView.findViewById(R.id.image);
         Image imageObject = listImages.get(position);
         PicassoTrustAll.getInstance(context).load(GlobalVars.configuration.getBase_url() + GlobalVars.configuration.getBackdrop_sizes().get(1) + imageObject.getPath()).placeholder(android.R.color.transparent).into(image);
+        image.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Log.d(genyus.com.whichmovie.classes.Log.TAG, "click image");
+                FragmentTransaction transaction = ((MainActivity)context).getFragmentManager().beginTransaction();
+                transaction.replace(R.id.fragmentContainer, PhotoViewerFragment_.builder().positionImage(position).listImagesSlide(listImages).build());
+                transaction.commit();
+            }
+        });
 
         return convertView;
     }

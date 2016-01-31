@@ -90,6 +90,7 @@ public class MovieFragment extends Fragment implements ObservableScrollViewCallb
 
     private LinearLayout header, videoContainer;
     private FrameLayout posterBlurContainer;
+    public FrameLayout fragmentContainer;
     private ObservableScrollView scrollView;
     private RelativeLayout ratingBarContainer, firstVideoControl;
 
@@ -148,6 +149,7 @@ public class MovieFragment extends Fragment implements ObservableScrollViewCallb
         synopsis = (TextView) view.findViewById(R.id.synopsis);
         homepage = (TextView) view.findViewById(R.id.homepage);
         listCast = (RecyclerView) view.findViewById(R.id.cast);
+        fragmentContainer = (FrameLayout) view.findViewById(R.id.fragmentContainer);
         firstVideoImage = (ImageView) view.findViewById(R.id.first_video_thumbnail);
         firstVideoControl = (RelativeLayout) view.findViewById(R.id.first_video_control);
         videoContainer = (LinearLayout) view.findViewById(R.id.video_container);
