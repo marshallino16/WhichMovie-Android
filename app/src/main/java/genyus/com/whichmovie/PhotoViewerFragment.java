@@ -75,7 +75,7 @@ public class PhotoViewerFragment extends Fragment implements View.OnClickListene
             public boolean onKey(View v, int keyCode, KeyEvent event) {
 
                 if (event.getAction() == KeyEvent.ACTION_UP && keyCode == KeyEvent.KEYCODE_BACK) {
-                    //getActivity().getFragmentManager().beginTransaction().setCustomAnimations(R.animator.slide_in_from_bottom, R.animator.slide_out_to_bottom).remove(PhotoViewerFragment.this).commit();
+                    getActivity().getFragmentManager().beginTransaction().remove(PhotoViewerFragment.this).commit();
                     return true;
                 }
                 return false;
@@ -87,7 +87,7 @@ public class PhotoViewerFragment extends Fragment implements View.OnClickListene
     public void onClick(View view) {
         if (R.id.quit == view.getId()) {
             ((MainActivity)getActivity()).getSupportActionBar().show();
-            getActivity().getFragmentManager().beginTransaction().setCustomAnimations(R.anim.fadein, R.anim.fadeout).remove(((Fragment)PhotoViewerFragment.this)).commit();
+            getActivity().getFragmentManager().beginTransaction().remove(PhotoViewerFragment.this).commit();
         } else if (R.id.save == view.getId()) {
             if(null != slideShow){
                 String url = GlobalVars.configuration.getBase_url() + GlobalVars.configuration.getBackdrop_sizes().get(1) + listImagesSlide.get(slideShow.getCurrentItem()).getPath();
