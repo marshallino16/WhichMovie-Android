@@ -185,7 +185,7 @@ public class MovieFragment extends Fragment implements ObservableScrollViewCallb
         firstVideoControl.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                PlayerActivity_.intent(getActivity()).videoKey(movie.getVideos().get(0).getKey()).start();
+                PlayerActivity_.intent(getActivity()).videoKey(String.valueOf(firstVideoImage.getTag())).start();
             }
         });
 
@@ -451,7 +451,8 @@ public class MovieFragment extends Fragment implements ObservableScrollViewCallb
                     if(0 == movie.getVideos().size()){
                         videoContainer.setVisibility(View.GONE);
                     } else {
-                        PicassoTrustAll.getInstance(getActivity()).load(YouTubeThumbnail.getUrlFromVideoId(movie.getVideos().get(0).getKey(), Quality.MAXIMUM)).placeholder(android.R.color.transparent).into(firstVideoImage, new Callback() {
+                        final String firstVideoKey = movie.getVideos().get(0).getKey();
+                        PicassoTrustAll.getInstance(getActivity()).load(YouTubeThumbnail.getUrlFromVideoId(firstVideoKey, Quality.MAXIMUM)).placeholder(android.R.color.transparent).into(firstVideoImage, new Callback() {
                             @Override
                             public void onSuccess() {
                                 //nothing
@@ -459,15 +460,16 @@ public class MovieFragment extends Fragment implements ObservableScrollViewCallb
 
                             @Override
                             public void onError() {
-                                PicassoTrustAll.getInstance(getActivity()).load(YouTubeThumbnail.getUrlFromVideoId(movie.getVideos().get(0).getKey(), Quality.DEFAULT)).placeholder(android.R.color.transparent).into(firstVideoImage);
+                                PicassoTrustAll.getInstance(getActivity()).load(YouTubeThumbnail.getUrlFromVideoId(firstVideoKey, Quality.HIGH)).placeholder(android.R.color.transparent).into(firstVideoImage);
                             }
                         });
                         firstVideoImage.setOnClickListener(new View.OnClickListener() {
                             @Override
                             public void onClick(View view) {
-                                PlayerActivity_.intent(getActivity()).videoKey(movie.getVideos().get(0).getKey()).start();
+                                PlayerActivity_.intent(getActivity()).videoKey(firstVideoKey).start();
                             }
                         });
+                        firstVideoImage.setTag(firstVideoKey);
 
                         if(1 < movie.getVideos().size()){
                             ArrayList<Video> listVideo =  movie.getVideos();
