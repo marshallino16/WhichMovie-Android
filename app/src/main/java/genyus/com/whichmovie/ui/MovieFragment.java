@@ -33,22 +33,26 @@ import com.github.ksoichiro.android.observablescrollview.ObservableScrollViewCal
 import com.github.ksoichiro.android.observablescrollview.ScrollState;
 import com.github.ksoichiro.android.observablescrollview.ScrollUtils;
 import com.greenfrvr.hashtagview.HashtagView;
+import com.squareup.picasso.Callback;
 import com.squareup.picasso.Picasso;
 import com.squareup.picasso.Target;
 
 import java.util.ArrayList;
 
 import genyus.com.whichmovie.MainActivity;
+import genyus.com.whichmovie.PlayerActivity_;
 import genyus.com.whichmovie.R;
 import genyus.com.whichmovie.WebviewActivity_;
 import genyus.com.whichmovie.adapter.CrewRecyclerViewAdapter;
 import genyus.com.whichmovie.adapter.ImageAdapter;
 import genyus.com.whichmovie.adapter.VideoAdapter;
+import genyus.com.whichmovie.classes.Quality;
 import genyus.com.whichmovie.listener.OnMoviePassed;
 import genyus.com.whichmovie.model.Crew;
 import genyus.com.whichmovie.model.Genre;
 import genyus.com.whichmovie.model.Image;
 import genyus.com.whichmovie.model.Movie;
+import genyus.com.whichmovie.model.Video;
 import genyus.com.whichmovie.session.GlobalVars;
 import genyus.com.whichmovie.task.listener.OnMovieCrewListener;
 import genyus.com.whichmovie.task.listener.OnMovieImageListener;
@@ -58,6 +62,7 @@ import genyus.com.whichmovie.task.manager.RequestManager;
 import genyus.com.whichmovie.utils.PicassoTrustAll;
 import genyus.com.whichmovie.utils.ThemeUtils;
 import genyus.com.whichmovie.utils.UnitsUtils;
+import genyus.com.whichmovie.utils.YouTubeThumbnail;
 import genyus.com.whichmovie.view.CurrencyTextView;
 import genyus.com.whichmovie.view.ExpandableHeightGridView;
 
@@ -78,7 +83,7 @@ public class MovieFragment extends Fragment implements ObservableScrollViewCallb
     private View margin, overlay, progressAlpha, progress;
     private TextView title, vote, synopsis, productionCompanies, releaseDate, homepage;
     private CurrencyTextView budget, revenue;
-    private ImageView poster, posterBlur;
+    private ImageView poster, posterBlur, firstVideoImage;
     private HashtagView hashtags;
     private RecyclerView listCast;
     private ExpandableHeightGridView listImages, listVideos;
@@ -86,7 +91,7 @@ public class MovieFragment extends Fragment implements ObservableScrollViewCallb
     private LinearLayout header, videoContainer;
     private FrameLayout posterBlurContainer;
     private ObservableScrollView scrollView;
-    private RelativeLayout ratingBarContainer;
+    private RelativeLayout ratingBarContainer, firstVideoControl;
 
     /**
      * @param movie
@@ -143,6 +148,8 @@ public class MovieFragment extends Fragment implements ObservableScrollViewCallb
         synopsis = (TextView) view.findViewById(R.id.synopsis);
         homepage = (TextView) view.findViewById(R.id.homepage);
         listCast = (RecyclerView) view.findViewById(R.id.cast);
+        firstVideoImage = (ImageView) view.findViewById(R.id.first_video_thumbnail);
+        firstVideoControl = (RelativeLayout) view.findViewById(R.id.first_video_control);
         videoContainer = (LinearLayout) view.findViewById(R.id.video_container);
         listImages = (ExpandableHeightGridView) view.findViewById(R.id.images);
         listVideos = (ExpandableHeightGridView) view.findViewById(R.id.videos);
@@ -173,6 +180,14 @@ public class MovieFragment extends Fragment implements ObservableScrollViewCallb
                 }
             });
         }
+
+        //first video
+        firstVideoControl.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                PlayerActivity_.intent(getActivity()).videoKey(movie.getVideos().get(0).getKey()).start();
+            }
+        });
 
         //scroll settingup
         height = UnitsUtils.getScreenPercentHeightSize(getActivity(), 83f);
@@ -436,11 +451,38 @@ public class MovieFragment extends Fragment implements ObservableScrollViewCallb
                     if(0 == movie.getVideos().size()){
                         videoContainer.setVisibility(View.GONE);
                     } else {
-                        Log.d(genyus.com.whichmovie.classes.Log.TAG, "movie videos get");
-                        VideoAdapter videoAdapter = new VideoAdapter(getContext(), movie.getVideos());
-                        listVideos.setNumColumns(2);
-                        listVideos.setAdapter(videoAdapter);
-                        listVideos.setExpanded(true);
+                        PicassoTrustAll.getInstance(getActivity()).load(YouTubeThumbnail.getUrlFromVideoId(movie.getVideos().get(0).getKey(), Quality.MAXIMUM)).placeholder(android.R.color.transparent).into(firstVideoImage, new Callback() {
+                            @Override
+                            public void onSuccess() {
+                                //nothing
+                            }
+
+                            @Override
+                            public void onError() {
+                                PicassoTrustAll.getInstance(getActivity()).load(YouTubeThumbnail.getUrlFromVideoId(movie.getVideos().get(0).getKey(), Quality.DEFAULT)).placeholder(android.R.color.transparent).into(firstVideoImage);
+                            }
+                        });
+                        firstVideoImage.setOnClickListener(new View.OnClickListener() {
+                            @Override
+                            public void onClick(View view) {
+                                PlayerActivity_.intent(getActivity()).videoKey(movie.getVideos().get(0).getKey()).start();
+                            }
+                        });
+
+                        if(1 < movie.getVideos().size()){
+                            ArrayList<Video> listVideo =  movie.getVideos();
+                            if(listVideo.size() >= 5){
+                                listVideo = new ArrayList<>( movie.getVideos().subList(1, 5));
+                            } else {
+                                listVideo = new ArrayList<>( movie.getVideos().subList(1, movie.getVideos().size()-1));
+                            }
+
+                            Log.d(genyus.com.whichmovie.classes.Log.TAG, "movie videos get");
+                            VideoAdapter videoAdapter = new VideoAdapter(getContext(),listVideo);
+                            listVideos.setNumColumns(2);
+                            listVideos.setAdapter(videoAdapter);
+                            listVideos.setExpanded(true);
+                        }
                     }
                 }
             }
