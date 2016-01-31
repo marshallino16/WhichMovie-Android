@@ -7,6 +7,8 @@ import java.io.Serializable;
  */
 public class Video implements Serializable {
 
+    public final static String SITE_YOUTUBE = "YouTube";
+
     private String key;
     private String name;
     private String site;
@@ -51,5 +53,13 @@ public class Video implements Serializable {
 
     public void setSize(int size) {
         this.size = size;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if(((Video)o).getKey().equals(key)){
+            return true;
+        }
+        return false;
     }
 }

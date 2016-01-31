@@ -66,8 +66,10 @@ public class VideoSerializer {
                             video.setSize(size.getAsInt());
                         }
 
-                        if(!movie.getVideos().contains(video)) {
-                            movie.getVideos().add(video);
+                        if(!site.isJsonNull() && null != site && null != site.getAsString()){
+                            if(!movie.getVideos().contains(video) && site.getAsString().equals(Video.SITE_YOUTUBE)) {
+                                movie.getVideos().add(video);
+                            }
                         }
                     }
                 }
