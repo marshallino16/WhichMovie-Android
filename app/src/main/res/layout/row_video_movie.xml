@@ -42,9 +42,8 @@
             android:layout_height="wrap_content"
             android:layout_alignParentBottom="true"
             android:layout_alignParentRight="true"
-            android:background="@android:color/transparent"
             android:padding="8dp"
-            android:src="@drawable/ic_play_arrow_white_48dp"/>
+            android:background="@drawable/ic_play_arrow_white_48dp"/>
 
     </RelativeLayout>
 
