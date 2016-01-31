@@ -32,6 +32,9 @@
 
         <activity
             android:name=".WebviewActivity_"/>
+
+        <activity
+            android:name=".PlayerActivity_"/>
     </application>
 
 </manifest>

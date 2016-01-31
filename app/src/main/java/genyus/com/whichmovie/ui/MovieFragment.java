@@ -43,6 +43,7 @@ import genyus.com.whichmovie.R;
 import genyus.com.whichmovie.WebviewActivity_;
 import genyus.com.whichmovie.adapter.CrewRecyclerViewAdapter;
 import genyus.com.whichmovie.adapter.ImageAdapter;
+import genyus.com.whichmovie.adapter.VideoAdapter;
 import genyus.com.whichmovie.listener.OnMoviePassed;
 import genyus.com.whichmovie.model.Crew;
 import genyus.com.whichmovie.model.Genre;
@@ -80,7 +81,7 @@ public class MovieFragment extends Fragment implements ObservableScrollViewCallb
     private ImageView poster, posterBlur;
     private HashtagView hashtags;
     private RecyclerView listCast;
-    private ExpandableHeightGridView listImages;
+    private ExpandableHeightGridView listImages, listVideos;
 
     private LinearLayout header;
     private FrameLayout posterBlurContainer;
@@ -143,6 +144,7 @@ public class MovieFragment extends Fragment implements ObservableScrollViewCallb
         homepage = (TextView) view.findViewById(R.id.homepage);
         listCast = (RecyclerView) view.findViewById(R.id.cast);
         listImages = (ExpandableHeightGridView) view.findViewById(R.id.images);
+        listVideos = (ExpandableHeightGridView) view.findViewById(R.id.videos);
         posterBlurContainer = (FrameLayout) view.findViewById(R.id.posterBlurContainer);
         ratingBarContainer = (RelativeLayout) view.findViewById(R.id.ratingBarContainer);
 
@@ -428,6 +430,13 @@ public class MovieFragment extends Fragment implements ObservableScrollViewCallb
                     listImages.setNumColumns(2);
                     listImages.setAdapter(imageAdapter);
                     listImages.setExpanded(true);
+
+                    //videos
+                    Log.d(genyus.com.whichmovie.classes.Log.TAG, "movie videos get");
+                    VideoAdapter videoAdapter = new VideoAdapter(getContext(), movie.getVideos());
+                    listVideos.setNumColumns(2);
+                    listVideos.setAdapter(videoAdapter);
+                    listVideos.setExpanded(true);
                 }
             }
         });
@@ -489,9 +498,11 @@ public class MovieFragment extends Fragment implements ObservableScrollViewCallb
         ((TextView)view.findViewById(R.id.title2)).setTextColor(vibrant.getRgb());
         ((TextView)view.findViewById(R.id.title3)).setTextColor(vibrant.getRgb());
         ((TextView)view.findViewById(R.id.title4)).setTextColor(vibrant.getRgb());
+        ((TextView)view.findViewById(R.id.title5)).setTextColor(vibrant.getRgb());
         view.findViewById(R.id.line1).setBackgroundColor(vibrant.getRgb());
         view.findViewById(R.id.line2).setBackgroundColor(vibrant.getRgb());
         view.findViewById(R.id.line3).setBackgroundColor(vibrant.getRgb());
         view.findViewById(R.id.line4).setBackgroundColor(vibrant.getRgb());
+        view.findViewById(R.id.line5).setBackgroundColor(vibrant.getRgb());
     }
 }
