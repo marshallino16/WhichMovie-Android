@@ -12,6 +12,9 @@
     <string name="no_internet">No internet connection.</string>
     <string name="retry">Retry</string>
 
+    <!-- share -->
+    <string name="share">Share</string>
+
     <!-- sections -->
     <string name="overview">Overview</string>
     <string name="cast">Casting</string>
