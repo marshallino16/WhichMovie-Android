@@ -119,7 +119,9 @@ public class PhotoViewerFragment extends Fragment implements View.OnClickListene
 
                 File rootsd = Environment.getExternalStorageDirectory();
                 File dcim = new File(rootsd.getAbsolutePath() + "/DCIM");
-
+                if(!dcim.exists()){
+                    dcim.mkdir();
+                }
                 String PATH = dcim.getPath().toString() + "/" + DOWNLOAD_FOLDER + "/";
                 File folder = new File(PATH);
                 if (!folder.exists()) {
@@ -148,7 +150,7 @@ public class PhotoViewerFragment extends Fragment implements View.OnClickListene
         @Override
         protected void onPostExecute(String aLong) {
             super.onPostExecute(aLong);
-            if(aLong.equals("success")){
+            if(null != aLong && aLong.equals("success")){
                 Toast.makeText(getContext(), getResources().getString(R.string.image_saved), Toast.LENGTH_LONG).show();
             }
         }

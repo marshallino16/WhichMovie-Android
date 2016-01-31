@@ -21,6 +21,7 @@ import genyus.com.whichmovie.listener.OnMoviePassed;
 import genyus.com.whichmovie.model.Movie;
 import genyus.com.whichmovie.session.GlobalVars;
 import genyus.com.whichmovie.task.listener.OnMoviesListener;
+import genyus.com.whichmovie.task.manager.RegistrationManager;
 import genyus.com.whichmovie.task.manager.RequestManager;
 import genyus.com.whichmovie.ui.MovieFragment;
 import genyus.com.whichmovie.utils.ObjectUtils;
@@ -79,6 +80,13 @@ public class MainActivity extends AppCompatActivity implements OnMoviesListener,
 
             }
         });
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        //REGISTRATION
+        RegistrationManager.registerUser(this);
     }
 
     @Override
