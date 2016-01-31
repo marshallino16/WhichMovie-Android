@@ -1,6 +1,7 @@
 package genyus.com.whichmovie.adapter;
 
 import android.content.Context;
+import android.support.v4.view.ViewCompat;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -8,6 +9,7 @@ import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 
 import com.google.android.youtube.player.YouTubeThumbnailLoader;
+import com.squareup.picasso.Callback;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -15,8 +17,10 @@ import java.util.Map;
 
 import genyus.com.whichmovie.PlayerActivity_;
 import genyus.com.whichmovie.R;
+import genyus.com.whichmovie.classes.Quality;
 import genyus.com.whichmovie.model.Video;
 import genyus.com.whichmovie.utils.PicassoTrustAll;
+import genyus.com.whichmovie.utils.YouTubeThumbnail;
 
 public class VideoAdapter extends ArrayAdapter<Video> {
 
@@ -42,8 +46,21 @@ public class VideoAdapter extends ArrayAdapter<Video> {
             convertView = inflater.inflate(R.layout.row_video_movie, null);
         }
 
-        ImageView thumbnail = (ImageView) convertView.findViewById(R.id.youtube_thumbnail_view);
-        PicassoTrustAll.getInstance(context).load("http://img.youtube.com/vi/"+listVideos.get(position).getKey()+"/maxresdefault.jpg").placeholder(android.R.color.transparent).into(thumbnail);
+        final ImageView thumbnail = (ImageView) convertView.findViewById(R.id.youtube_thumbnail_view);
+        ImageView play = (ImageView) convertView.findViewById(R.id.play);
+        ViewCompat.setElevation(play, 10f);
+
+        PicassoTrustAll.getInstance(context).load(YouTubeThumbnail.getUrlFromVideoId(listVideos.get(position).getKey(), Quality.MAXIMUM)).placeholder(android.R.color.transparent).into(thumbnail, new Callback() {
+            @Override
+            public void onSuccess() {
+                //nothing
+            }
+
+            @Override
+            public void onError() {
+                PicassoTrustAll.getInstance(context).load(YouTubeThumbnail.getUrlFromVideoId(listVideos.get(position).getKey(), Quality.DEFAULT)).placeholder(android.R.color.transparent).into(thumbnail);
+            }
+        });
         thumbnail.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {

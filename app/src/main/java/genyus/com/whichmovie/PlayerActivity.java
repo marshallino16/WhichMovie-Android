@@ -22,7 +22,7 @@ import genyus.com.whichmovie.classes.Config;
  * Created by GENyUS on 31/01/16.
  */
 @EActivity(R.layout.activity_player)
-public class PlayerActivity extends YouTubeBaseActivity implements YouTubePlayer.OnInitializedListener {
+public class PlayerActivity extends YouTubeBaseActivity implements YouTubePlayer.OnInitializedListener, YouTubePlayer.OnFullscreenListener {
 
     private static final int RECOVERY_DIALOG_REQUEST = 1;
 
@@ -83,4 +83,8 @@ public class PlayerActivity extends YouTubeBaseActivity implements YouTubePlayer
         return (YouTubePlayerView) findViewById(R.id.youtube_view);
     }
 
+    @Override
+    public void onFullscreen(boolean b) {
+
+    }
 }

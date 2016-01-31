@@ -8,7 +8,9 @@
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="140dp"
-        android:layout_margin="4dp">
+        android:layout_marginLeft="4dp"
+        android:layout_marginRight="4dp"
+        android:layout_marginTop="4dp">
 
         <ImageView
             android:id="@+id/youtube_thumbnail_view"
@@ -16,10 +18,32 @@
             android:layout_height="match_parent"
             android:scaleType="centerCrop"/>
 
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="1"/>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="1"
+                android:background="@drawable/above_shadow"/>
+
+        </LinearLayout>
+
         <ImageView
+            android:id="@+id/play"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_centerInParent="true"
+            android:layout_alignParentBottom="true"
+            android:layout_alignParentRight="true"
+            android:background="@android:color/transparent"
+            android:padding="8dp"
             android:src="@drawable/ic_play_arrow_white_48dp"/>
 
     </RelativeLayout>

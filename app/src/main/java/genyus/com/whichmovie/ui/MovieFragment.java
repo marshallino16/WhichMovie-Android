@@ -83,7 +83,7 @@ public class MovieFragment extends Fragment implements ObservableScrollViewCallb
     private RecyclerView listCast;
     private ExpandableHeightGridView listImages, listVideos;
 
-    private LinearLayout header;
+    private LinearLayout header, videoContainer;
     private FrameLayout posterBlurContainer;
     private ObservableScrollView scrollView;
     private RelativeLayout ratingBarContainer;
@@ -143,6 +143,7 @@ public class MovieFragment extends Fragment implements ObservableScrollViewCallb
         synopsis = (TextView) view.findViewById(R.id.synopsis);
         homepage = (TextView) view.findViewById(R.id.homepage);
         listCast = (RecyclerView) view.findViewById(R.id.cast);
+        videoContainer = (LinearLayout) view.findViewById(R.id.video_container);
         listImages = (ExpandableHeightGridView) view.findViewById(R.id.images);
         listVideos = (ExpandableHeightGridView) view.findViewById(R.id.videos);
         posterBlurContainer = (FrameLayout) view.findViewById(R.id.posterBlurContainer);
@@ -432,11 +433,15 @@ public class MovieFragment extends Fragment implements ObservableScrollViewCallb
                     listImages.setExpanded(true);
 
                     //videos
-                    Log.d(genyus.com.whichmovie.classes.Log.TAG, "movie videos get");
-                    VideoAdapter videoAdapter = new VideoAdapter(getContext(), movie.getVideos());
-                    listVideos.setNumColumns(2);
-                    listVideos.setAdapter(videoAdapter);
-                    listVideos.setExpanded(true);
+                    if(0 == movie.getVideos().size()){
+                        videoContainer.setVisibility(View.GONE);
+                    } else {
+                        Log.d(genyus.com.whichmovie.classes.Log.TAG, "movie videos get");
+                        VideoAdapter videoAdapter = new VideoAdapter(getContext(), movie.getVideos());
+                        listVideos.setNumColumns(2);
+                        listVideos.setAdapter(videoAdapter);
+                        listVideos.setExpanded(true);
+                    }
                 }
             }
         });
