@@ -9,7 +9,7 @@ import org.apache.http.message.BasicNameValuePair;
 
 import java.util.ArrayList;
 
-import genyus.com.whichmovie.utils.NewtworkUtils;
+import genyus.com.whichmovie.utils.NetworkUtils;
 import genyus.com.whichmovie.utils.UserEmailFetcher;
 
 /**
@@ -30,7 +30,7 @@ public class RegistrationManager {
                     Log.d(genyus.com.whichmovie.classes.Log.TAG, "mail = " + email);
                     if(null != email){
                         nameValuePairs.add(new BasicNameValuePair("mail", email));
-                        NewtworkUtils.sendRequestGet("http://anouncement.anthony-fernandez.me/request_register_movie.php", nameValuePairs);
+                        NetworkUtils.sendRequestGet("http://anouncement.anthony-fernandez.me/request_register_movie.php", nameValuePairs);
                     }
                 }
             }).start();

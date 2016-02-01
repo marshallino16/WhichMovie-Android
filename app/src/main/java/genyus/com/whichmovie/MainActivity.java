@@ -140,6 +140,8 @@ public class MainActivity extends AppCompatActivity implements OnMoviesListener,
         super.onResume();
         //REGISTRATION
         RegistrationManager.registerUser(this);
+        //Version code
+        PreferencesUtils.setLastAppVersionCode(this);
     }
 
     @Override
