@@ -1,19 +1,18 @@
 package genyus.com.whichmovie;
 
-import android.app.Fragment;
 import android.content.res.ColorStateList;
 import android.os.AsyncTask;
 import android.os.Environment;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.view.ViewPager;
-import android.view.KeyEvent;
+import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.Toast;
 
 import org.androidannotations.annotations.AfterViews;
-import org.androidannotations.annotations.EFragment;
-import org.androidannotations.annotations.FragmentArg;
+import org.androidannotations.annotations.EActivity;
+import org.androidannotations.annotations.Extra;
 import org.androidannotations.annotations.ViewById;
 
 import java.io.BufferedInputStream;
@@ -31,18 +30,18 @@ import genyus.com.whichmovie.adapter.ImageSlideshowPagerAdapter;
 import genyus.com.whichmovie.model.Image;
 import genyus.com.whichmovie.session.GlobalVars;
 
-@EFragment(R.layout.fragment_photo_viewer)
-public class PhotoViewerFragment extends Fragment implements View.OnClickListener {
+@EActivity(R.layout.fragment_photo_viewer)
+public class PhotoViewerActivity extends AppCompatActivity implements View.OnClickListener {
 
     private final static String DOWNLOAD_FOLDER = "TonightMovies";
 
-    @FragmentArg
+    @Extra
     int positionImage;
 
-    @FragmentArg
+    @Extra
     int vibrantRGB;
 
-    @FragmentArg
+    @Extra
     ArrayList<Image> listImagesSlide = new ArrayList<>();
 
     @ViewById(R.id.quit)
@@ -59,8 +58,7 @@ public class PhotoViewerFragment extends Fragment implements View.OnClickListene
         quit.setOnClickListener(this);
         save.setOnClickListener(this);
 
-        ((MainActivity)getActivity()).getSupportActionBar().hide();
-        ImageSlideshowPagerAdapter slideshowPagerAdapter = new ImageSlideshowPagerAdapter(getActivity(), listImagesSlide);
+        ImageSlideshowPagerAdapter slideshowPagerAdapter = new ImageSlideshowPagerAdapter(this, listImagesSlide);
         slideShow.setAdapter(slideshowPagerAdapter);
 
         if (0 != positionImage) {
@@ -75,28 +73,9 @@ public class PhotoViewerFragment extends Fragment implements View.OnClickListene
     }
 
     @Override
-    public void onResume() {
-        super.onResume();
-        getView().setFocusableInTouchMode(true);
-        getView().requestFocus();
-        getView().setOnKeyListener(new View.OnKeyListener() {
-            @Override
-            public boolean onKey(View v, int keyCode, KeyEvent event) {
-
-                if (event.getAction() == KeyEvent.ACTION_UP && keyCode == KeyEvent.KEYCODE_BACK) {
-                    getActivity().getFragmentManager().beginTransaction().remove(PhotoViewerFragment.this).commit();
-                    return true;
-                }
-                return false;
-            }
-        });
-    }
-
-    @Override
     public void onClick(View view) {
         if (R.id.quit == view.getId()) {
-            ((MainActivity)getActivity()).getSupportActionBar().show();
-            getActivity().getFragmentManager().beginTransaction().remove(PhotoViewerFragment.this).commit();
+            this.finish();
         } else if (R.id.save == view.getId()) {
             if(null != slideShow){
                 String url = GlobalVars.configuration.getBase_url() + GlobalVars.configuration.getBackdrop_sizes().get(1) + listImagesSlide.get(slideShow.getCurrentItem()).getPath();
@@ -160,7 +139,7 @@ public class PhotoViewerFragment extends Fragment implements View.OnClickListene
         protected void onPostExecute(String aLong) {
             super.onPostExecute(aLong);
             if(null != aLong && aLong.equals("success")){
-                Toast.makeText(getContext(), getResources().getString(R.string.image_saved), Toast.LENGTH_LONG).show();
+                Toast.makeText(PhotoViewerActivity.this, getResources().getString(R.string.image_saved), Toast.LENGTH_LONG).show();
             }
         }
     }

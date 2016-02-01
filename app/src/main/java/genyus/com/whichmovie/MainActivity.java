@@ -57,7 +57,7 @@ public class MainActivity extends AppCompatActivity implements OnMoviesListener,
 
         movieAdapter = new MoviePagerAdapter(this.getSupportFragmentManager(), new ArrayList<MovieFragment>(), this);
         swipePager.setAdapter(movieAdapter);
-        swipePager.setOffscreenPageLimit(1);
+        swipePager.setOffscreenPageLimit(0);
         swipePager.setPagingEnabled(false);
 
         categoryAdapter = new CategoryAdapter(this, R.layout.row_spinner_categories, GlobalVars.genres);

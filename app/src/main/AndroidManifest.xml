@@ -42,6 +42,10 @@
             android:name=".PlayerActivity_"
             android:configChanges="keyboardHidden|orientation|screenSize"/>
 
+        <activity
+            android:name=".PhotoViewerActivity_"
+            android:configChanges="keyboardHidden|orientation|screenSize"/>
+
     </application>
 
 </manifest>

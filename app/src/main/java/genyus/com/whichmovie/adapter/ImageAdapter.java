@@ -1,6 +1,5 @@
 package genyus.com.whichmovie.adapter;
 
-import android.app.FragmentTransaction;
 import android.content.Context;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -11,9 +10,7 @@ import android.widget.ImageView;
 
 import java.util.ArrayList;
 
-import genyus.com.whichmovie.MainActivity;
-import genyus.com.whichmovie.PhotoViewerFragment;
-import genyus.com.whichmovie.PhotoViewerFragment_;
+import genyus.com.whichmovie.PhotoViewerActivity_;
 import genyus.com.whichmovie.R;
 import genyus.com.whichmovie.model.Image;
 import genyus.com.whichmovie.session.GlobalVars;
@@ -51,12 +48,7 @@ public class ImageAdapter extends ArrayAdapter<Image> {
             @Override
             public void onClick(View view) {
                 Log.d(genyus.com.whichmovie.classes.Log.TAG, "click image");
-                PhotoViewerFragment fragment = PhotoViewerFragment_.builder().positionImage(position).listImagesSlide(listImages).vibrantRGB(parentFragment.vibrantRGB).build();
-                FragmentTransaction transaction = ((MainActivity)context).getFragmentManager().beginTransaction();
-                Log.d(genyus.com.whichmovie.classes.Log.TAG, "fragment = " + fragment);
-                transaction.setTransitionStyle(FragmentTransaction.TRANSIT_FRAGMENT_FADE);
-                transaction.replace(fragmentContainer, fragment, null);
-                transaction.addToBackStack(null).commit();
+                PhotoViewerActivity_.intent(getContext()).positionImage(position).listImagesSlide(listImages).vibrantRGB(parentFragment.vibrantRGB).start();
             }
         });
 
