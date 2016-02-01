@@ -122,14 +122,14 @@ public class PhotoViewerActivity extends AppCompatActivity implements View.OnCli
                     dcim.mkdir();
                 }
 
-                /*String PATH = dcim.getPath().toString() + "/" + DOWNLOAD_FOLDER + "/";
+                String PATH = dcim.getPath().toString() + "/" + DOWNLOAD_FOLDER + "/";
                 File folder = new File(PATH);
                 if (!folder.exists()) {
                     folder.mkdir();
-                }*/
+                }
 
                 InputStream input = new BufferedInputStream(url.openStream());
-                OutputStream output = new FileOutputStream(dcim + "/" + targetFileName);
+                OutputStream output = new FileOutputStream(PATH + targetFileName);
                 byte data[] = new byte[1024];
                 long total = 0;
                 while ((count = input.read(data)) != -1) {
