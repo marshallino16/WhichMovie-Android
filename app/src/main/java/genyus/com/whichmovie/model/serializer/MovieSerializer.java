@@ -14,6 +14,7 @@ import java.util.List;
 import genyus.com.whichmovie.model.Movie;
 import genyus.com.whichmovie.session.GlobalVars;
 import genyus.com.whichmovie.task.listener.OnMoviesListener;
+import genyus.com.whichmovie.task.listener.OnNewMoviesListener;
 
 /**
  * Created by anthony on 11/30/15.
@@ -131,6 +132,101 @@ public class MovieSerializer {
         GlobalVars.movies.clear();
         GlobalVars.movies.addAll(movies);
         callback.OnMoviesGet();
+    }
+
+    public static void fillNewMoviesObject(String json, OnNewMoviesListener callback) {
+
+        ArrayList<Movie> movies = new ArrayList<>();
+
+        JsonParser parser = new JsonParser();
+        JsonObject jo = (JsonObject) parser.parse(json);
+        JsonArray ja = jo.getAsJsonArray(ARRAY_RESULT);
+
+        if (null != ja) {
+            for (JsonElement obj : ja) {
+
+                Movie movie = new Movie();
+                JsonObject movieObject = obj.getAsJsonObject();
+
+                JsonElement id = movieObject.get(OBJECT_ID);
+                JsonElement adult = movieObject.get(OBJET_ADULT);
+                JsonElement backdrop = movieObject.get(OBJECT_BACKDROP);
+                JsonElement genre = movieObject.get(ARRAY_GENRE);
+                JsonElement langage = movieObject.get(OBJECT_LANGAGE);
+                JsonElement origine_title = movieObject.get(OBJECT_ORIGINE_TITLE);
+                JsonElement overview = movieObject.get(OBJECT_OVERVIEW);
+                JsonElement date = movieObject.get(OBJECT_DATE);
+                JsonElement poster = movieObject.get(OBJECT_POSTER);
+                JsonElement popularity = movieObject.get(OBJECT_POP);
+                JsonElement title = movieObject.get(OBJECT_TITLE);
+                JsonElement video = movieObject.get(OBJET_VIDEO);
+                JsonElement vote_average = movieObject.get(OBJECT_VOTE_AVERAGE);
+                JsonElement vote_count = movieObject.get(OBJECT_VOTE_COUNT);
+
+                if(!id.isJsonNull() && null != id){
+                    movie.setId(id.getAsInt());
+                }
+
+                if(!adult.isJsonNull() && null != adult){
+                    movie.setAdult(adult.getAsBoolean());
+                }
+
+                if(!backdrop.isJsonNull() && null != backdrop && null != backdrop.getAsString() && !backdrop.getAsString().isEmpty()){
+                    movie.setBackdrop_path(backdrop.getAsString());
+                }
+
+                if(!genre.isJsonNull() && null != genre && null != genre.getAsJsonArray()){
+                    Type listType = new TypeToken<List<Integer>>() {}.getType();
+                    ArrayList<Integer> genres = new Gson().fromJson(genre.getAsJsonArray(), listType);
+                    movie.setGenre_ids(genres);
+                }
+
+                if(!langage.isJsonNull() && null != langage && null != langage.getAsString() && !langage.getAsString().isEmpty()){
+                    movie.setOriginal_language(langage.getAsString());
+                }
+
+                if(!origine_title.isJsonNull() && null != origine_title && null != origine_title.getAsString() && !origine_title.getAsString().isEmpty()){
+                    movie.setOriginal_title(origine_title.getAsString());
+                }
+
+                if(!overview.isJsonNull() && null != overview && null != overview.getAsString() && !overview.getAsString().isEmpty()){
+                    movie.setOverview(overview.getAsString());
+                }
+
+                if(!date.isJsonNull() && null != date && null != date.getAsString() && !date.getAsString().isEmpty()){
+                    movie.setRelease_date(date.getAsString());
+                }
+
+                if(!poster.isJsonNull() && null != poster && null != poster.getAsString() && !poster.getAsString().isEmpty()){
+                    movie.setPoster_path(poster.getAsString());
+                }
+
+                if(!popularity.isJsonNull() && null != popularity){
+                    movie.setPopularity(popularity.getAsDouble());
+                }
+
+                if(!title.isJsonNull() && null != title && null != title.getAsString() && !title.getAsString().isEmpty()){
+                    movie.setTitle(title.getAsString());
+                }
+
+                if(!video.isJsonNull() && null != video){
+                    movie.setVideo(video.getAsBoolean());
+                }
+
+                if(!vote_average.isJsonNull() && null != vote_average){
+                    movie.setVote_average(vote_average.getAsFloat());
+                }
+
+                if(!vote_count.isJsonNull() && null != vote_count){
+                    movie.setVote_count(vote_count.getAsInt());
+                }
+
+                movies.add(movie);
+            }
+        }
+
+        GlobalVars.movies.addAll(movies);
+        callback.OnNewMoviesGet();
     }
 
     @Deprecated

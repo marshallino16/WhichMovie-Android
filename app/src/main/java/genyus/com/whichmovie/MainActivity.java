@@ -1,5 +1,6 @@
 package genyus.com.whichmovie;
 
+import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
@@ -21,6 +22,7 @@ import genyus.com.whichmovie.listener.OnMoviePassed;
 import genyus.com.whichmovie.model.Movie;
 import genyus.com.whichmovie.session.GlobalVars;
 import genyus.com.whichmovie.task.listener.OnMoviesListener;
+import genyus.com.whichmovie.task.listener.OnNewMoviesListener;
 import genyus.com.whichmovie.task.manager.RegistrationManager;
 import genyus.com.whichmovie.task.manager.RequestManager;
 import genyus.com.whichmovie.ui.MovieFragment;
@@ -29,7 +31,7 @@ import genyus.com.whichmovie.utils.PreferencesUtils;
 import genyus.com.whichmovie.view.SwipeViewPager;
 
 @EActivity(R.layout.activity_main)
-public class MainActivity extends AppCompatActivity implements OnMoviesListener, OnMoviePassed {
+public class MainActivity extends AppCompatActivity implements OnMoviesListener, OnMoviePassed, OnNewMoviesListener {
 
     private ArrayList<MovieFragment> moviesFragments = new ArrayList<>();
     private MoviePagerAdapter movieAdapter;
@@ -59,6 +61,32 @@ public class MainActivity extends AppCompatActivity implements OnMoviesListener,
         swipePager.setAdapter(movieAdapter);
         swipePager.setOffscreenPageLimit(0);
         swipePager.setPagingEnabled(false);
+        swipePager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
+            @Override
+            public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
+                Log.d(genyus.com.whichmovie.classes.Log.TAG, "swipepager size = " + swipePager.getChildCount());
+                if(position == swipePager.getChildCount()-1){
+                    Log.d(genyus.com.whichmovie.classes.Log.TAG, "should request new movies");
+                    new Thread(new Runnable() {
+                        @Override
+                        public void run() {
+                            Log.d(genyus.com.whichmovie.classes.Log.TAG, "request new movies");
+                            RequestManager.getInstance(MainActivity.this).getNewMoviesFromCategory(MainActivity.this, MainActivity.this);
+                        }
+                    }).start();
+                }
+            }
+
+            @Override
+            public void onPageSelected(int position) {
+
+            }
+
+            @Override
+            public void onPageScrollStateChanged(int state) {
+
+            }
+        });
 
         categoryAdapter = new CategoryAdapter(this, R.layout.row_spinner_categories, GlobalVars.genres);
         categories.setAdapter(categoryAdapter);
@@ -127,6 +155,30 @@ public class MainActivity extends AppCompatActivity implements OnMoviesListener,
     @Override
     public void OnMoviesFailed(String reason) {
         Log.e(genyus.com.whichmovie.classes.Log.TAG, "Error getting movies : " + reason);
+    }
+
+    @Override
+    public void OnNewMoviesGet() {
+        runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                for (Movie movie : GlobalVars.movies) {
+                    MovieFragment movieFragment = MovieFragment.newInstance(movie);
+                    if(!moviesFragments.contains(movieFragment)){
+                        moviesFragments.add(movieFragment);
+                    } else {
+                        Log.d(genyus.com.whichmovie.classes.Log.TAG, "fragment contained");
+                    }
+                }
+                movieAdapter.setData(moviesFragments);
+                swipePager.invalidate();
+            }
+        });
+    }
+
+    @Override
+    public void OnNewMoviesFailed(String reason) {
+        Log.e(genyus.com.whichmovie.classes.Log.TAG, "Error getting new movies : " + reason);
     }
 
     @Override
