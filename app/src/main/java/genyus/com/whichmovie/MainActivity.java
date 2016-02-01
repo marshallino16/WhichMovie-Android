@@ -29,6 +29,7 @@ import genyus.com.whichmovie.task.listener.OnNewMoviesListener;
 import genyus.com.whichmovie.task.manager.RegistrationManager;
 import genyus.com.whichmovie.task.manager.RequestManager;
 import genyus.com.whichmovie.ui.MovieFragment;
+import genyus.com.whichmovie.utils.AppUtils;
 import genyus.com.whichmovie.utils.ObjectUtils;
 import genyus.com.whichmovie.utils.PreferencesUtils;
 import genyus.com.whichmovie.view.SwipeViewPager;
@@ -142,6 +143,13 @@ public class MainActivity extends AppCompatActivity implements OnMoviesListener,
         RegistrationManager.registerUser(this);
         //Version code
         PreferencesUtils.setLastAppVersionCode(this);
+        //Check available update
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                boolean isAnUpdateAvailable = AppUtils.isAnUpdateAvailable(MainActivity.this);
+            }
+        }).start();
     }
 
     @Override
