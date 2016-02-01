@@ -41,16 +41,39 @@ android {
     }
     buildTypes {
         release {
-            minifyEnabled false
+            minifyEnabled true
             //shrinkResources true
+
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
         debug {
             //minifyEnabled true
             //shrinkResources true
+
+            versionNameSuffix "_INT"
             applicationIdSuffix '.debug'
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+        }
+
+    }
+
+    // Customize generated apk's name
+    applicationVariants.all { variant ->
+        def buildTypeName = variant.buildType.name
+        def flavorName = variant.productFlavors[0].name;
+        variant.outputs.each { output ->
+            def outputFile = output.outputFile
+            if (outputFile != null && outputFile.name.endsWith('.apk')) {
+                def fileName = "${buildTypeName}/${flavorName}/" + buildTypeName + "_" + flavorName + "_" + defaultConfig.versionName + "_" + defaultConfig.versionCode + ".apk"
+                output.outputFile = new File(outputFile.parent, fileName)
+            }
         }
     }
+
+    productFlavors {
+        tonightsmovie
+    }
+
     packagingOptions {
         exclude 'META-INF/LICENSE.txt'
         exclude 'META-INF/LICENSE'
@@ -60,15 +83,19 @@ android {
 }
 
 dependencies {
+    final SUPPORT_LIBRARY_VERSION = '23.1.1'
+
     compile fileTree(dir: 'libs', include: ['*.jar'])
     compile files('libs/YouTubeAndroidPlayerApi.jar')
     testCompile 'junit:junit:4.12'
+
+    compile "com.android.support:appcompat-v7:$SUPPORT_LIBRARY_VERSION"
+    compile "com.android.support:palette-v7:$SUPPORT_LIBRARY_VERSION"
+    compile "com.android.support:design:$SUPPORT_LIBRARY_VERSION"
+    compile "com.android.support:percent:$SUPPORT_LIBRARY_VERSION"
+
     compile 'com.google.code.gson:gson:2.2.4'
-    compile 'com.android.support:appcompat-v7:23.1.1'
-    compile 'com.android.support:design:23.1.1'
-    compile 'com.android.support:percent:23.1.0'
     compile 'com.google.android.gms:play-services-analytics:7.3.0'
-    compile 'com.android.support:palette-v7:23.1.1'
 
     compile 'com.github.greenfrvr:hashtag-view:1.2.1'
     compile 'com.squareup.picasso:picasso:2.5.2'
