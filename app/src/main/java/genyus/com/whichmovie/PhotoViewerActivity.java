@@ -34,7 +34,7 @@ import genyus.com.whichmovie.adapter.ImageSlideshowPagerAdapter;
 import genyus.com.whichmovie.model.Image;
 import genyus.com.whichmovie.session.GlobalVars;
 
-@EActivity(R.layout.fragment_photo_viewer)
+@EActivity(R.layout.activity_photo_viewer)
 public class PhotoViewerActivity extends AppCompatActivity implements View.OnClickListener {
 
     private final static String DOWNLOAD_FOLDER = "TonightMovies";
