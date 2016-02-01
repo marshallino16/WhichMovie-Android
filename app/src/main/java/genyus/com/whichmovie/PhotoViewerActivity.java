@@ -1,7 +1,10 @@
 package genyus.com.whichmovie;
 
+import android.annotation.TargetApi;
+import android.content.pm.PackageManager;
 import android.content.res.ColorStateList;
 import android.os.AsyncTask;
+import android.os.Build;
 import android.os.Environment;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.view.ViewPager;
@@ -78,7 +81,8 @@ public class PhotoViewerActivity extends AppCompatActivity implements View.OnCli
             this.finish();
         } else if (R.id.save == view.getId()) {
             if(null != slideShow){
-                String url = GlobalVars.configuration.getBase_url() + GlobalVars.configuration.getBackdrop_sizes().get(1) + listImagesSlide.get(slideShow.getCurrentItem()).getPath();
+                askForPermission();
+                final String url = GlobalVars.configuration.getBase_url() + GlobalVars.configuration.getBackdrop_sizes().get(GlobalVars.configuration.getBackdrop_sizes().size()-1) + listImagesSlide.get(slideShow.getCurrentItem()).getPath();
                 new DownloadFile().execute(url);
             }
         }
@@ -105,19 +109,19 @@ public class PhotoViewerActivity extends AppCompatActivity implements View.OnCli
                 String targetFileName = timeStamp + ".png";//Change name and subname
                 int lenghtOfFile = conexion.getContentLength();
 
-                File rootsd = Environment.getExternalStorageDirectory();
-                File dcim = new File(rootsd.getAbsolutePath() + "/DCIM");
+                File dcim = new File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES).toURI().toString().replace("file:",""));
                 if(!dcim.exists()){
                     dcim.mkdir();
                 }
-                String PATH = dcim.getPath().toString() + "/" + DOWNLOAD_FOLDER + "/";
+
+                /*String PATH = dcim.getPath().toString() + "/" + DOWNLOAD_FOLDER + "/";
                 File folder = new File(PATH);
                 if (!folder.exists()) {
-                    folder.mkdir();//If there is no folder it will be created.
-                }
+                    folder.mkdir();
+                }*/
 
                 InputStream input = new BufferedInputStream(url.openStream());
-                OutputStream output = new FileOutputStream(PATH + targetFileName);
+                OutputStream output = new FileOutputStream(dcim + "/" + targetFileName);
                 byte data[] = new byte[1024];
                 long total = 0;
                 while ((count = input.read(data)) != -1) {
@@ -141,6 +145,28 @@ public class PhotoViewerActivity extends AppCompatActivity implements View.OnCli
             if(null != aLong && aLong.equals("success")){
                 Toast.makeText(PhotoViewerActivity.this, getResources().getString(R.string.image_saved), Toast.LENGTH_LONG).show();
             }
+        }
+    }
+
+    private boolean shouldAskPermission(){
+        return(Build.VERSION.SDK_INT>Build.VERSION_CODES.LOLLIPOP_MR1);
+    }
+
+    @TargetApi(Build.VERSION_CODES.M)
+    private void askForPermission(){
+        if(shouldAskPermission()){
+            String[] perms = {"android.permission. WRITE_EXTERNAL_STORAGE"};
+            int permsRequestCode = 200;
+            requestPermissions(perms, permsRequestCode);
+        }
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int permsRequestCode, String[] permissions, int[] grantResults){
+        switch(permsRequestCode){
+            case 200:
+                boolean writeAccepted = grantResults[0]== PackageManager.PERMISSION_GRANTED;
+                break;
         }
     }
 }

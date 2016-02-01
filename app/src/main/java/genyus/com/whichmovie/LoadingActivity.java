@@ -101,6 +101,7 @@ public class LoadingActivity extends AppCompatActivity implements OnConfiguratio
     @UiThread(propagation = UiThread.Propagation.REUSE)
     void goToNextActivity() {
         MainActivity_.intent(LoadingActivity.this).start();
+        LoadingActivity.this.finish();
     }
 
     private void initGlobalVars(){

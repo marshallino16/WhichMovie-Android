@@ -167,7 +167,9 @@ public class MovieFragment extends Fragment implements ObservableScrollViewCallb
         posterBlurContainer.setAlpha(0);
 
         //header image loading
-        PicassoTrustAll.getInstance(getActivity()).load(GlobalVars.configuration.getBase_url() + GlobalVars.configuration.getPoster_sizes().get(GlobalVars.configuration.getPoster_sizes().size() - 2) + movie.getPoster_path()).noPlaceholder().into(targetPoster);
+        if(null != GlobalVars.configuration){
+            PicassoTrustAll.getInstance(getActivity()).load(GlobalVars.configuration.getBase_url() + GlobalVars.configuration.getPoster_sizes().get(GlobalVars.configuration.getPoster_sizes().size() - 2) + movie.getPoster_path()).noPlaceholder().into(targetPoster);
+        }
 
         title.setText(""+Html.fromHtml("<b>"+movie.getTitle()+"</b>"));
         synopsis.setText("" + movie.getOverview());
