@@ -41,7 +41,7 @@ public class CurrencyTextView extends TextView {
                 DecimalFormat decimalFormat = new DecimalFormat("###,###,###,###", symbols);
                 price = decimalFormat.format(Integer.parseInt(text.toString()));
             }catch (Exception e){
-                e.printStackTrace();
+                //nothing to clear logs
             }
 
             super.setText(Html.fromHtml("<b>$</b> "+price.replaceAll(",", " ")), type);

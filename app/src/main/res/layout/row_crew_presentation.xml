@@ -6,35 +6,27 @@
               android:background="@android:color/transparent"
               android:orientation="vertical">
 
+    <genyus.com.whichmovie.view.FontTextView
+        android:id="@+id/cast_name_charac"
+        android:layout_width="100dp"
+        android:layout_height="wrap_content"
+        android:background="@color/overlay"
+        android:gravity="center"
+        android:maxLines="2"
+        android:minLines="2"
+        android:padding="5dp"
+        android:textColor="@android:color/white"/>
+
     <RelativeLayout
         android:layout_width="100dp"
         android:layout_height="127dp">
 
-        <ImageView android:id="@+id/profile"
-                   xmlns:android="http://schemas.android.com/apk/res/android"
-                   android:layout_width="match_parent"
-                   android:layout_height="match_parent"
-                   android:clickable="true"
-                   android:focusable="true"
-                   android:scaleType="centerCrop"/>
-
-        <RelativeLayout
-            android:id="@+id/overlay"
+        <ImageView
+            android:id="@+id/profile"
+            xmlns:android="http://schemas.android.com/apk/res/android"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:background="@color/overlay"
-            android:visibility="gone">
-
-            <genyus.com.whichmovie.view.FontTextView
-                android:id="@+id/cast_name_charac"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_centerInParent="true"
-                android:gravity="center"
-                android:padding="5dp"
-                android:textColor="@android:color/white"/>
-
-        </RelativeLayout>
+            android:scaleType="centerCrop"/>
 
     </RelativeLayout>
 
@@ -44,8 +36,8 @@
         android:layout_height="wrap_content"
         android:background="@color/overlay"
         android:gravity="center"
-        android:minLines="2"
         android:maxLines="2"
+        android:minLines="2"
         android:padding="5dp"
         android:textColor="@android:color/white"/>
 

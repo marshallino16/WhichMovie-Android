@@ -19,6 +19,7 @@
     <string name="image_saved">Image has been saved successfully.</string>
 
     <!-- sections -->
+    <string name="as">as</string>
     <string name="overview">Overview</string>
     <string name="cast">Casting</string>
     <string name="production_companie">Production companies</string>

@@ -282,9 +282,10 @@
                 <android.support.v7.widget.RecyclerView
                     android:id="@+id/cast"
                     android:layout_width="match_parent"
-                    android:layout_height="180dp"
+                    android:layout_height="203dp"
                     android:divider="@android:color/transparent"
                     android:dividerHeight="1dp"
+                    android:descendantFocusability="afterDescendants"
                     android:paddingLeft="@dimen/activity_horizontal_margin"/>
 
                 <LinearLayout

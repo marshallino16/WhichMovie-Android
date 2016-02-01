@@ -2,6 +2,8 @@ package genyus.com.whichmovie.adapter;
 
 import android.content.Context;
 import android.support.v7.widget.RecyclerView;
+import android.text.Html;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -33,7 +35,6 @@ public class CrewRecyclerViewAdapter extends RecyclerView.Adapter<CrewRecyclerVi
             profile = (ImageView) itemView.findViewById(R.id.profile);
             name = (TextView) itemView.findViewById(R.id.cast_name);
             nameCharac = (TextView) itemView.findViewById(R.id.cast_name_charac);
-            overlay = (RelativeLayout) itemView.findViewById(R.id.overlay);
             itemView.setOnClickListener(this);
         }
 
@@ -76,13 +77,11 @@ public class CrewRecyclerViewAdapter extends RecyclerView.Adapter<CrewRecyclerVi
         if(null == crew.getCharacter() || crew.getCharacter().isEmpty()){
             holder.nameCharac.setVisibility(View.INVISIBLE);
         } else {
-            holder.nameCharac.setText(""+crew.getCharacter());
+            holder.nameCharac.setText(Html.fromHtml("<i>"+context.getResources().getString(R.string.as)+" "+crew.getCharacter()+"</i>"));
         }
 
         if(crew.isClicked){
-            holder.overlay.setVisibility(View.VISIBLE);
-        } else {
-            holder.overlay.setVisibility(View.GONE);
+            Log.d(genyus.com.whichmovie.classes.Log.TAG, "crew is clicked");
         }
     }
 
