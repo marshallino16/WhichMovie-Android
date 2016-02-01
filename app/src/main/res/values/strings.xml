@@ -4,6 +4,9 @@
     <string name="action_settings">Settings</string>
     <string name="unknown">unknown</string>
 
+    <!-- branch -->
+    <string name="branch_link">https://bnc.lt/get-tonights-movie-app</string>
+
     <!-- version -->
     <string name="version">version 1.0.0.alpha.INT</string>
     <string name="made_in_france">made with ❤ for you in France.</string>

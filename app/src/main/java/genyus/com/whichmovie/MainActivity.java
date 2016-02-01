@@ -1,5 +1,6 @@
 package genyus.com.whichmovie;
 
+import android.content.Intent;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
@@ -12,7 +13,9 @@ import android.widget.Spinner;
 
 import org.androidannotations.annotations.AfterViews;
 import org.androidannotations.annotations.EActivity;
+import org.androidannotations.annotations.Extra;
 import org.androidannotations.annotations.ViewById;
+import org.json.JSONObject;
 
 import java.util.ArrayList;
 
@@ -29,14 +32,22 @@ import genyus.com.whichmovie.ui.MovieFragment;
 import genyus.com.whichmovie.utils.ObjectUtils;
 import genyus.com.whichmovie.utils.PreferencesUtils;
 import genyus.com.whichmovie.view.SwipeViewPager;
+import io.branch.referral.Branch;
+import io.branch.referral.BranchError;
 
 @EActivity(R.layout.activity_main)
 public class MainActivity extends AppCompatActivity implements OnMoviesListener, OnMoviePassed, OnNewMoviesListener {
+
+    //deeplinking
+    Branch branch;
 
     private ArrayList<MovieFragment> moviesFragments = new ArrayList<>();
     private ArrayList<Movie> movies = new ArrayList<>();
     private MoviePagerAdapter movieAdapter;
     private CategoryAdapter categoryAdapter;
+
+    @Extra
+    Intent appLaunchIntent;
 
     @ViewById(R.id.toolbar)
     Toolbar toolbar;
@@ -112,10 +123,31 @@ public class MainActivity extends AppCompatActivity implements OnMoviesListener,
     }
 
     @Override
+    protected void onStart() {
+        super.onStart();
+        branch = Branch.getInstance(this.getApplicationContext());
+        Branch.BranchReferralInitListener branchReferralInitListener = new Branch.BranchReferralInitListener() {
+            @Override
+            public void onInitFinished(JSONObject referringParams, BranchError error) {
+
+            }
+        };
+        branch.initSession(branchReferralInitListener, this.getIntent().getData(), this);
+    }
+
+    @Override
     protected void onResume() {
         super.onResume();
         //REGISTRATION
         RegistrationManager.registerUser(this);
+    }
+
+    @Override
+    protected void onStop() {
+        super.onStop();
+        if(null != branch){
+            branch.closeSession();
+        }
     }
 
     @Override

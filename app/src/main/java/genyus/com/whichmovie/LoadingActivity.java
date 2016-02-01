@@ -1,5 +1,6 @@
 package genyus.com.whichmovie;
 
+import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.Typeface;
 import android.util.Log;
@@ -79,9 +80,14 @@ public class LoadingActivity extends MovieActivity implements OnConfigurationLis
         //flakeView.resume();
     }
 
+    @Override
+    public void onNewIntent(Intent intent) {
+        this.setIntent(intent);
+    }
+
     @UiThread(propagation = UiThread.Propagation.REUSE)
     void goToNextActivity() {
-        MainActivity_.intent(LoadingActivity.this).start();
+        MainActivity_.intent(LoadingActivity.this).appLaunchIntent(getIntent()).start();
         LoadingActivity.this.finish();
     }
 
