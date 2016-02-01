@@ -108,7 +108,7 @@ public class MainActivity extends AppCompatActivity implements OnMoviesListener,
 
     @Override
     public void onBackPressed() {
-        //super.onBackPressed();
+        super.onBackPressed();
     }
 
     @Override
