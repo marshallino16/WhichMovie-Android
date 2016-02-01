@@ -198,6 +198,12 @@ public class MovieFragment extends Fragment implements ObservableScrollViewCallb
         margin.setLayoutParams(new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, Math.round(height)));
         //scrollView.setTouchInterceptionViewGroup((ViewGroup) view.findViewById(R.id.fragment_root));
         scrollView.setScrollViewCallbacks(this);
+        ScrollUtils.addOnGlobalLayoutListener(scrollView, new Runnable() {
+            @Override
+            public void run() {
+                scrollView.scrollTo(0, 0);
+            }
+        });
 
         //rating
         progressAlpha = new View(getActivity(), null);
