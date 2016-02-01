@@ -34,6 +34,7 @@ import genyus.com.whichmovie.view.SwipeViewPager;
 public class MainActivity extends AppCompatActivity implements OnMoviesListener, OnMoviePassed, OnNewMoviesListener {
 
     private ArrayList<MovieFragment> moviesFragments = new ArrayList<>();
+    private ArrayList<Movie> movies = new ArrayList<>();
     private MoviePagerAdapter movieAdapter;
     private CategoryAdapter categoryAdapter;
 
@@ -162,7 +163,14 @@ public class MainActivity extends AppCompatActivity implements OnMoviesListener,
         runOnUiThread(new Runnable() {
             @Override
             public void run() {
-                for (Movie movie : GlobalVars.movies) {
+                ArrayList<Movie> moviesTemp = new ArrayList<>();
+                for(int j=0 ; j < GlobalVars.movies.size() ; ++j){
+                    if(!movies.contains(GlobalVars.movies.get(j))){
+                        movies.add(GlobalVars.movies.get(j));
+                        moviesTemp.add(GlobalVars.movies.get(j));
+                    }
+                }
+                for (Movie movie : moviesTemp) {
                     MovieFragment movieFragment = MovieFragment.newInstance(movie);
                     if(!moviesFragments.contains(movieFragment)){
                         moviesFragments.add(movieFragment);
@@ -198,7 +206,9 @@ public class MainActivity extends AppCompatActivity implements OnMoviesListener,
     }
 
     private void generateFragmentFromMovies(){
+        movies.clear();
         moviesFragments.clear();
+        movies.addAll(GlobalVars.movies);
         for (Movie movie : GlobalVars.movies) {
             MovieFragment movieFragment = MovieFragment.newInstance(movie);
             moviesFragments.add(movieFragment);

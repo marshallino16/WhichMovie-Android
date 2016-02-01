@@ -227,4 +227,12 @@ public class Movie implements Serializable {
     public void setVideos(ArrayList<Video> videos) {
         this.videos = videos;
     }
+
+    @Override
+    public boolean equals(Object o) {
+        if(((Movie)o).getId() == id){
+            return true;
+        }
+        return false;
+    }
 }
