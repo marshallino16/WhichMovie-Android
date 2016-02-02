@@ -53,6 +53,8 @@
             android:configChanges="keyboardHidden|orientation|screenSize"
             android:theme="@style/AppTheme.NoActionBar.Black"/>
 
+        <service android:name=".service.NotifyService"/>
+
         <meta-data
             android:name="io.fabric.ApiKey"
             android:value="29e85922062e770b3e92ff822e2d3749231c8a48"/>
