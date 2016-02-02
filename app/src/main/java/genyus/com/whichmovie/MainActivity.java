@@ -171,6 +171,7 @@ public class MainActivity extends AppCompatActivity implements OnMoviesListener,
         int id = item.getItemId();
 
         if (id == R.id.action_settings) {
+            PreferencesActivity_.intent(this).start();
             return true;
         } else if (id == R.id.action_share){
             String title =  moviesFragments.get(swipePager.getCurrentItem()).movie.getTitle();

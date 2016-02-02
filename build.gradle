@@ -19,6 +19,7 @@ allprojects {
     repositories {
         jcenter()
         maven { url 'http://Manabu-GT.github.com/GlassView/mvn-repo' }
+        maven { url "https://jitpack.io" }
     }
 }
 

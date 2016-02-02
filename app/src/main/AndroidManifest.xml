@@ -44,6 +44,11 @@
             android:configChanges="keyboardHidden|orientation|screenSize"/>
 
         <activity
+            android:name=".PreferencesActivity_"
+            android:configChanges="keyboardHidden|orientation|screenSize"
+            android:theme="@style/AppTheme.ActionBar"/>
+
+        <activity
             android:name=".PhotoViewerActivity_"
             android:configChanges="keyboardHidden|orientation|screenSize"
             android:theme="@style/AppTheme.NoActionBar.Black"/>
@@ -54,7 +59,7 @@
 
         <meta-data
             android:name="io.branch.sdk.BranchKey"
-            android:value="key_live_hog0hEs7lNpZiUc7PAGE7ejbzEdkzztF" />
+            android:value="key_live_hog0hEs7lNpZiUc7PAGE7ejbzEdkzztF"/>
     </application>
 
 </manifest>

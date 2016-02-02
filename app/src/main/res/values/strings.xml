@@ -4,6 +4,30 @@
     <string name="action_settings">Settings</string>
     <string name="unknown">unknown</string>
 
+    <!-- preferences -->
+    <string name="ok">cool!</string>
+    <string name="preferences">Preferences</string>
+    <string name="version_summary">made with ❤ for you by www.tonightsmovie.com</string>
+    <string name="general">General</string>
+    <string name="movie_preference">Reset preferences</string>
+    <string name="reset_movie_preference">reset all movie preferences</string>
+    <string name="rate">Rate us</string>
+    <string name="term_of_service_title">Terms of service</string>
+    <string name="term_of_service_summary">visit webpage</string>
+    <string name="term_of_service_url">http://tonightsmovie.com/tos</string>
+
+    <string name="crafted_app_time_and_weekday_period">We crafted this app version with love on a %1$s %2$s.</string>
+    <string name="crafted_app_precise_time_and_dom_month_hour_minute_city">More precisely, it was the %1$s of %2$s at exactly %3$s:%4$s in %5$s.</string>
+    <string name="night">night</string>
+    <string name="morning">morning</string>
+    <string name="afternoon">afternoon</string>
+    <string name="evening">evening</string>
+    <string name="minute_date_format">mm a</string>
+    <string name="dom_th_and_dom">%sth</string>
+    <string name="dom_st_and_dom">%sst</string>
+    <string name="dom_nd_and_dom">%snd</string>
+    <string name="dom_rd_and_dom">%srd</string>
+
     <!-- branch -->
     <string name="branch_link">https://bnc.lt/get-tonights-movie-app</string>
 

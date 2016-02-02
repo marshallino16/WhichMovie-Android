@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <PreferenceCategory
+        android:key="category_general"
+        android:title="@string/general">
+        <Preference
+            android:key="resetMoviePreferences"
+            android:summary="@string/reset_movie_preference"
+            android:title="@string/movie_preference"/>
+
+    </PreferenceCategory>
+    <PreferenceCategory
+        android:key="category_about"
+        android:title="@string/app_name">
+        <PreferenceScreen
+            android:key="rate"
+            android:title="@string/rate"/>
+        <PreferenceScreen
+            android:key="tos"
+            android:summary="@string/term_of_service_summary"
+            android:title="@string/term_of_service_title"/>
+        <CheckBoxPreference
+            android:defaultValue="false"
+            android:key="checkboxToCheck"
+            android:title="Checkbox to check"/>
+        <PreferenceScreen
+            android:key="version"
+            android:summary="@string/version_summary"
+            android:title="@string/version"/>
+    </PreferenceCategory>
+
+</PreferenceScreen>
