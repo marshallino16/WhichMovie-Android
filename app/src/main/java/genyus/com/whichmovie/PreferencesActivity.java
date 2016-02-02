@@ -23,7 +23,6 @@ import genyus.com.whichmovie.classes.AppCompatPreferenceActivity;
 import genyus.com.whichmovie.listener.NegativeReviewListener;
 import genyus.com.whichmovie.listener.ReviewListener;
 import genyus.com.whichmovie.utils.AnalyticsEventUtils;
-import genyus.com.whichmovie.utils.PreferencesUtils;
 import genyus.com.whichmovie.view.RatingDialog;
 
 @EActivity
@@ -66,13 +65,12 @@ public class PreferencesActivity extends AppCompatPreferenceActivity {
                 final RatingDialog fiveStarsDialog = new RatingDialog(PreferencesActivity.this, "dev.genyus@gmail.com");
                 fiveStarsDialog.setRateText("That kind of you!\nWhy don't you take 5 seconds to rate us? \nAnd do not forget, we love you very much!")
                         .setTitle("So rate us maybe")
-                        .setForceMode(false)
+                        .setForceMode(true)
                         .setUpperBound(4)
                         .setNegativeReviewListener(new NegativeReviewListener() {
                             @Override
                             public void onNegativeReview(int i) {
                                 AnalyticsEventUtils.sendEventAction("Rate", "bad - " + i);
-                                PreferencesUtils.setRatePreference(PreferencesActivity.this, false);
                             }
                         })
                         .setReviewListener(new ReviewListener() {
@@ -80,7 +78,6 @@ public class PreferencesActivity extends AppCompatPreferenceActivity {
                             public void onReview(int i) {
                                 if (i == 4 && i == 5) {
                                     AnalyticsEventUtils.sendEventAction("Rate", "good - " + i);
-                                    PreferencesUtils.setRatePreference(PreferencesActivity.this, true);
                                     final Uri uri = Uri.parse("market://details?id="
                                             + getApplicationContext().getPackageName());
                                     final Intent rateAppIntent = new Intent(
@@ -93,7 +90,7 @@ public class PreferencesActivity extends AppCompatPreferenceActivity {
                                 }
                             }
                         })
-                        .showAfter(0);
+                        .showAfter(2000);
 
                 return true;
             }

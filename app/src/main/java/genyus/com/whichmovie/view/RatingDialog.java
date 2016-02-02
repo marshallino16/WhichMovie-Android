@@ -115,14 +115,7 @@ public class RatingDialog implements DialogInterface.OnClickListener {
 
     public void showAfter(int numberOfAccess) {
         this.build();
-        SharedPreferences.Editor editor = this.sharedPrefs.edit();
-        int numOfAccess = this.sharedPrefs.getInt("numOfAccess", 0);
-        editor.putInt("numOfAccess", numOfAccess + 1);
-        editor.apply();
-        if(numOfAccess + 1 >= numberOfAccess) {
-            this.show();
-        }
-
+        this.show();
     }
 
     public void onClick(DialogInterface dialogInterface, int i) {
@@ -137,14 +130,14 @@ public class RatingDialog implements DialogInterface.OnClickListener {
                 this.openMarket();
             }
 
-            this.disable();
+            //this.disable();
             if(this.reviewListener != null) {
                 this.reviewListener.onReview((int)this.ratingBar.getRating());
             }
         }
 
         if(i == -3) {
-            this.disable();
+            //this.disable();
         }
 
         if(i == -2) {
