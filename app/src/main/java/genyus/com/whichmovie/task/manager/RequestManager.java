@@ -26,6 +26,7 @@ import genyus.com.whichmovie.task.listener.OnMovieInfoListener;
 import genyus.com.whichmovie.task.listener.OnMovieVideoListener;
 import genyus.com.whichmovie.task.listener.OnMoviesListener;
 import genyus.com.whichmovie.task.listener.OnNewMoviesListener;
+import genyus.com.whichmovie.utils.AppUtils;
 import genyus.com.whichmovie.utils.PreferencesUtils;
 import genyus.com.whichmovie.utils.UnitsUtils;
 
@@ -111,6 +112,9 @@ public class RequestManager {
         nameValuePairs.add(new BasicNameValuePair("with_genres", String.valueOf(PreferencesUtils.getDefaultCategory(context))));
         nameValuePairs.add(new BasicNameValuePair("include_adult", "true"));
         nameValuePairs.add(new BasicNameValuePair("release_date.lte", UnitsUtils.getNowTime()));
+        if(AppUtils.isDeviceInFrench()){
+            nameValuePairs.add(new BasicNameValuePair("language", "fr"));
+        }
 
         RequestReturn returnedCode = RequestSender.sendRequestGet(APIConst.API_BASE_URL, APIConst.API_LIST_MOVIES_CATEGORY, nameValuePairs);
         if (null != returnedCode && !returnedCode.json.contains("Authentication error")) {
@@ -142,6 +146,9 @@ public class RequestManager {
         nameValuePairs.add(new BasicNameValuePair("include_adult", "true"));
         nameValuePairs.add(new BasicNameValuePair("page", String.valueOf(GlobalVars.getPage())));
         nameValuePairs.add(new BasicNameValuePair("release_date.lte", UnitsUtils.getNowTime()));
+        if(AppUtils.isDeviceInFrench()){
+            nameValuePairs.add(new BasicNameValuePair("language", "fr"));
+        }
 
         RequestReturn returnedCode = RequestSender.sendRequestGet(APIConst.API_BASE_URL, APIConst.API_LIST_MOVIES_CATEGORY, nameValuePairs);
         if (null != returnedCode && !returnedCode.json.contains("Authentication error")) {
@@ -169,6 +176,9 @@ public class RequestManager {
         currentAttempt += 1;
         ArrayList<NameValuePair> nameValuePairs = new ArrayList<>();
         nameValuePairs.add(new BasicNameValuePair("api_key", APIConst.API_TOKEN));
+        if(AppUtils.isDeviceInFrench()){
+            nameValuePairs.add(new BasicNameValuePair("language", "fr"));
+        }
         RequestReturn returnedCode = RequestSender.sendRequestGet(APIConst.API_BASE_URL, APIConst.API_INFO_MOVIE(movieId), nameValuePairs);
         if (null != returnedCode && !returnedCode.json.contains("Authentication error")) {
             if (200 == returnedCode.code) {
@@ -233,6 +243,9 @@ public class RequestManager {
         currentAttempt += 1;
         ArrayList<NameValuePair> nameValuePairs = new ArrayList<>();
         nameValuePairs.add(new BasicNameValuePair("api_key", APIConst.API_TOKEN));
+        if(AppUtils.isDeviceInFrench()){
+            nameValuePairs.add(new BasicNameValuePair("language", "fr"));
+        }
         RequestReturn returnedCode = RequestSender.sendRequestGet(APIConst.API_BASE_URL, APIConst.API_CREW_MOVIE(movieId), nameValuePairs);
         if (null != returnedCode && !returnedCode.json.contains("Authentication error")) {
             if (200 == returnedCode.code) {
@@ -259,6 +272,9 @@ public class RequestManager {
         currentAttempt += 1;
         ArrayList<NameValuePair> nameValuePairs = new ArrayList<>();
         nameValuePairs.add(new BasicNameValuePair("api_key", APIConst.API_TOKEN));
+        if(AppUtils.isDeviceInFrench()){
+            nameValuePairs.add(new BasicNameValuePair("language", "fr"));
+        }
         RequestReturn returnedCode = RequestSender.sendRequestGet(APIConst.API_BASE_URL, APIConst.API_IMAGES_MOVIE(movieId), nameValuePairs);
         if (null != returnedCode && !returnedCode.json.contains("Authentication error")) {
             if (200 == returnedCode.code) {
@@ -285,6 +301,9 @@ public class RequestManager {
         currentAttempt += 1;
         ArrayList<NameValuePair> nameValuePairs = new ArrayList<>();
         nameValuePairs.add(new BasicNameValuePair("api_key", APIConst.API_TOKEN));
+        if(AppUtils.isDeviceInFrench()){
+            nameValuePairs.add(new BasicNameValuePair("language", "fr"));
+        }
         RequestReturn returnedCode = RequestSender.sendRequestGet(APIConst.API_BASE_URL, APIConst.API_VIDEOS_MOVIE(movieId), nameValuePairs);
         if (null != returnedCode && !returnedCode.json.contains("Authentication error")) {
             if (200 == returnedCode.code) {

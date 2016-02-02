@@ -53,8 +53,8 @@ public class AppUtils {
 
     public final static boolean isDeviceInFrench(){
         String language = Locale.getDefault().getDisplayLanguage();
-        Log.d(genyus.com.whichmovie.classes.Log.TAG, "langage = " + language);
-        if(language.equals("French")){
+        Log.w(genyus.com.whichmovie.classes.Log.TAG, "langage = " + language);
+        if(language.equals("français")){
             return true;
         } else {
             return false;
