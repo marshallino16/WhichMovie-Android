@@ -431,7 +431,7 @@ public class MovieFragment extends Fragment implements ObservableScrollViewCallb
 
     @Override
     public void OnMovieCrewGet() {
-        if(null != this.getActivity()){
+        if(null != this){
             this.getActivity().runOnUiThread(new Runnable() {
                 @Override
                 public void run() {
@@ -465,7 +465,7 @@ public class MovieFragment extends Fragment implements ObservableScrollViewCallb
 
     @Override
     public void OnMovieImageGet() {
-        if(null != this.getActivity()){
+        if(null != this){
             this.getActivity().runOnUiThread(new Runnable() {
                 @Override
                 public void run() {
@@ -491,7 +491,7 @@ public class MovieFragment extends Fragment implements ObservableScrollViewCallb
 
     @Override
     public void OnMovieVideoGet() {
-        if(null != this.getActivity()){
+        if(null != this){
             this.activity.runOnUiThread(new Runnable() {
                 @Override
                 public void run() {
