@@ -2,6 +2,8 @@ package genyus.com.whichmovie.utils;
 
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.preference.PreferenceManager;
+import android.util.Log;
 
 import genyus.com.whichmovie.BuildConfig;
 
@@ -48,4 +50,41 @@ public class PreferencesUtils {
         editor.putInt(KEY_VERSION_CODE, versionCode);
         editor.commit();
     }
+
+    public final static String PREFS_NAME = "location";
+    public final static String PREFS_RATE = "rate";
+
+    public static void setRatePreference(Context c, boolean value) {
+        SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(c);
+        SharedPreferences.Editor editor = preferences.edit();
+        editor.putBoolean(PREFS_RATE, value);
+        editor.apply();
+    }
+
+    public static boolean getRatePreference(Context c) {
+        SharedPreferences settings = PreferenceManager.getDefaultSharedPreferences(c);
+        boolean value = settings.getBoolean(PREFS_RATE, false);
+        return value;
+    }
+
+    public static void setPreference(Context c, String value) {
+        SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(c);
+        SharedPreferences.Editor editor = preferences.edit();
+        editor.putString(PREFS_NAME, value);
+        editor.apply();
+    }
+
+    public static String getPreference(Context c) {
+        SharedPreferences settings = PreferenceManager.getDefaultSharedPreferences(c);
+        String value = settings.getString(PREFS_NAME, null);
+        return value;
+    }
+
+    public static String getPromoCodeText(Context c){
+        SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(c);
+        String prefEditText = sharedPreferences.getString("promo", "default");
+        Log.d(genyus.com.whichmovie.classes.Log.TAG, "Promo = " + prefEditText);
+        return prefEditText;
+    }
+
 }

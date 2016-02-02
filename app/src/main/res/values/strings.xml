@@ -11,6 +11,7 @@
     <!-- preferences -->
     <string name="ok">cool!</string>
     <string name="preferences">Preferences</string>
+    <string name="thank">Thank you for checking!</string>
     <string name="version_summary">made with ❤ for you by www.tonightsmovie.com</string>
     <string name="general">General</string>
     <string name="movie_preference">Reset preferences</string>

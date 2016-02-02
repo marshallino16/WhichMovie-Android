@@ -100,6 +100,7 @@ dependencies {
     compile 'com.squareup.okhttp:okhttp-urlconnection:2.2.0'
     compile 'com.github.ksoichiro:android-observablescrollview:1.6.0'
     apt "org.androidannotations:androidannotations:3.3.2"
+    compile 'com.github.Angtrim:Android-Five-Stars-Library:v3.1'
     compile 'org.androidannotations:androidannotations-api:3.3.2'
     compile('com.crashlytics.sdk.android:crashlytics:2.5.5@aar') {
         transitive = true;

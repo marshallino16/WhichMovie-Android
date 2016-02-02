@@ -20,6 +20,11 @@ import java.util.zip.ZipEntry;
 import java.util.zip.ZipFile;
 
 import genyus.com.whichmovie.classes.AppCompatPreferenceActivity;
+import genyus.com.whichmovie.listener.NegativeReviewListener;
+import genyus.com.whichmovie.listener.ReviewListener;
+import genyus.com.whichmovie.utils.AnalyticsEventUtils;
+import genyus.com.whichmovie.utils.PreferencesUtils;
+import genyus.com.whichmovie.view.RatingDialog;
 
 @EActivity
 public class PreferencesActivity extends AppCompatPreferenceActivity {
@@ -45,7 +50,10 @@ public class PreferencesActivity extends AppCompatPreferenceActivity {
             @Override
             public boolean onPreferenceChange(Preference preference, Object newValue) {
                 if ((Boolean) newValue == true) {
-                } else {
+                    new MaterialDialog.Builder(PreferencesActivity.this)
+                            .content(getResources().getString(R.string.thank))
+                            .positiveText(R.string.ok)
+                            .show();
                 }
                 return true;
             }
@@ -55,7 +63,38 @@ public class PreferencesActivity extends AppCompatPreferenceActivity {
         ratePreference.setOnPreferenceClickListener(new CustomPreferenceClickListener() {
             @Override
             public boolean onClick(android.preference.Preference preference) {
-                PreferencesActivity.this.startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("market://details?id=" + getPackageName())));
+                final RatingDialog fiveStarsDialog = new RatingDialog(PreferencesActivity.this, "dev.genyus@gmail.com");
+                fiveStarsDialog.setRateText("That kind of you!\nWhy don't you take 5 seconds to rate us? \nAnd do not forget, we love you very much!")
+                        .setTitle("So rate us maybe")
+                        .setForceMode(false)
+                        .setUpperBound(4)
+                        .setNegativeReviewListener(new NegativeReviewListener() {
+                            @Override
+                            public void onNegativeReview(int i) {
+                                AnalyticsEventUtils.sendEventAction("Rate", "bad - " + i);
+                                PreferencesUtils.setRatePreference(PreferencesActivity.this, false);
+                            }
+                        })
+                        .setReviewListener(new ReviewListener() {
+                            @Override
+                            public void onReview(int i) {
+                                if (i == 4 && i == 5) {
+                                    AnalyticsEventUtils.sendEventAction("Rate", "good - " + i);
+                                    PreferencesUtils.setRatePreference(PreferencesActivity.this, true);
+                                    final Uri uri = Uri.parse("market://details?id="
+                                            + getApplicationContext().getPackageName());
+                                    final Intent rateAppIntent = new Intent(
+                                            Intent.ACTION_VIEW, uri);
+
+                                    if (getPackageManager().queryIntentActivities(
+                                            rateAppIntent, 0).size() > 0) {
+                                        startActivity(rateAppIntent);
+                                    }
+                                }
+                            }
+                        })
+                        .showAfter(0);
+
                 return true;
             }
         });
