@@ -476,6 +476,15 @@
                             android:background="@drawable/ic_play_arrow_white_48dp"
                             android:padding="8dp"/>
 
+                        <ImageView
+                            android:id="@+id/provider_video"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_alignParentBottom="true"
+                            android:layout_alignParentLeft="true"
+                            android:layout_margin="8dp"
+                            android:background="@drawable/youtube"/>
+
                     </RelativeLayout>
 
                     <genyus.com.whichmovie.view.ExpandableHeightGridView
