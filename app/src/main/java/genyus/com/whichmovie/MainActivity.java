@@ -150,6 +150,8 @@ public class MainActivity extends AppCompatActivity implements OnMoviesListener,
                 boolean isAnUpdateAvailable = AppUtils.isAnUpdateAvailable(MainActivity.this);
             }
         }).start();
+        //Notification
+        AppUtils.configureNotification(this);
     }
 
     @Override

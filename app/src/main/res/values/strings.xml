@@ -4,6 +4,10 @@
     <string name="action_settings">Settings</string>
     <string name="unknown">unknown</string>
 
+    <!-- notification -->
+    <string name="notification_title">Psssst!</string>
+    <string name="notification_message">Wondering which movie you gonna watch tonight this evening?</string>
+
     <!-- preferences -->
     <string name="ok">cool!</string>
     <string name="preferences">Preferences</string>

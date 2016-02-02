@@ -1,13 +1,19 @@
 package genyus.com.whichmovie.utils;
 
+import android.app.AlarmManager;
+import android.app.PendingIntent;
 import android.content.Context;
+import android.content.Intent;
 import android.util.Log;
 
 import org.jsoup.Jsoup;
 
 import java.io.IOException;
+import java.util.Calendar;
+import java.util.Locale;
 
 import genyus.com.whichmovie.BuildConfig;
+import genyus.com.whichmovie.service.NotifyService;
 
 /**
  * Created by GENyUS on 02/02/16.
@@ -45,4 +51,28 @@ public class AppUtils {
         }
     }
 
+    public final static boolean isDeviceInFrench(){
+        String language = Locale.getDefault().getDisplayLanguage();
+        Log.d(genyus.com.whichmovie.classes.Log.TAG, "langage = " + language);
+        if(language.equals("French")){
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+    public final static void configureNotification(Context context){
+        Intent myIntent = new Intent(context, NotifyService.class);
+        AlarmManager alarmManager = (AlarmManager)context.getSystemService(context.ALARM_SERVICE);
+        PendingIntent pendingIntent = PendingIntent.getService(context, 0, myIntent, 0);
+
+        Calendar calendar = Calendar.getInstance();
+        calendar.set(Calendar.SECOND, 0);
+        calendar.set(Calendar.MINUTE, 0);
+        calendar.set(Calendar.HOUR, 7);
+        calendar.set(Calendar.AM_PM, Calendar.PM);
+        calendar.add(Calendar.DAY_OF_MONTH, 7);
+
+        alarmManager.setRepeating(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(), 1000*60*60*24 , pendingIntent);
+    }
 }
