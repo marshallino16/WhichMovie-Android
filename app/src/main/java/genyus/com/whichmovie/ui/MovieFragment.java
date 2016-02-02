@@ -73,7 +73,7 @@ public class MovieFragment extends Fragment implements ObservableScrollViewCallb
 
     private Activity activity;
 
-    private Movie movie;
+    public Movie movie;
     private View view;
 
     public int vibrantRGB = -1;
@@ -366,6 +366,42 @@ public class MovieFragment extends Fragment implements ObservableScrollViewCallb
 
     @Override
     public void OnMovieInfosGet() {
+        this.getActivity().runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                //infos
+                title.setText(Html.fromHtml("<b>" + movie.getTitle() + "</b><small> - "+movie.getRuntime()+" min</small>"));
+                if(0 != movie.getBudget()){
+                    budget.setText(""+movie.getBudget());
+                } else {
+                    budget.setText(R.string.unknown);
+                }
+
+                if(0 != movie.getRevenue()){
+                    revenue.setText(""+movie.getRevenue());
+                } else {
+                    revenue.setText(R.string.unknown);
+                }
+
+                //production
+                CharSequence companies = null;
+                for(int i=0 ; i<movie.getProductionCompanies().size() ; ++i){
+                    if(null != companies){
+                        if(i == movie.getProductionCompanies().size()-1){
+                            companies = android.text.TextUtils.concat(companies, Html.fromHtml(" & "+"<i><u>"+movie.getProductionCompanies().get(i)+"</u></i>"));
+                        } else {
+                            companies = android.text.TextUtils.concat(companies, Html.fromHtml(", "+"<i><u>"+movie.getProductionCompanies().get(i)+"</u></i> "));
+                        }
+                    } else {
+                        companies = Html.fromHtml(getResources().getString(R.string.producted_by)+" "+"<i><u>"+movie.getProductionCompanies().get(i)+"</u></i> ");
+                    }
+                }
+                for(int i=0 ; i<movie.getProductionCompanies().size() ; ++i){
+
+                }
+                productionCompanies.setText(companies);
+            }
+        });
     }
 
     @Override
@@ -375,6 +411,29 @@ public class MovieFragment extends Fragment implements ObservableScrollViewCallb
 
     @Override
     public void OnMovieCrewGet() {
+        this.getActivity().runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                //crew
+                ArrayList<Crew> listCrew = movie.getCrew();
+                if(listCrew.size() > 21){
+                    listCrew = new ArrayList<>(movie.getCrew().subList(0, 20));
+                }
+                final CrewRecyclerViewAdapter castAdapter = new CrewRecyclerViewAdapter(getActivity(), listCrew);
+                castAdapter.setOnItemClickListener(new CrewRecyclerViewAdapter.OnCrewItemClickListener() {
+                    @Override
+                    public void onItemClick(int position, View v) {
+                        if(movie.getCrew().get(position).isClicked){
+                            movie.getCrew().get(position).isClicked = false;
+                        } else {
+                            movie.getCrew().get(position).isClicked = true;
+                        }
+                        castAdapter.notifyDataSetChanged();
+                    }
+                });
+                listCast.setAdapter(castAdapter);
+            }
+        });
     }
 
     @Override
@@ -384,6 +443,21 @@ public class MovieFragment extends Fragment implements ObservableScrollViewCallb
 
     @Override
     public void OnMovieImageGet() {
+        this.getActivity().runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                //images
+                ArrayList<Image> listImage =  movie.getImages();
+                if(listImage.size() > 10){
+                    listImage = new ArrayList<>( movie.getImages().subList(0, 9));
+                }
+                Log.d(genyus.com.whichmovie.classes.Log.TAG, "movie image get");
+                ImageAdapter imageAdapter = new ImageAdapter(getContext(), listImage, MovieFragment.this, R.id.fragment_root);
+                listImages.setNumColumns(2);
+                listImages.setAdapter(imageAdapter);
+                listImages.setExpanded(true);
+            }
+        });
     }
 
     @Override
@@ -397,68 +471,6 @@ public class MovieFragment extends Fragment implements ObservableScrollViewCallb
             @Override
             public void run() {
                 if (null != getActivity()) {
-                    //infos
-                    title.setText(Html.fromHtml("<b>" + movie.getTitle() + "</b><small> - "+movie.getRuntime()+" min</small>"));
-                    if(0 != movie.getBudget()){
-                        budget.setText(""+movie.getBudget());
-                    } else {
-                        budget.setText(R.string.unknown);
-                    }
-
-                    if(0 != movie.getRevenue()){
-                        revenue.setText(""+movie.getRevenue());
-                    } else {
-                        revenue.setText(R.string.unknown);
-                    }
-
-                    //production
-                    CharSequence companies = null;
-                    for(int i=0 ; i<movie.getProductionCompanies().size() ; ++i){
-                        if(null != companies){
-                            if(i == movie.getProductionCompanies().size()-1){
-                                companies = android.text.TextUtils.concat(companies, Html.fromHtml(" & "+"<i><u>"+movie.getProductionCompanies().get(i)+"</u></i>"));
-                            } else {
-                                companies = android.text.TextUtils.concat(companies, Html.fromHtml(", "+"<i><u>"+movie.getProductionCompanies().get(i)+"</u></i> "));
-                            }
-                        } else {
-                            companies = Html.fromHtml(getResources().getString(R.string.producted_by)+" "+"<i><u>"+movie.getProductionCompanies().get(i)+"</u></i> ");
-                        }
-                    }
-                    for(int i=0 ; i<movie.getProductionCompanies().size() ; ++i){
-
-                    }
-                    productionCompanies.setText(companies);
-
-                    //crew
-                    ArrayList<Crew> listCrew = movie.getCrew();
-                    if(listCrew.size() > 21){
-                        listCrew = new ArrayList<>(movie.getCrew().subList(0, 20));
-                    }
-                    final CrewRecyclerViewAdapter castAdapter = new CrewRecyclerViewAdapter(getActivity(), listCrew);
-                    castAdapter.setOnItemClickListener(new CrewRecyclerViewAdapter.OnCrewItemClickListener() {
-                        @Override
-                        public void onItemClick(int position, View v) {
-                            if(movie.getCrew().get(position).isClicked){
-                                movie.getCrew().get(position).isClicked = false;
-                            } else {
-                                movie.getCrew().get(position).isClicked = true;
-                            }
-                            castAdapter.notifyDataSetChanged();
-                        }
-                    });
-                    listCast.setAdapter(castAdapter);
-
-                    //images
-                    ArrayList<Image> listImage =  movie.getImages();
-                    if(listImage.size() > 10){
-                        listImage = new ArrayList<>( movie.getImages().subList(0, 9));
-                    }
-                    Log.d(genyus.com.whichmovie.classes.Log.TAG, "movie image get");
-                    ImageAdapter imageAdapter = new ImageAdapter(getContext(), listImage, MovieFragment.this, R.id.fragment_root);
-                    listImages.setNumColumns(2);
-                    listImages.setAdapter(imageAdapter);
-                    listImages.setExpanded(true);
-
                     //videos
                     if(0 == movie.getVideos().size()){
                         videoContainer.setVisibility(View.GONE);
