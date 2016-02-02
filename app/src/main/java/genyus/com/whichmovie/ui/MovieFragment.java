@@ -380,48 +380,49 @@ public class MovieFragment extends Fragment implements ObservableScrollViewCallb
 
     @Override
     public void OnMovieInfosGet() {
-        this.getActivity().runOnUiThread(new Runnable() {
-            @Override
-            public void run() {
-                //infos
-                try {
-                    title.setText(Html.fromHtml("<b>" + new String(movie.getTitle().getBytes("ISO-8859-1")) + "</b><small> - "+movie.getRuntime()+" min</small>"));
-                }catch (UnsupportedEncodingException e) {
-                    e.printStackTrace();
-                    title.setText(Html.fromHtml("<b>" + movie.getTitle() + "</b><small> - "+movie.getRuntime()+" min</small>"));
-                }
-
-                if(0 != movie.getBudget()){
-                    budget.setText(""+movie.getBudget());
-                } else {
-                    budget.setText(R.string.unknown);
-                }
-
-                if(0 != movie.getRevenue()){
-                    revenue.setText(""+movie.getRevenue());
-                } else {
-                    revenue.setText(R.string.unknown);
-                }
-
-                //production
-                CharSequence companies = null;
-                for(int i=0 ; i<movie.getProductionCompanies().size() ; ++i){
-                    if(null != companies){
-                        if(i == movie.getProductionCompanies().size()-1){
-                            companies = android.text.TextUtils.concat(companies, Html.fromHtml(" & "+"<i><u>"+movie.getProductionCompanies().get(i)+"</u></i>"));
-                        } else {
-                            companies = android.text.TextUtils.concat(companies, Html.fromHtml(", "+"<i><u>"+movie.getProductionCompanies().get(i)+"</u></i> "));
-                        }
-                    } else {
-                        companies = Html.fromHtml(getResources().getString(R.string.producted_by)+" "+"<i><u>"+movie.getProductionCompanies().get(i)+"</u></i> ");
+        if(null != this && null != activity && isAdded()) {
+            activity.runOnUiThread(new Runnable() {
+                @Override
+                public void run() {
+                    //infos
+                    try {
+                        title.setText(Html.fromHtml("<b>" + new String(movie.getTitle().getBytes("ISO-8859-1")) + "</b><small> - " + movie.getRuntime() + " min</small>"));
+                    } catch (UnsupportedEncodingException e) {
+                        e.printStackTrace();
+                        title.setText(Html.fromHtml("<b>" + movie.getTitle() + "</b><small> - " + movie.getRuntime() + " min</small>"));
                     }
-                }
-                for(int i=0 ; i<movie.getProductionCompanies().size() ; ++i){
 
+                    if (0 != movie.getBudget()) {
+                        budget.setText("" + movie.getBudget());
+                    } else {
+                        budget.setText(R.string.unknown);
+                    }
+
+                    if (0 != movie.getRevenue()) {
+                        revenue.setText("" + movie.getRevenue());
+                    } else {
+                        revenue.setText(R.string.unknown);
+                    }
+                    //production
+                    CharSequence companies = null;
+                    for (int i = 0; i < movie.getProductionCompanies().size(); ++i) {
+                        if (null != companies) {
+                            if (i == movie.getProductionCompanies().size() - 1) {
+                                companies = android.text.TextUtils.concat(companies, Html.fromHtml(" & " + "<i><u>" + movie.getProductionCompanies().get(i) + "</u></i>"));
+                            } else {
+                                companies = android.text.TextUtils.concat(companies, Html.fromHtml(", " + "<i><u>" + movie.getProductionCompanies().get(i) + "</u></i> "));
+                            }
+                        } else {
+                            companies = Html.fromHtml(getResources().getString(R.string.producted_by) + " " + "<i><u>" + movie.getProductionCompanies().get(i) + "</u></i> ");
+                        }
+                    }
+                    for (int i = 0; i < movie.getProductionCompanies().size(); ++i) {
+
+                    }
+                    productionCompanies.setText(companies);
                 }
-                productionCompanies.setText(companies);
-            }
-        });
+            });
+        }
     }
 
     @Override
@@ -431,8 +432,8 @@ public class MovieFragment extends Fragment implements ObservableScrollViewCallb
 
     @Override
     public void OnMovieCrewGet() {
-        if(null != this){
-            this.getActivity().runOnUiThread(new Runnable() {
+        if(null != this && null != activity && isAdded()){
+            activity.runOnUiThread(new Runnable() {
                 @Override
                 public void run() {
                     //crew
@@ -465,8 +466,8 @@ public class MovieFragment extends Fragment implements ObservableScrollViewCallb
 
     @Override
     public void OnMovieImageGet() {
-        if(null != this){
-            this.getActivity().runOnUiThread(new Runnable() {
+        if(null != this && null != activity && isAdded()){
+            activity.runOnUiThread(new Runnable() {
                 @Override
                 public void run() {
                     //images
@@ -491,8 +492,8 @@ public class MovieFragment extends Fragment implements ObservableScrollViewCallb
 
     @Override
     public void OnMovieVideoGet() {
-        if(null != this){
-            this.activity.runOnUiThread(new Runnable() {
+        if(null != this && null != activity && isAdded()){
+            activity.runOnUiThread(new Runnable() {
                 @Override
                 public void run() {
                     if (null != getActivity()) {

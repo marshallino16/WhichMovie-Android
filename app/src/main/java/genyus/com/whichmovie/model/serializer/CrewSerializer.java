@@ -60,8 +60,10 @@ public class CrewSerializer {
                     movie.getCrew().add(crew);
                 }
             }
-            callback.OnMovieCrewGet();
-            Log.w(genyus.com.whichmovie.classes.Log.TAG, "crew size = " + movie.getCrew().size());
+            if(null != callback){
+                callback.OnMovieCrewGet();
+                Log.w(genyus.com.whichmovie.classes.Log.TAG, "crew size = " + movie.getCrew().size());
+            }
         }
     }
 }

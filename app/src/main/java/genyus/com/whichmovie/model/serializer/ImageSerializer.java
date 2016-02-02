@@ -49,7 +49,9 @@ public class ImageSerializer {
                 }
             }
 
-            callback.OnMovieImageGet();
+            if(null != callback){
+                callback.OnMovieImageGet();
+            }
         }
     }
 }

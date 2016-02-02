@@ -75,7 +75,9 @@ public class VideoSerializer {
                 }
             }
 
-            callback.OnMovieVideoGet();
+            if (null != callback) {
+                callback.OnMovieVideoGet();
+            }
         }
     }
 
