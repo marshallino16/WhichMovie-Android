@@ -65,6 +65,7 @@ import genyus.com.whichmovie.utils.UnitsUtils;
 import genyus.com.whichmovie.utils.YouTubeThumbnail;
 import genyus.com.whichmovie.view.CurrencyTextView;
 import genyus.com.whichmovie.view.ExpandableHeightGridView;
+import genyus.com.whichmovie.view.ForegroundImageView;
 
 /**
  * Created by genyus on 29/11/15.
@@ -84,7 +85,8 @@ public class MovieFragment extends Fragment implements ObservableScrollViewCallb
     private View margin, overlay, progressAlpha, progress;
     private TextView title, vote, synopsis, productionCompanies, releaseDate, homepage;
     private CurrencyTextView budget, revenue;
-    private ImageView poster, posterBlur, firstVideoImage;
+    private ImageView poster, posterBlur;
+    private ForegroundImageView firstVideoImage;
     private HashtagView hashtags;
     private RecyclerView listCast;
     private ExpandableHeightGridView listImages, listVideos;
@@ -151,7 +153,7 @@ public class MovieFragment extends Fragment implements ObservableScrollViewCallb
         homepage = (TextView) view.findViewById(R.id.homepage);
         listCast = (RecyclerView) view.findViewById(R.id.cast);
         fragmentContainer = (FrameLayout) view.findViewById(R.id.fragment_root);
-        firstVideoImage = (ImageView) view.findViewById(R.id.first_video_thumbnail);
+        firstVideoImage = (ForegroundImageView) view.findViewById(R.id.first_video_thumbnail);
         firstVideoControl = (RelativeLayout) view.findViewById(R.id.first_video_control);
         videoContainer = (LinearLayout) view.findViewById(R.id.video_container);
         listImages = (ExpandableHeightGridView) view.findViewById(R.id.images);

@@ -13,6 +13,7 @@
         <item name="android:textColorSecondary">@color/colorPrimary</item>
         <item name="android:actionMenuTextColor">@color/colorPrimary</item>
         <item name="android:windowAnimationStyle">@style/AppTheme.Activity</item>
+        <item name="android:foreground">@drawable/ripple_background</item>
     </style>
 
     <style name="AppTheme.ActionBar" parent="Theme.AppCompat.Light.DarkActionBar">

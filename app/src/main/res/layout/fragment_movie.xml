@@ -3,6 +3,7 @@
     android:id="@+id/fragment_root"
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:custom="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -283,9 +284,9 @@
                     android:id="@+id/cast"
                     android:layout_width="match_parent"
                     android:layout_height="223dp"
+                    android:descendantFocusability="afterDescendants"
                     android:divider="@android:color/transparent"
                     android:dividerHeight="1dp"
-                    android:descendantFocusability="afterDescendants"
                     android:paddingLeft="@dimen/activity_horizontal_margin"/>
 
                 <LinearLayout
@@ -440,12 +441,13 @@
                         android:paddingLeft="4dp"
                         android:paddingRight="4dp">
 
-                        <ImageView
+                        <genyus.com.whichmovie.view.ForegroundImageView
                             android:id="@+id/first_video_thumbnail"
                             android:layout_width="match_parent"
                             android:layout_height="match_parent"
                             android:background="?attr/selectableItemBackgroundBorderless"
-                            android:scaleType="centerCrop"/>
+                            android:scaleType="centerCrop"
+                            custom:foreground="@drawable/ripple_background"/>
 
                         <LinearLayout
                             android:layout_width="match_parent"
