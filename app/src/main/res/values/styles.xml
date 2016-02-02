@@ -13,7 +13,7 @@
         <item name="android:textColorSecondary">@color/colorPrimary</item>
         <item name="android:actionMenuTextColor">@color/colorPrimary</item>
         <item name="android:windowAnimationStyle">@style/AppTheme.Activity</item>
-        <item name="android:foreground">@drawable/ripple_background</item>
+        <item name="android:listViewStyle">@style/AppTheme.ListView</item>
     </style>
 
     <style name="AppTheme.ActionBar" parent="Theme.AppCompat.Light.DarkActionBar">
@@ -27,12 +27,14 @@
         <item name="android:textColorSecondary">@color/colorPrimary</item>
         <item name="android:actionMenuTextColor">@color/colorPrimary</item>
         <item name="android:windowAnimationStyle">@style/AppTheme.Activity</item>
+        <item name="android:listViewStyle">@style/AppTheme.ListView</item>
     </style>
 
     <style name="AppTheme.NoActionBar">
         <item name="windowActionBar">false</item>
         <item name="windowNoTitle">true</item>
         <item name="android:windowAnimationStyle">@style/AppTheme.Activity</item>
+        <item name="android:listViewStyle">@style/AppTheme.ListView</item>
     </style>
 
     <style name="AppTheme.NoActionBar.Black">
@@ -40,6 +42,19 @@
         <item name="windowNoTitle">true</item>
         <item name="colorPrimaryDark">@android:color/black</item>
         <item name="android:windowAnimationStyle">@style/AppTheme.Activity</item>
+        <item name="android:listViewStyle">@style/AppTheme.ListView</item>
+    </style>
+
+    <style name="AppTheme.TransparentActionBar">
+        <item name="colorAccent">@color/colorAccent</item>
+        <item name="colorPrimary">@color/colorAccent</item>
+        <item name="colorPrimaryDark">@color/colorAccent</item>
+        <item name="android:textColorPrimary">@color/colorAccent</item>
+        <item name="actionMenuTextColor">@color/colorAccent</item>
+        <item name="android:textColorSecondary">@color/colorAccent</item>
+        <item name="android:actionMenuTextColor">@color/colorAccent</item>
+        <item name="android:windowAnimationStyle">@style/AppTheme.Activity</item>
+        <item name="android:listViewStyle">@style/AppTheme.ListView</item>
     </style>
 
     <style name="AppTheme.Dialog" parent="Theme.AppCompat.Light.NoActionBar">
@@ -52,18 +67,6 @@
         <item name="actionMenuTextColor">@color/colorPrimary</item>
         <item name="android:textColorSecondary">@color/colorPrimary</item>
         <item name="android:actionMenuTextColor">@color/colorPrimary</item>
-        <item name="android:windowAnimationStyle">@style/AppTheme.Activity</item>
-        <item name="android:foreground">@drawable/ripple_background</item>
-    </style>
-
-    <style name="AppTheme.TransparentActionBar">
-        <item name="colorAccent">@color/colorAccent</item>
-        <item name="colorPrimary">@color/colorAccent</item>
-        <item name="colorPrimaryDark">@color/colorAccent</item>
-        <item name="android:textColorPrimary">@color/colorAccent</item>
-        <item name="actionMenuTextColor">@color/colorAccent</item>
-        <item name="android:textColorSecondary">@color/colorAccent</item>
-        <item name="android:actionMenuTextColor">@color/colorAccent</item>
         <item name="android:windowAnimationStyle">@style/AppTheme.Activity</item>
     </style>
 
@@ -78,7 +81,12 @@
 
     <style name="AppTheme.PopupOverlay" parent="ThemeOverlay.AppCompat.Light"/>
 
-    <style name="LinearLayout" />
+    <style name="AppTheme.ListView" parent="android:Widget.ListView">
+        <item name="android:listSelector">@android:color/transparent</item>
+        <item name="android:background">@android:color/transparent</item>
+    </style>
+
+    <style name="LinearLayout"/>
 
     <style name="LinearLayout.Interests">
         <item name="android:layout_height">wrap_content</item>

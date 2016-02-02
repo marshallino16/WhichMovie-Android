@@ -7,7 +7,7 @@
         <attr name="foreground" format="reference|color"/>
         <!-- Defines whether the foreground drawable should be drawn inside the padding.
              This property is turned false by default. -->
-        <attr name="foregroundInPadding" format="boolean"/>
+        <attr name="foregroundLayoutInsidePadding" format="boolean"/>
 
         <!-- Extra feature: Retrieve the default background and set it as the foreground.
              You can get the default background selector of your theme and set it as your
