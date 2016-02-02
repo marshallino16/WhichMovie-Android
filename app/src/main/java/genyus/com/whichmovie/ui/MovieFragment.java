@@ -37,6 +37,7 @@ import com.squareup.picasso.Callback;
 import com.squareup.picasso.Picasso;
 import com.squareup.picasso.Target;
 
+import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
 
 import genyus.com.whichmovie.MainActivity;
@@ -174,8 +175,19 @@ public class MovieFragment extends Fragment implements ObservableScrollViewCallb
             PicassoTrustAll.getInstance(getActivity()).load(GlobalVars.configuration.getBase_url() + GlobalVars.configuration.getPoster_sizes().get(GlobalVars.configuration.getPoster_sizes().size() - 2) + movie.getPoster_path()).noPlaceholder().into(targetPoster);
         }
 
-        title.setText(""+Html.fromHtml("<b>"+movie.getTitle()+"</b>"));
-        synopsis.setText("" + movie.getOverview());
+        try {
+            title.setText(""+Html.fromHtml("<b>"+new String(movie.getTitle().getBytes("ISO-8859-1"))+"</b>"));
+        }catch (UnsupportedEncodingException e) {
+            e.printStackTrace();
+            title.setText(""+Html.fromHtml("<b>"+movie.getTitle()+"</b>"));
+        }
+
+        try {
+            synopsis.setText("" +  new String(movie.getOverview().getBytes("ISO-8859-1")));
+        } catch (UnsupportedEncodingException e) {
+            e.printStackTrace();
+            synopsis.setText("" + movie.getOverview());
+        }
         releaseDate.setText(getResources().getString(R.string.released)+ " " + movie.getRelease_date());
 
         //Website homepage
@@ -372,7 +384,13 @@ public class MovieFragment extends Fragment implements ObservableScrollViewCallb
             @Override
             public void run() {
                 //infos
-                title.setText(Html.fromHtml("<b>" + movie.getTitle() + "</b><small> - "+movie.getRuntime()+" min</small>"));
+                try {
+                    title.setText(Html.fromHtml("<b>" + new String(movie.getTitle().getBytes("ISO-8859-1")) + "</b><small> - "+movie.getRuntime()+" min</small>"));
+                }catch (UnsupportedEncodingException e) {
+                    e.printStackTrace();
+                    title.setText(Html.fromHtml("<b>" + movie.getTitle() + "</b><small> - "+movie.getRuntime()+" min</small>"));
+                }
+
                 if(0 != movie.getBudget()){
                     budget.setText(""+movie.getBudget());
                 } else {

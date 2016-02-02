@@ -272,9 +272,6 @@ public class RequestManager {
         currentAttempt += 1;
         ArrayList<NameValuePair> nameValuePairs = new ArrayList<>();
         nameValuePairs.add(new BasicNameValuePair("api_key", APIConst.API_TOKEN));
-        if(AppUtils.isDeviceInFrench()){
-            nameValuePairs.add(new BasicNameValuePair("language", "fr"));
-        }
         RequestReturn returnedCode = RequestSender.sendRequestGet(APIConst.API_BASE_URL, APIConst.API_IMAGES_MOVIE(movieId), nameValuePairs);
         if (null != returnedCode && !returnedCode.json.contains("Authentication error")) {
             if (200 == returnedCode.code) {
