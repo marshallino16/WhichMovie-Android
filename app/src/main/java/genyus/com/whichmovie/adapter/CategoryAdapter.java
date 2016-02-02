@@ -65,10 +65,9 @@ public class CategoryAdapter extends ArrayAdapter<Genre> {
         ViewHolder holder;
 
         if (convertView == null) {
-            convertView = inflater.inflate(textViewResourceId, null);
+            convertView = inflater.inflate(R.layout.row_spinner_sub_category, null);
 
             holder = new ViewHolder();
-
 
             convertView.setTag(holder);
         } else {
@@ -77,8 +76,6 @@ public class CategoryAdapter extends ArrayAdapter<Genre> {
 
         holder.title = (TextView) convertView.findViewById(R.id.cat_title);
         holder.title.setText(""+values.get(position).getName());
-        holder.title.setTextColor(context.getResources().getColor(R.color.colorPrimaryDark));
-        holder.title.setTextAppearance(context, android.R.style.TextAppearance);
 
         return convertView;
     }
