@@ -17,6 +17,8 @@
 
     <!-- share -->
     <string name="share">Share</string>
+    <string name="share_title">Recommand this app!</string>
+    <string name="share_message">Hey! I just discover %1$s movie via Tonight\'s movie app. \n\nFind a movie to watch tonight : https://bnc.lt/get-tonights-movie-app</string>
 
     <!-- slideshow -->
     <string name="image_saved">Image has been saved successfully.</string>

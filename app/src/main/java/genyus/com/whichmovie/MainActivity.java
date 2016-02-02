@@ -172,6 +172,15 @@ public class MainActivity extends AppCompatActivity implements OnMoviesListener,
 
         if (id == R.id.action_settings) {
             return true;
+        } else if (id == R.id.action_share){
+            String title =  moviesFragments.get(swipePager.getCurrentItem()).movie.getTitle();
+            Intent share = new Intent(android.content.Intent.ACTION_SEND);
+            share.setType("text/plain");
+            share.putExtra(Intent.EXTRA_TEXT, getResources().getString(R.string.share_message, title));
+
+            Log.d(genyus.com.whichmovie.classes.Log.TAG, "title = " + title);
+            startActivity(Intent.createChooser(share, getString(R.string.share_title)));
+            return true;
         }
 
         return super.onOptionsItemSelected(item);
