@@ -38,7 +38,7 @@
 
     <!-- update -->
     <string name="update_title">Mise à jour disponible</string>
-    <string name="update_message">Il semblerait que vous utilisez une ancienne version de Tonight\'s movie, mettez là à jour pour profiter de nouvelles fonctionnalités :)</string>
+    <string name="update_message">Il semblerait que vous utilisez une ancienne version de Tonight\'s movie, mettez la à jour pour profiter de nouvelles fonctionnalités :)</string>
     <string name="update_positive">Mettre à jour</string>
 
     <!-- version -->
@@ -46,7 +46,7 @@
     <string name="made_in_france">fait avec ❤ pour vous en France.</string>
 
     <!-- internet -->
-    <string name="no_internet">Aucun connexion internet.</string>
+    <string name="no_internet">Aucune connexion internet.</string>
     <string name="retry">Réessayer</string>
 
     <!-- share -->
