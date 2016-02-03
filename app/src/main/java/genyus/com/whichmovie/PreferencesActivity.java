@@ -23,6 +23,7 @@ import genyus.com.whichmovie.classes.AppCompatPreferenceActivity;
 import genyus.com.whichmovie.listener.NegativeReviewListener;
 import genyus.com.whichmovie.listener.ReviewListener;
 import genyus.com.whichmovie.utils.AnalyticsEventUtils;
+import genyus.com.whichmovie.utils.PreferencesUtils;
 import genyus.com.whichmovie.view.RatingDialog;
 
 @EActivity
@@ -36,6 +37,14 @@ public class PreferencesActivity extends AppCompatPreferenceActivity {
         addPreferencesFromResource(R.xml.preferences);
         getSupportActionBar().setTitle(R.string.preferences);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+
+        findPreference("resetMoviePreferences").setOnPreferenceClickListener(new CustomPreferenceClickListener() {
+            @Override
+            public boolean onClick(Preference preference) {
+                PreferencesUtils.setPagePreference(PreferencesActivity.this, 1);
+                return false;
+            }
+        });
 
         findPreference("tos").setOnPreferenceClickListener(new CustomPreferenceClickListener() {
             @Override
