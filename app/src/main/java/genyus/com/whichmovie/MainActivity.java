@@ -91,7 +91,7 @@ public class MainActivity extends AppCompatActivity implements OnMoviesListener,
             @Override
             public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
                 Log.d(genyus.com.whichmovie.classes.Log.TAG, "swipepager size = " + swipePager.getChildCount());
-                if (position == swipePager.getChildCount() - 1) {
+                if (position == swipePager.getChildCount() - 3) {
                     Log.d(genyus.com.whichmovie.classes.Log.TAG, "should request new movies");
                     new Thread(new Runnable() {
                         @Override

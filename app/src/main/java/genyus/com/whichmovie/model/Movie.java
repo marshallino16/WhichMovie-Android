@@ -16,13 +16,13 @@ public class Movie implements Serializable {
     private ArrayList<String> productionCompanies = new ArrayList<>();
     private ArrayList<Image> images = new ArrayList<>();
     private ArrayList<Video> videos = new ArrayList<>();
-    private String original_language;
-    private String original_title;
-    private String overview;
-    private String release_date;
+    private String original_language = "";
+    private String original_title = "";
+    private String overview = "";
+    private String release_date = "";
     private String poster_path;
     private Double popularity;
-    private String title;
+    private String title = "";
     private boolean video;
     private float vote_average;
     private int vote_count = 0;

@@ -171,27 +171,32 @@ public class MovieFragment extends Fragment implements ObservableScrollViewCallb
         posterBlurContainer.setAlpha(0);
 
         //header image loading
-        if(null != GlobalVars.configuration){
+        if (null != GlobalVars.configuration) {
             PicassoTrustAll.getInstance(getActivity()).load(GlobalVars.configuration.getBase_url() + GlobalVars.configuration.getPoster_sizes().get(GlobalVars.configuration.getPoster_sizes().size() - 2) + movie.getPoster_path()).noPlaceholder().into(targetPoster);
         }
 
-        try {
-            title.setText(""+Html.fromHtml("<b>"+new String(movie.getTitle().getBytes("ISO-8859-1"))+"</b>"));
-        }catch (UnsupportedEncodingException e) {
-            e.printStackTrace();
-            title.setText(""+Html.fromHtml("<b>"+movie.getTitle()+"</b>"));
+        if (null != movie.getTitle()) {
+            try {
+                title.setText("" + Html.fromHtml("<b>" + new String(movie.getTitle().getBytes("ISO-8859-1")) + "</b>"));
+            } catch (UnsupportedEncodingException e) {
+                e.printStackTrace();
+                title.setText("" + Html.fromHtml("<b>" + movie.getTitle() + "</b>"));
+            }
         }
 
-        try {
-            synopsis.setText("" +  new String(movie.getOverview().getBytes("ISO-8859-1")));
-        } catch (UnsupportedEncodingException e) {
-            e.printStackTrace();
-            synopsis.setText("" + movie.getOverview());
+        if (null != movie.getOverview()) {
+            try {
+                synopsis.setText("" + new String(movie.getOverview().getBytes("ISO-8859-1")));
+            } catch (UnsupportedEncodingException e) {
+                e.printStackTrace();
+                synopsis.setText("" + movie.getOverview());
+            }
         }
-        releaseDate.setText(getResources().getString(R.string.released)+ " " + movie.getRelease_date());
+
+        releaseDate.setText(getResources().getString(R.string.released) + " " + movie.getRelease_date());
 
         //Website homepage
-        if(null != movie.getHomepage() && !movie.getHomepage().isEmpty()){
+        if (null != movie.getHomepage() && !movie.getHomepage().isEmpty()) {
             homepage.setVisibility(View.VISIBLE);
             homepage.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -265,7 +270,7 @@ public class MovieFragment extends Fragment implements ObservableScrollViewCallb
             @Override
             public void onClick(View v) {
                 Log.d(genyus.com.whichmovie.classes.Log.TAG, "Next clicked");
-                if(activity instanceof MainActivity){
+                if (activity instanceof MainActivity) {
                     ((OnMoviePassed) activity).OnMoviePassed(MovieFragment.this);
                 }
             }
@@ -309,7 +314,7 @@ public class MovieFragment extends Fragment implements ObservableScrollViewCallb
         posterBlur.setTranslationY(ScrollUtils.getFloat(-scrollY / 2, minOverlayTransitionY, 0) / 9);
 
         overlay.setAlpha(ScrollUtils.getFloat((float) scrollY / flexibleRange, 0, 1));
-        title.setAlpha(1 - ScrollUtils.getFloat((float) scrollY/ flexibleRange, 0, 1));
+        title.setAlpha(1 - ScrollUtils.getFloat((float) scrollY / flexibleRange, 0, 1));
         posterBlurContainer.setAlpha(ScrollUtils.getFloat((float) scrollY / flexibleRange, 0, 1));
         ratingBarContainer.setAlpha(1 - ScrollUtils.getFloat((float) scrollY * 2.4f / flexibleRange, 0, 1));
         hashtags.setAlpha(1 - ScrollUtils.getFloat((float) scrollY * 2.4f / flexibleRange, 0, 1));
@@ -330,7 +335,7 @@ public class MovieFragment extends Fragment implements ObservableScrollViewCallb
 
         @Override
         public void onBitmapLoaded(Bitmap bitmap, Picasso.LoadedFrom from) {
-            poster.setImageBitmap(bitmap );
+            poster.setImageBitmap(bitmap);
             posterBlur.setImageBitmap(blurBitmap(bitmap));
 
             posterBlur.setScaleX(1.2f);
@@ -344,7 +349,7 @@ public class MovieFragment extends Fragment implements ObservableScrollViewCallb
                     Palette.Swatch vibrant = palette.getVibrantSwatch();
                     Palette.Swatch vibrantDark = palette.getDarkVibrantSwatch();
 
-                    if(null != vibrant && null != vibrantDark) {
+                    if (null != vibrant && null != vibrantDark) {
                         tintAllViews(vibrant, vibrantDark);
                     }
                 }
@@ -380,16 +385,18 @@ public class MovieFragment extends Fragment implements ObservableScrollViewCallb
 
     @Override
     public void OnMovieInfosGet() {
-        if(null != this && null != activity && isAdded()) {
+        if (null != this && null != activity && isAdded()) {
             activity.runOnUiThread(new Runnable() {
                 @Override
                 public void run() {
                     //infos
-                    try {
-                        title.setText(Html.fromHtml("<b>" + new String(movie.getTitle().getBytes("ISO-8859-1")) + "</b><small> - " + movie.getRuntime() + " min</small>"));
-                    } catch (UnsupportedEncodingException e) {
-                        e.printStackTrace();
-                        title.setText(Html.fromHtml("<b>" + movie.getTitle() + "</b><small> - " + movie.getRuntime() + " min</small>"));
+                    if (null != movie.getTitle()) {
+                        try {
+                            title.setText(Html.fromHtml("<b>" + new String(movie.getTitle().getBytes("ISO-8859-1")) + "</b><small> - " + movie.getRuntime() + " min</small>"));
+                        } catch (UnsupportedEncodingException e) {
+                            e.printStackTrace();
+                            title.setText(Html.fromHtml("<b>" + movie.getTitle() + "</b><small> - " + movie.getRuntime() + " min</small>"));
+                        }
                     }
 
                     if (0 != movie.getBudget()) {
@@ -432,20 +439,20 @@ public class MovieFragment extends Fragment implements ObservableScrollViewCallb
 
     @Override
     public void OnMovieCrewGet() {
-        if(null != this && null != activity && isAdded()){
+        if (null != this && null != activity && isAdded()) {
             activity.runOnUiThread(new Runnable() {
                 @Override
                 public void run() {
                     //crew
                     ArrayList<Crew> listCrew = movie.getCrew();
-                    if(listCrew.size() > 21){
+                    if (listCrew.size() > 21) {
                         listCrew = new ArrayList<>(movie.getCrew().subList(0, 20));
                     }
                     final CrewRecyclerViewAdapter castAdapter = new CrewRecyclerViewAdapter(getActivity(), listCrew);
                     castAdapter.setOnItemClickListener(new CrewRecyclerViewAdapter.OnCrewItemClickListener() {
                         @Override
                         public void onItemClick(int position, View v) {
-                            if(movie.getCrew().get(position).isClicked){
+                            if (movie.getCrew().get(position).isClicked) {
                                 movie.getCrew().get(position).isClicked = false;
                             } else {
                                 movie.getCrew().get(position).isClicked = true;
@@ -466,14 +473,14 @@ public class MovieFragment extends Fragment implements ObservableScrollViewCallb
 
     @Override
     public void OnMovieImageGet() {
-        if(null != this && null != activity && isAdded()){
+        if (null != this && null != activity && isAdded()) {
             activity.runOnUiThread(new Runnable() {
                 @Override
                 public void run() {
                     //images
-                    ArrayList<Image> listImage =  movie.getImages();
-                    if(listImage.size() > 10){
-                        listImage = new ArrayList<>( movie.getImages().subList(0, 9));
+                    ArrayList<Image> listImage = movie.getImages();
+                    if (listImage.size() > 10) {
+                        listImage = new ArrayList<>(movie.getImages().subList(0, 9));
                     }
                     Log.d(genyus.com.whichmovie.classes.Log.TAG, "movie image get");
                     ImageAdapter imageAdapter = new ImageAdapter(getContext(), listImage, MovieFragment.this, R.id.fragment_root);
@@ -492,13 +499,13 @@ public class MovieFragment extends Fragment implements ObservableScrollViewCallb
 
     @Override
     public void OnMovieVideoGet() {
-        if(null != this && null != activity && isAdded()){
+        if (null != this && null != activity && isAdded()) {
             activity.runOnUiThread(new Runnable() {
                 @Override
                 public void run() {
                     if (null != getActivity()) {
                         //videos
-                        if(0 == movie.getVideos().size()){
+                        if (0 == movie.getVideos().size()) {
                             videoContainer.setVisibility(View.GONE);
                         } else {
                             final String firstVideoKey = movie.getVideos().get(0).getKey();
@@ -521,16 +528,16 @@ public class MovieFragment extends Fragment implements ObservableScrollViewCallb
                             });
                             firstVideoImage.setTag(firstVideoKey);
 
-                            if(1 < movie.getVideos().size()){
-                                ArrayList<Video> listVideo =  movie.getVideos();
-                                if(listVideo.size() >= 5){
-                                    listVideo = new ArrayList<>( movie.getVideos().subList(1, 5));
+                            if (1 < movie.getVideos().size()) {
+                                ArrayList<Video> listVideo = movie.getVideos();
+                                if (listVideo.size() >= 5) {
+                                    listVideo = new ArrayList<>(movie.getVideos().subList(1, 5));
                                 } else {
-                                    listVideo = new ArrayList<>( movie.getVideos().subList(1, movie.getVideos().size()-1));
+                                    listVideo = new ArrayList<>(movie.getVideos().subList(1, movie.getVideos().size() - 1));
                                 }
 
                                 Log.d(genyus.com.whichmovie.classes.Log.TAG, "movie videos get");
-                                VideoAdapter videoAdapter = new VideoAdapter(getContext(),listVideo);
+                                VideoAdapter videoAdapter = new VideoAdapter(getContext(), listVideo);
                                 listVideos.setNumColumns(2);
                                 listVideos.setAdapter(videoAdapter);
                                 listVideos.setExpanded(true);
@@ -547,65 +554,66 @@ public class MovieFragment extends Fragment implements ObservableScrollViewCallb
         Log.e(genyus.com.whichmovie.classes.Log.TAG, "Error getting video : " + reason);
     }
 
-    private void tintAllViews(Palette.Swatch vibrant, Palette.Swatch vibrantDark){
-        vibrantRGB = vibrant.getRgb();
-        next.setBackgroundTintList(ColorStateList.valueOf(vibrant.getRgb()));
+    private void tintAllViews(Palette.Swatch vibrant, Palette.Swatch vibrantDark) {
+        if (null != view) {
+            vibrantRGB = vibrant.getRgb();
+            next.setBackgroundTintList(ColorStateList.valueOf(vibrant.getRgb()));
 
-        Drawable backgroundProgress = progress.getBackground();
-        Drawable backgroundProgressAlpha = progressAlpha.getBackground();
-        Drawable backgroundBudget = view.findViewById(R.id.budget_indicator).getBackground();
-        Drawable backgroundRevenue = view.findViewById(R.id.revenue_indicator).getBackground();
+            Drawable backgroundProgress = progress.getBackground();
+            Drawable backgroundProgressAlpha = progressAlpha.getBackground();
+            Drawable backgroundBudget = view.findViewById(R.id.budget_indicator).getBackground();
+            Drawable backgroundRevenue = view.findViewById(R.id.revenue_indicator).getBackground();
 
-        if (backgroundProgress instanceof ShapeDrawable) {
-            // cast to 'ShapeDrawable'
-            ShapeDrawable shapeDrawable = (ShapeDrawable)backgroundProgress;
-            shapeDrawable.getPaint().setColor(vibrant.getRgb());
-        } else if (backgroundProgress instanceof GradientDrawable) {
-            // cast to 'GradientDrawable'
-            GradientDrawable gradientDrawable = (GradientDrawable)backgroundProgress;
-            gradientDrawable.setColor(vibrant.getRgb());
-        }
+            if (backgroundProgress instanceof ShapeDrawable) {
+                // cast to 'ShapeDrawable'
+                ShapeDrawable shapeDrawable = (ShapeDrawable) backgroundProgress;
+                shapeDrawable.getPaint().setColor(vibrant.getRgb());
+            } else if (backgroundProgress instanceof GradientDrawable) {
+                // cast to 'GradientDrawable'
+                GradientDrawable gradientDrawable = (GradientDrawable) backgroundProgress;
+                gradientDrawable.setColor(vibrant.getRgb());
+            }
 
-        if (backgroundRevenue instanceof ShapeDrawable) {
-            // cast to 'ShapeDrawable'
-            ShapeDrawable shapeDrawable = (ShapeDrawable)backgroundRevenue;
-            shapeDrawable.getPaint().setColor(vibrant.getRgb());
-        } else if (backgroundRevenue instanceof GradientDrawable) {
-            // cast to 'GradientDrawable'
-            GradientDrawable gradientDrawable = (GradientDrawable)backgroundRevenue;
-            gradientDrawable.setColor(vibrant.getRgb());
-        }
+            if (backgroundRevenue instanceof ShapeDrawable) {
+                // cast to 'ShapeDrawable'
+                ShapeDrawable shapeDrawable = (ShapeDrawable) backgroundRevenue;
+                shapeDrawable.getPaint().setColor(vibrant.getRgb());
+            } else if (backgroundRevenue instanceof GradientDrawable) {
+                // cast to 'GradientDrawable'
+                GradientDrawable gradientDrawable = (GradientDrawable) backgroundRevenue;
+                gradientDrawable.setColor(vibrant.getRgb());
+            }
 
-        if (backgroundBudget instanceof ShapeDrawable) {
-            // cast to 'ShapeDrawable'
-            ShapeDrawable shapeDrawable = (ShapeDrawable)backgroundBudget;
-            shapeDrawable.getPaint().setColor(ThemeUtils.adjustAlpha(vibrantDark.getRgb(), 70f));
-        } else if (backgroundBudget instanceof GradientDrawable) {
-            // cast to 'GradientDrawable'
-            GradientDrawable gradientDrawable = (GradientDrawable)backgroundBudget;
-            gradientDrawable.setColor(ThemeUtils.adjustAlpha(vibrantDark.getRgb(), 70f));
-        }
+            if (backgroundBudget instanceof ShapeDrawable) {
+                // cast to 'ShapeDrawable'
+                ShapeDrawable shapeDrawable = (ShapeDrawable) backgroundBudget;
+                shapeDrawable.getPaint().setColor(ThemeUtils.adjustAlpha(vibrantDark.getRgb(), 70f));
+            } else if (backgroundBudget instanceof GradientDrawable) {
+                // cast to 'GradientDrawable'
+                GradientDrawable gradientDrawable = (GradientDrawable) backgroundBudget;
+                gradientDrawable.setColor(ThemeUtils.adjustAlpha(vibrantDark.getRgb(), 70f));
+            }
 
-        if (backgroundProgressAlpha instanceof ShapeDrawable) {
-            // cast to 'ShapeDrawable'
-            ShapeDrawable shapeDrawable = (ShapeDrawable)backgroundProgressAlpha;
-            shapeDrawable.getPaint().setColor(ThemeUtils.adjustAlpha(vibrantDark.getRgb(), 70f));
-        } else if (backgroundProgressAlpha instanceof GradientDrawable) {
-            // cast to 'GradientDrawable'
-            GradientDrawable gradientDrawable = (GradientDrawable)backgroundProgressAlpha;
-            gradientDrawable.setColor(ThemeUtils.adjustAlpha(vibrantDark.getRgb(), 70f));
-        }
+            if (backgroundProgressAlpha instanceof ShapeDrawable) {
+                // cast to 'ShapeDrawable'
+                ShapeDrawable shapeDrawable = (ShapeDrawable) backgroundProgressAlpha;
+                shapeDrawable.getPaint().setColor(ThemeUtils.adjustAlpha(vibrantDark.getRgb(), 70f));
+            } else if (backgroundProgressAlpha instanceof GradientDrawable) {
+                // cast to 'GradientDrawable'
+                GradientDrawable gradientDrawable = (GradientDrawable) backgroundProgressAlpha;
+                gradientDrawable.setColor(ThemeUtils.adjustAlpha(vibrantDark.getRgb(), 70f));
+            }
 
-        ((TextView)view.findViewById(R.id.title1)).setTextColor(vibrant.getRgb());
-        ((TextView)view.findViewById(R.id.title2)).setTextColor(vibrant.getRgb());
-        ((TextView)view.findViewById(R.id.title3)).setTextColor(vibrant.getRgb());
-        ((TextView)view.findViewById(R.id.title4)).setTextColor(vibrant.getRgb());
-        ((TextView)view.findViewById(R.id.title5)).setTextColor(vibrant.getRgb());
-        view.findViewById(R.id.line1).setBackgroundColor(vibrant.getRgb());
-        view.findViewById(R.id.line2).setBackgroundColor(vibrant.getRgb());
-        view.findViewById(R.id.line3).setBackgroundColor(vibrant.getRgb());
-        view.findViewById(R.id.line4).setBackgroundColor(vibrant.getRgb());
-        view.findViewById(R.id.line5).setBackgroundColor(vibrant.getRgb());
+            ((TextView) view.findViewById(R.id.title1)).setTextColor(vibrant.getRgb());
+            ((TextView) view.findViewById(R.id.title2)).setTextColor(vibrant.getRgb());
+            ((TextView) view.findViewById(R.id.title3)).setTextColor(vibrant.getRgb());
+            ((TextView) view.findViewById(R.id.title4)).setTextColor(vibrant.getRgb());
+            ((TextView) view.findViewById(R.id.title5)).setTextColor(vibrant.getRgb());
+            view.findViewById(R.id.line1).setBackgroundColor(vibrant.getRgb());
+            view.findViewById(R.id.line2).setBackgroundColor(vibrant.getRgb());
+            view.findViewById(R.id.line3).setBackgroundColor(vibrant.getRgb());
+            view.findViewById(R.id.line4).setBackgroundColor(vibrant.getRgb());
+            view.findViewById(R.id.line5).setBackgroundColor(vibrant.getRgb());
 
 
         /*ThemeUtils.revealColorAnimateViewDrawable(getActivity(), vibrant.getRgb(), backgroundProgress);
@@ -624,5 +632,6 @@ public class MovieFragment extends Fragment implements ObservableScrollViewCallb
         ThemeUtils.revealColorAnimateViewBackgroundColor(getActivity(), vibrant.getRgb(), view.findViewById(R.id.line3));
         ThemeUtils.revealColorAnimateViewBackgroundColor(getActivity(), vibrant.getRgb(), view.findViewById(R.id.line4));
         ThemeUtils.revealColorAnimateViewBackgroundColor(getActivity(), vibrant.getRgb(), view.findViewById(R.id.line5));*/
+        }
     }
 }
