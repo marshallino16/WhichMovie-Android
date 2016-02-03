@@ -17,12 +17,12 @@
     <string name="movie_preference">Réinitialiser les préférences</string>
     <string name="reset_movie_preference">réinitialiser les préférences de films</string>
     <string name="rate">Notez-nous</string>
-    <string name="term_of_service_title">Terms of service</string>
+    <string name="term_of_service_title">Condition de service</string>
     <string name="term_of_service_summary">visitez la page internet</string>
     <string name="term_of_service_url">http://tonightsmovie.com/tos</string>
 
     <string name="crafted_app_time_and_weekday_period">Nous avons créé cette version avec amour le %1$s %2$s.</string>
-    <string name="crafted_app_precise_time_and_dom_month_hour_minute_city">Plus précisément, c\'était le %1$s %2$s a exactement %3$s:%4$s à %5$s.</string>
+    <string name="crafted_app_precise_time_and_dom_month_hour_minute_city">Plus précisément, c\'était le %1$s %2$s à exactement %3$s:%4$s à %5$s.</string>
     <string name="night">nuit</string>
     <string name="morning">matin</string>
     <string name="afternoon">après-midi</string>
@@ -35,6 +35,9 @@
 
     <!-- branch -->
     <string name="branch_link">https://bnc.lt/get-tonights-movie-app</string>
+
+    <!-- search -->
+    <string name="search_on">Rechercher sur</string>
 
     <!-- update -->
     <string name="update_title">Mise à jour disponible</string>

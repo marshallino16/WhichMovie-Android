@@ -60,6 +60,7 @@ import genyus.com.whichmovie.task.listener.OnMovieImageListener;
 import genyus.com.whichmovie.task.listener.OnMovieInfoListener;
 import genyus.com.whichmovie.task.listener.OnMovieVideoListener;
 import genyus.com.whichmovie.task.manager.RequestManager;
+import genyus.com.whichmovie.utils.IntentUtils;
 import genyus.com.whichmovie.utils.PicassoTrustAll;
 import genyus.com.whichmovie.utils.ThemeUtils;
 import genyus.com.whichmovie.utils.UnitsUtils;
@@ -87,7 +88,7 @@ public class MovieFragment extends Fragment implements ObservableScrollViewCallb
     private TextView title, vote, synopsis, productionCompanies, releaseDate, homepage;
     private CurrencyTextView budget, revenue;
     private ImageView poster, posterBlur;
-    private ForegroundImageView firstVideoImage;
+    private ForegroundImageView firstVideoImage, netflix;
     private HashtagView hashtags;
     private RecyclerView listCast;
     private ExpandableHeightGridView listImages, listVideos;
@@ -155,6 +156,7 @@ public class MovieFragment extends Fragment implements ObservableScrollViewCallb
         listCast = (RecyclerView) view.findViewById(R.id.cast);
         fragmentContainer = (FrameLayout) view.findViewById(R.id.fragment_root);
         firstVideoImage = (ForegroundImageView) view.findViewById(R.id.first_video_thumbnail);
+        netflix = (ForegroundImageView) view.findViewById(R.id.netflix);
         firstVideoControl = (RelativeLayout) view.findViewById(R.id.first_video_control);
         videoContainer = (LinearLayout) view.findViewById(R.id.video_container);
         listImages = (ExpandableHeightGridView) view.findViewById(R.id.images);
@@ -272,6 +274,16 @@ public class MovieFragment extends Fragment implements ObservableScrollViewCallb
                 Log.d(genyus.com.whichmovie.classes.Log.TAG, "Next clicked");
                 if (activity instanceof MainActivity) {
                     ((OnMoviePassed) activity).OnMoviePassed(MovieFragment.this);
+                }
+            }
+        });
+
+        //netflix
+        netflix.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if(null != activity){
+                    IntentUtils.searchOnNetflix(activity, movie.getTitle());
                 }
             }
         });

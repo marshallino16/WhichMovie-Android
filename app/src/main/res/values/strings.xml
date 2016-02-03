@@ -13,6 +13,9 @@
     <string name="update_message">Looks like you\'re using an old version of Tonight\'s movie, please update it in order to get new features :)</string>
     <string name="update_positive">Update now</string>
 
+    <!-- search -->
+    <string name="search_on">Search on</string>
+
     <!-- preferences -->
     <string name="ok">cool!</string>
     <string name="preferences">Preferences</string>
