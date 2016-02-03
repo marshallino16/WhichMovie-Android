@@ -8,6 +8,11 @@
     <string name="notification_title">Psssst!</string>
     <string name="notification_message">Wondering which movie you gonna watch tonight this evening?</string>
 
+    <!-- update -->
+    <string name="update_title">Update available</string>
+    <string name="update_message">Looks like you\'re using an old version of Tonight\'s movie, please update it in order to get new features :)</string>
+    <string name="update_positive">Update now</string>
+
     <!-- preferences -->
     <string name="ok">cool!</string>
     <string name="preferences">Preferences</string>

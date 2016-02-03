@@ -1,7 +1,9 @@
 package genyus.com.whichmovie;
 
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
@@ -12,6 +14,9 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.Spinner;
+
+import com.afollestad.materialdialogs.DialogAction;
+import com.afollestad.materialdialogs.MaterialDialog;
 
 import org.androidannotations.annotations.AfterViews;
 import org.androidannotations.annotations.EActivity;
@@ -149,6 +154,33 @@ public class MainActivity extends AppCompatActivity implements OnMoviesListener,
             @Override
             public void run() {
                 boolean isAnUpdateAvailable = AppUtils.isAnUpdateAvailable(MainActivity.this);
+                if(isAnUpdateAvailable){
+                    runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            new MaterialDialog.Builder(MainActivity.this)
+                                    .title(R.string.update_title)
+                                    .content(R.string.update_message)
+                                    .positiveText(R.string.update_positive)
+                                    .icon(getResources().getDrawable(R.drawable.ic_launcher))
+                                    .onPositive(new MaterialDialog.SingleButtonCallback() {
+                                        @Override
+                                        public void onClick(@NonNull MaterialDialog dialog, @NonNull DialogAction which) {
+                                            final Uri uri = Uri.parse("market://details?id="
+                                                    + getApplicationContext().getPackageName());
+                                            final Intent rateAppIntent = new Intent(
+                                                    Intent.ACTION_VIEW, uri);
+
+                                            if (getPackageManager().queryIntentActivities(
+                                                    rateAppIntent, 0).size() > 0) {
+                                                startActivity(rateAppIntent);
+                                            }
+                                        }
+                                    })
+                                    .show();
+                        }
+                    });
+                }
             }
         }).start();
         //Notification

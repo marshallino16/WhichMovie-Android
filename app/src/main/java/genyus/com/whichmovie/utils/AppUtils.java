@@ -44,10 +44,14 @@ public class AppUtils {
     public final static boolean isAnUpdateAvailable(Context context){
         String playStoreVersion = getPlayStoreCurrentVersion(context);
         String currentVersion = BuildConfig.VERSION_NAME;
-        if(null != playStoreVersion && playStoreVersion.equals(currentVersion)){
-            return false;
+        if(null != playStoreVersion){
+            if(playStoreVersion.equals(currentVersion)){
+                return false;
+            } else {
+                return true;
+            }
         } else {
-            return true;
+            return false;
         }
     }
 
