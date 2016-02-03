@@ -13,8 +13,12 @@ import genyus.com.whichmovie.BuildConfig;
 public class PreferencesUtils {
 
     private static final String MY_PREFS_NAME = "MOVIE_PREFS";
+
     public static final String KEY_DEFAULT_CATEGORY = "default_category";
     public static final String KEY_VERSION_CODE = "version_code";
+    public final static String KEY_RATE = "rate";
+    public final static String KEY_PAGE = "rate";
+
     public static final int DEFAULT_CATEGORY = 28;
 
     public static void setPreference(Context context, String key, int value){
@@ -51,32 +55,29 @@ public class PreferencesUtils {
         editor.commit();
     }
 
-    public final static String PREFS_NAME = "location";
-    public final static String PREFS_RATE = "rate";
-
     public static void setRatePreference(Context c, boolean value) {
         SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(c);
         SharedPreferences.Editor editor = preferences.edit();
-        editor.putBoolean(PREFS_RATE, value);
+        editor.putBoolean(KEY_RATE, value);
         editor.apply();
     }
 
     public static boolean getRatePreference(Context c) {
         SharedPreferences settings = PreferenceManager.getDefaultSharedPreferences(c);
-        boolean value = settings.getBoolean(PREFS_RATE, false);
+        boolean value = settings.getBoolean(KEY_RATE, false);
         return value;
     }
 
-    public static void setPreference(Context c, String value) {
+    public static void setPagePreference(Context c, int value) {
         SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(c);
         SharedPreferences.Editor editor = preferences.edit();
-        editor.putString(PREFS_NAME, value);
+        editor.putInt(KEY_PAGE, value);
         editor.apply();
     }
 
-    public static String getPreference(Context c) {
+    public static int getPagePreference(Context c) {
         SharedPreferences settings = PreferenceManager.getDefaultSharedPreferences(c);
-        String value = settings.getString(PREFS_NAME, null);
+        int value = settings.getInt(KEY_PAGE, 1);
         return value;
     }
 

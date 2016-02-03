@@ -43,7 +43,10 @@ public class ImageAdapter extends ArrayAdapter<Image> {
 
         ImageView image = (ImageView) convertView.findViewById(R.id.image);
         Image imageObject = listImages.get(position);
-        PicassoTrustAll.getInstance(context).load(GlobalVars.configuration.getBase_url() + GlobalVars.configuration.getBackdrop_sizes().get(1) + imageObject.getPath()).placeholder(android.R.color.transparent).into(image);
+        if(null != GlobalVars.configuration){
+            PicassoTrustAll.getInstance(context).load(GlobalVars.configuration.getBase_url() + GlobalVars.configuration.getBackdrop_sizes().get(1) + imageObject.getPath()).placeholder(android.R.color.transparent).into(image);
+        }
+
         image.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {

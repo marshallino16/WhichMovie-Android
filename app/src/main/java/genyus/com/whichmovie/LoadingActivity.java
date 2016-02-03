@@ -17,6 +17,7 @@ import org.androidannotations.annotations.ViewById;
 
 import genyus.com.whichmovie.animation.ExpandCollapse;
 import genyus.com.whichmovie.classes.MovieActivity;
+import genyus.com.whichmovie.session.GlobalVars;
 import genyus.com.whichmovie.task.listener.OnCategoriesListener;
 import genyus.com.whichmovie.task.listener.OnConfigurationListener;
 import genyus.com.whichmovie.task.listener.OnMoviesListener;
@@ -63,6 +64,7 @@ public class LoadingActivity extends MovieActivity implements OnConfigurationLis
         //flakeView = new FlakeView(this);
         //flakeContainer.addView(flakeView);
 
+        GlobalVars.init(this);
         initGlobalVars();
     }
 

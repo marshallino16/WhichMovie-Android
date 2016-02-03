@@ -110,7 +110,8 @@ public class RequestManager {
         ArrayList<NameValuePair> nameValuePairs = new ArrayList<>();
         nameValuePairs.add(new BasicNameValuePair("api_key", APIConst.API_TOKEN));
         nameValuePairs.add(new BasicNameValuePair("with_genres", String.valueOf(PreferencesUtils.getDefaultCategory(context))));
-        nameValuePairs.add(new BasicNameValuePair("include_adult", "true"));
+        nameValuePairs.add(new BasicNameValuePair("include_adult", "false"));
+        nameValuePairs.add(new BasicNameValuePair("page", String.valueOf(GlobalVars.getPage(context))));
         nameValuePairs.add(new BasicNameValuePair("release_date.lte", UnitsUtils.getNowTime()));
         if(AppUtils.isDeviceInFrench()){
             nameValuePairs.add(new BasicNameValuePair("language", "fr"));
@@ -143,8 +144,8 @@ public class RequestManager {
         ArrayList<NameValuePair> nameValuePairs = new ArrayList<>();
         nameValuePairs.add(new BasicNameValuePair("api_key", APIConst.API_TOKEN));
         nameValuePairs.add(new BasicNameValuePair("with_genres", String.valueOf(PreferencesUtils.getDefaultCategory(context))));
-        nameValuePairs.add(new BasicNameValuePair("include_adult", "true"));
-        nameValuePairs.add(new BasicNameValuePair("page", String.valueOf(GlobalVars.getPage())));
+        nameValuePairs.add(new BasicNameValuePair("include_adult", "false"));
+        nameValuePairs.add(new BasicNameValuePair("page", String.valueOf(GlobalVars.getPage(context))));
         nameValuePairs.add(new BasicNameValuePair("release_date.lte", UnitsUtils.getNowTime()));
         if(AppUtils.isDeviceInFrench()){
             nameValuePairs.add(new BasicNameValuePair("language", "fr"));

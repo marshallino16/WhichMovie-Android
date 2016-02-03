@@ -109,7 +109,7 @@ public class MainActivity extends AppCompatActivity implements OnMoviesListener,
             public void onItemSelected(AdapterView<?> parent, View view, final int position, long id) {
                 new Thread() {
                     public void run() {
-                        GlobalVars.reinitForCategoryChange();
+                        GlobalVars.reinitForCategoryChange(MainActivity.this);
                         PreferencesUtils.setPreference(MainActivity.this, PreferencesUtils.KEY_DEFAULT_CATEGORY, GlobalVars.genres.get(position).getId());
                         RequestManager.getInstance(MainActivity.this).getMoviesFromCategory(MainActivity.this, MainActivity.this);
                     }
