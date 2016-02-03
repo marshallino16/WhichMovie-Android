@@ -3,13 +3,20 @@ package genyus.com.whichmovie.task.manager;
 import android.content.Context;
 import android.util.Log;
 
+import com.google.gson.JsonArray;
+import com.google.gson.JsonElement;
+import com.google.gson.JsonObject;
+import com.google.gson.JsonParser;
+
 import org.apache.http.NameValuePair;
 import org.apache.http.message.BasicNameValuePair;
 
 import java.util.ArrayList;
 
+import genyus.com.whichmovie.BuildConfig;
 import genyus.com.whichmovie.api.APIConst;
 import genyus.com.whichmovie.classes.RequestReturn;
+import genyus.com.whichmovie.model.Movie;
 import genyus.com.whichmovie.model.serializer.CategoriesSerializer;
 import genyus.com.whichmovie.model.serializer.ConfigurationSerializer;
 import genyus.com.whichmovie.model.serializer.CrewSerializer;
@@ -23,6 +30,7 @@ import genyus.com.whichmovie.task.listener.OnConfigurationListener;
 import genyus.com.whichmovie.task.listener.OnMovieCrewListener;
 import genyus.com.whichmovie.task.listener.OnMovieImageListener;
 import genyus.com.whichmovie.task.listener.OnMovieInfoListener;
+import genyus.com.whichmovie.task.listener.OnMoviePurchaseListener;
 import genyus.com.whichmovie.task.listener.OnMovieVideoListener;
 import genyus.com.whichmovie.task.listener.OnMoviesListener;
 import genyus.com.whichmovie.task.listener.OnNewMoviesListener;
@@ -41,7 +49,7 @@ public class RequestManager {
     private int currentAttempt = 0;
     private static RequestManager instance = null;
 
-    public static synchronized RequestManager getInstance(Context context) {
+    public static RequestManager getInstance(Context context) {
         if (null == instance) {
             instance = new RequestManager(context);
         }
@@ -52,7 +60,7 @@ public class RequestManager {
         this.context = context;
     }
 
-    public void getConfigurations(OnConfigurationListener callback){
+    public void getConfigurations(OnConfigurationListener callback) {
         currentAttempt += 1;
         ArrayList<NameValuePair> nameValuePairs = new ArrayList<>();
         nameValuePairs.add(new BasicNameValuePair("api_key", APIConst.API_TOKEN));
@@ -79,7 +87,7 @@ public class RequestManager {
         }
     }
 
-    public void getAllCategories(OnCategoriesListener callback){
+    public void getAllCategories(OnCategoriesListener callback) {
         currentAttempt += 1;
         ArrayList<NameValuePair> nameValuePairs = new ArrayList<>();
         nameValuePairs.add(new BasicNameValuePair("api_key", APIConst.API_TOKEN));
@@ -105,7 +113,7 @@ public class RequestManager {
         }
     }
 
-    public void getMoviesFromCategory(Context context, OnMoviesListener callback){
+    public void getMoviesFromCategory(Context context, OnMoviesListener callback) {
         currentAttempt += 1;
         ArrayList<NameValuePair> nameValuePairs = new ArrayList<>();
         nameValuePairs.add(new BasicNameValuePair("api_key", APIConst.API_TOKEN));
@@ -113,8 +121,12 @@ public class RequestManager {
         nameValuePairs.add(new BasicNameValuePair("include_adult", "false"));
         nameValuePairs.add(new BasicNameValuePair("page", String.valueOf(GlobalVars.getPage(context))));
         nameValuePairs.add(new BasicNameValuePair("release_date.lte", UnitsUtils.getNowTime()));
-        if(AppUtils.isDeviceInFrench()){
+        if (AppUtils.isDeviceInFrench()) {
             nameValuePairs.add(new BasicNameValuePair("language", "fr"));
+        }
+
+        if(BuildConfig.DEBUG){
+            nameValuePairs.add(new BasicNameValuePair("year", "2011"));
         }
 
         RequestReturn returnedCode = RequestSender.sendRequestGet(APIConst.API_BASE_URL, APIConst.API_LIST_MOVIES_CATEGORY, nameValuePairs);
@@ -139,15 +151,20 @@ public class RequestManager {
         }
     }
 
-    public void getNewMoviesFromCategory(Context context, OnNewMoviesListener callback){
+    public void getNewMoviesFromCategory(Context context, OnNewMoviesListener callback) {
         currentAttempt += 1;
         ArrayList<NameValuePair> nameValuePairs = new ArrayList<>();
         nameValuePairs.add(new BasicNameValuePair("api_key", APIConst.API_TOKEN));
         nameValuePairs.add(new BasicNameValuePair("with_genres", String.valueOf(PreferencesUtils.getDefaultCategory(context))));
         nameValuePairs.add(new BasicNameValuePair("include_adult", "false"));
         nameValuePairs.add(new BasicNameValuePair("page", String.valueOf(GlobalVars.getPage(context))));
+
+        if(BuildConfig.DEBUG){
+            nameValuePairs.add(new BasicNameValuePair("year", "2011"));
+        }
+
         nameValuePairs.add(new BasicNameValuePair("release_date.lte", UnitsUtils.getNowTime()));
-        if(AppUtils.isDeviceInFrench()){
+        if (AppUtils.isDeviceInFrench()) {
             nameValuePairs.add(new BasicNameValuePair("language", "fr"));
         }
 
@@ -173,11 +190,11 @@ public class RequestManager {
         }
     }
 
-    public void getMovieInfos(Context context, OnMovieInfoListener callback, int movieId){
+    public void getMovieInfos(Context context, OnMovieInfoListener callback, int movieId) {
         currentAttempt += 1;
         ArrayList<NameValuePair> nameValuePairs = new ArrayList<>();
         nameValuePairs.add(new BasicNameValuePair("api_key", APIConst.API_TOKEN));
-        if(AppUtils.isDeviceInFrench()){
+        if (AppUtils.isDeviceInFrench()) {
             nameValuePairs.add(new BasicNameValuePair("language", "fr"));
         }
         RequestReturn returnedCode = RequestSender.sendRequestGet(APIConst.API_BASE_URL, APIConst.API_INFO_MOVIE(movieId), nameValuePairs);
@@ -204,11 +221,12 @@ public class RequestManager {
 
     /**
      * Using date ranges to avoid many calls
+     *
      * @param context
      * @param callback
      */
     @Deprecated
-    public void getMoviePlaying(Context context, OnMoviesListener callback){
+    public void getMoviePlaying(Context context, OnMoviesListener callback) {
         /*currentAttempt += 1;
         ArrayList<NameValuePair> nameValuePairs = new ArrayList<>();
         nameValuePairs.add(new BasicNameValuePair("api_key", APIConst.API_TOKEN));
@@ -240,11 +258,11 @@ public class RequestManager {
         }*/
     }
 
-    public void getMovieCrew(OnMovieCrewListener callback, int movieId){
+    public void getMovieCrew(OnMovieCrewListener callback, int movieId) {
         currentAttempt += 1;
         ArrayList<NameValuePair> nameValuePairs = new ArrayList<>();
         nameValuePairs.add(new BasicNameValuePair("api_key", APIConst.API_TOKEN));
-        if(AppUtils.isDeviceInFrench()){
+        if (AppUtils.isDeviceInFrench()) {
             nameValuePairs.add(new BasicNameValuePair("language", "fr"));
         }
         RequestReturn returnedCode = RequestSender.sendRequestGet(APIConst.API_BASE_URL, APIConst.API_CREW_MOVIE(movieId), nameValuePairs);
@@ -269,7 +287,7 @@ public class RequestManager {
         }
     }
 
-    public void getMovieImages(OnMovieImageListener callback, int movieId){
+    public void getMovieImages(OnMovieImageListener callback, int movieId) {
         currentAttempt += 1;
         ArrayList<NameValuePair> nameValuePairs = new ArrayList<>();
         nameValuePairs.add(new BasicNameValuePair("api_key", APIConst.API_TOKEN));
@@ -295,11 +313,11 @@ public class RequestManager {
         }
     }
 
-    public void getMovieVideos(OnMovieVideoListener callback, int movieId){
+    public void getMovieVideos(OnMovieVideoListener callback, int movieId) {
         currentAttempt += 1;
         ArrayList<NameValuePair> nameValuePairs = new ArrayList<>();
         nameValuePairs.add(new BasicNameValuePair("api_key", APIConst.API_TOKEN));
-        if(AppUtils.isDeviceInFrench()){
+        if (AppUtils.isDeviceInFrench()) {
             nameValuePairs.add(new BasicNameValuePair("language", "fr"));
         }
         RequestReturn returnedCode = RequestSender.sendRequestGet(APIConst.API_BASE_URL, APIConst.API_VIDEOS_MOVIE(movieId), nameValuePairs);
@@ -320,6 +338,71 @@ public class RequestManager {
                 return;
             } else {
                 this.getMovieVideos(callback, movieId);
+            }
+        }
+    }
+
+    public void getMoviePurchase(Context context, OnMoviePurchaseListener callback, int movieId, Movie movie) {
+        currentAttempt += 1;
+        ArrayList<NameValuePair> nameValuePairs = new ArrayList<>();
+        RequestReturn returnedCode = RequestSender.sendRequestGet(APIConst.API_PURCHASE_BASE_URL(context), APIConst.API_PURCHASE_ID + String.valueOf(movieId), nameValuePairs);
+        if (null != returnedCode) {
+            if (200 == returnedCode.code) {
+                Log.d(genyus.com.whichmovie.classes.Log.TAG, "movies purchase json = " + returnedCode.json);
+
+                //serializing
+                JsonParser parser = new JsonParser();
+                JsonObject jo = (JsonObject) parser.parse(returnedCode.json);
+
+                if (null != jo) {
+                    JsonElement id = jo.get("id");
+                    if(null != id && !id.isJsonNull()){
+                        int identifiant = id.getAsInt();
+
+                        //purchase link
+                        ArrayList<NameValuePair> nameValuePairsLink = new ArrayList<>();
+                        RequestReturn returnedCodeLink = RequestSender.sendRequestGet(APIConst.API_PURCHASE_BASE_URL(context), APIConst.API_PURCHASE_LINK + String.valueOf(identifiant), nameValuePairsLink);
+                        if (null != returnedCodeLink) {
+                            if (200 == returnedCodeLink.code) {
+                                JsonParser parserLink = new JsonParser();
+                                JsonObject joLink = (JsonObject) parserLink.parse(returnedCodeLink.json);
+                                JsonArray ja = joLink.getAsJsonArray("purchase_android_sources");
+
+                                if (null != ja) {
+                                    for (JsonElement obj : ja) {
+                                        JsonObject linkObject = obj.getAsJsonObject();
+
+                                        if(null != linkObject && !linkObject.get("source").isJsonNull() && null != linkObject.get("source").getAsString() && linkObject.get("source").getAsString().equals("vudu")){
+                                            if(!linkObject.get("link").isJsonNull() && null != linkObject.get("link").getAsString()){
+                                                movie.setVudu(linkObject.get("link").getAsString());
+                                            }
+                                        }
+
+                                        if(null != linkObject && !linkObject.get("source").isJsonNull() && null != linkObject.get("source").getAsString() && linkObject.get("source").getAsString().equals("google_play")){
+                                            if(!linkObject.get("link").isJsonNull() && null != linkObject.get("link").getAsString()){
+                                                movie.setGooglePlay(linkObject.get("link").getAsString());
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+
+                callback.OnMoviePurchase();
+                currentAttempt = 0;
+                return;
+            } else {
+                this.getMoviePurchase(context, callback, movieId, movie);
+            }
+        } else {
+            if (ATTEMPT_MAX == currentAttempt) {
+                currentAttempt = 0;
+                callback.OnMoviePurchaseFailed(null);
+                return;
+            } else {
+                this.getMoviePurchase(context, callback, movieId, movie);
             }
         }
     }

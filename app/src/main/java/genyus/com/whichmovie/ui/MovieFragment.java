@@ -58,6 +58,7 @@ import genyus.com.whichmovie.session.GlobalVars;
 import genyus.com.whichmovie.task.listener.OnMovieCrewListener;
 import genyus.com.whichmovie.task.listener.OnMovieImageListener;
 import genyus.com.whichmovie.task.listener.OnMovieInfoListener;
+import genyus.com.whichmovie.task.listener.OnMoviePurchaseListener;
 import genyus.com.whichmovie.task.listener.OnMovieVideoListener;
 import genyus.com.whichmovie.task.manager.RequestManager;
 import genyus.com.whichmovie.utils.IntentUtils;
@@ -72,7 +73,7 @@ import genyus.com.whichmovie.view.ForegroundImageView;
 /**
  * Created by genyus on 29/11/15.
  */
-public class MovieFragment extends Fragment implements ObservableScrollViewCallbacks, OnMovieInfoListener, OnMovieCrewListener, OnMovieImageListener, OnMovieVideoListener {
+public class MovieFragment extends Fragment implements ObservableScrollViewCallbacks, OnMovieInfoListener, OnMovieCrewListener, OnMovieImageListener, OnMovieVideoListener, OnMoviePurchaseListener {
 
     private Activity activity;
 
@@ -88,7 +89,7 @@ public class MovieFragment extends Fragment implements ObservableScrollViewCallb
     private TextView title, vote, synopsis, productionCompanies, releaseDate, homepage;
     private CurrencyTextView budget, revenue;
     private ImageView poster, posterBlur;
-    private ForegroundImageView firstVideoImage, netflix;
+    private ForegroundImageView firstVideoImage, googlePlay, vudu;
     private HashtagView hashtags;
     private RecyclerView listCast;
     private ExpandableHeightGridView listImages, listVideos;
@@ -123,6 +124,7 @@ public class MovieFragment extends Fragment implements ObservableScrollViewCallb
                     RequestManager.getInstance(MovieFragment.this.activity).getMovieCrew(MovieFragment.this, movie.getId());
                     RequestManager.getInstance(MovieFragment.this.activity).getMovieImages(MovieFragment.this, movie.getId());
                     RequestManager.getInstance(MovieFragment.this.activity).getMovieVideos(MovieFragment.this, movie.getId());
+                    RequestManager.getInstance(MovieFragment.this.activity).getMoviePurchase(MovieFragment.this.activity, MovieFragment.this, movie.getId(), movie);
                 }
             }.start();
         }
@@ -156,7 +158,8 @@ public class MovieFragment extends Fragment implements ObservableScrollViewCallb
         listCast = (RecyclerView) view.findViewById(R.id.cast);
         fragmentContainer = (FrameLayout) view.findViewById(R.id.fragment_root);
         firstVideoImage = (ForegroundImageView) view.findViewById(R.id.first_video_thumbnail);
-        netflix = (ForegroundImageView) view.findViewById(R.id.netflix);
+        googlePlay = (ForegroundImageView) view.findViewById(R.id.googleplay);
+        vudu = (ForegroundImageView) view.findViewById(R.id.vudu);
         firstVideoControl = (RelativeLayout) view.findViewById(R.id.first_video_control);
         videoContainer = (LinearLayout) view.findViewById(R.id.video_container);
         listImages = (ExpandableHeightGridView) view.findViewById(R.id.images);
@@ -278,12 +281,21 @@ public class MovieFragment extends Fragment implements ObservableScrollViewCallb
             }
         });
 
-        //netflix
-        netflix.setOnClickListener(new View.OnClickListener() {
+        //streaming
+        googlePlay.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if(null != activity){
-                    IntentUtils.searchOnNetflix(activity, movie.getTitle());
+                if(null != activity && null != movie.getGooglePlay()){
+                    IntentUtils.searchOnGooglePlay(activity, movie.getGooglePlay());
+                }
+            }
+        });
+
+        vudu.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if(null != activity && null != movie.getVudu()){
+                    IntentUtils.searchOnVudu(activity, movie.getVudu());
                 }
             }
         });
@@ -564,6 +576,38 @@ public class MovieFragment extends Fragment implements ObservableScrollViewCallb
     @Override
     public void OnMovieVideoFailed(String reason) {
         Log.e(genyus.com.whichmovie.classes.Log.TAG, "Error getting video : " + reason);
+    }
+
+    @Override
+    public void OnMoviePurchase() {
+        Log.d(genyus.com.whichmovie.classes.Log.TAG, "vudu = " + movie.getVudu());
+        Log.d(genyus.com.whichmovie.classes.Log.TAG, "google play = " + movie.getGooglePlay());
+        if (null != this && null != activity && isAdded()) {
+            activity.runOnUiThread(new Runnable() {
+                @Override
+                public void run() {
+                    if (null != getActivity()) {
+                        if(null != movie.getVudu() || null != movie.getGooglePlay()){
+                            if(null != view){
+                                view.findViewById(R.id.streaming_container).setVisibility(View.VISIBLE);
+                                if(null == movie.getVudu()){
+                                    view.findViewById(R.id.vudu).setVisibility(View.GONE);
+                                }
+
+                                if(null == movie.getGooglePlay()){
+                                    view.findViewById(R.id.googleplay).setVisibility(View.GONE);
+                                }
+                            }
+                        }
+                    }
+                }
+            });
+        }
+    }
+
+    @Override
+    public void OnMoviePurchaseFailed(String reason) {
+        Log.e(genyus.com.whichmovie.classes.Log.TAG, "Error getting purchase : " + reason);
     }
 
     private void tintAllViews(Palette.Swatch vibrant, Palette.Swatch vibrantDark) {

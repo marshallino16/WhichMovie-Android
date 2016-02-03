@@ -1,9 +1,16 @@
 package genyus.com.whichmovie.api;
 
+import android.content.Context;
+
 /**
  * Created by genyus on 25/11/15.
  */
 public class APIConst {
+
+    public final static String API_PURCHASE_TOKEN = "rKfVOBGZrvJIOdGmXDHhFvOCVsyyzIZE";
+    public final static String API_PURCHASE_BASE_URL = "http://api-public.guidebox.com/v1.43/";
+    public final static String API_PURCHASE_ID = "/search/movie/id/themoviedb/";
+    public final static String API_PURCHASE_LINK = "/movie/";
 
     public final static String API_TOKEN = "c1e4b32ab37e5086fe5c09521c0e67a7";
     public final static String API_BASE_URL = "http://api.themoviedb.org/3/";
@@ -29,6 +36,11 @@ public class APIConst {
     }
 
     public final static String API_KEYWORDS_MOVIE(int movie) {
-        return "/movie/"+movie+"/keywords";
+        return "movie/"+movie+"/keywords";
+    }
+
+    public final static String API_PURCHASE_BASE_URL(Context context){
+        return API_PURCHASE_BASE_URL+context.getResources().getConfiguration().locale.getCountry()+"/"+API_PURCHASE_TOKEN;
+        //return API_PURCHASE_BASE_URL+"US/"+API_PURCHASE_TOKEN;
     }
 }

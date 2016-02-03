@@ -213,12 +213,14 @@
                 </LinearLayout>
 
                 <LinearLayout
+                    android:id="@+id/streaming_container"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginBottom="5dp"
                     android:orientation="horizontal"
                     android:paddingLeft="@dimen/activity_horizontal_margin"
-                    android:paddingRight="@dimen/activity_horizontal_margin">
+                    android:paddingRight="@dimen/activity_horizontal_margin"
+                    android:visibility="gone">
 
                     <RelativeLayout
                         android:layout_width="wrap_content"
@@ -234,12 +236,23 @@
                     </RelativeLayout>
 
                     <genyus.com.whichmovie.view.ForegroundImageView
-                        android:id="@+id/netflix"
+                        android:id="@+id/googleplay"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
+                        android:layout_gravity="center_vertical"
                         android:layout_marginLeft="10dp"
-                        android:background="@drawable/netflix"
-                        android:scaleType="centerCrop"
+                        android:background="@drawable/google_play_movie"
+                        android:visibility="visible"
+                        custom:foreground="@drawable/ripple_background"/>
+
+                    <genyus.com.whichmovie.view.ForegroundImageView
+                        android:id="@+id/vudu"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_vertical"
+                        android:layout_marginLeft="10dp"
+                        android:background="@drawable/vudu"
+                        android:visibility="visible"
                         custom:foreground="@drawable/ripple_background"/>
 
                 </LinearLayout>

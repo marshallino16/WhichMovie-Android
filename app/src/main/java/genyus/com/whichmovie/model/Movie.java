@@ -34,6 +34,9 @@ public class Movie implements Serializable {
     private String imdb;
     private String homepage;
 
+    private String vudu;
+    private String googlePlay;
+
     private ArrayList<Crew> crew = new ArrayList<>();
 
     public boolean isAdult() {
@@ -226,6 +229,22 @@ public class Movie implements Serializable {
 
     public void setVideos(ArrayList<Video> videos) {
         this.videos = videos;
+    }
+
+    public String getVudu() {
+        return vudu;
+    }
+
+    public void setVudu(String vudu) {
+        this.vudu = vudu;
+    }
+
+    public String getGooglePlay() {
+        return googlePlay;
+    }
+
+    public void setGooglePlay(String googlePlay) {
+        this.googlePlay = googlePlay;
     }
 
     @Override
