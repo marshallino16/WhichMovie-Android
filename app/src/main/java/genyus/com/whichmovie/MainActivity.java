@@ -1,6 +1,8 @@
 package genyus.com.whichmovie;
 
 import android.content.Intent;
+import android.os.Bundle;
+import android.support.annotation.Nullable;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
@@ -37,7 +39,7 @@ import io.branch.referral.Branch;
 import io.branch.referral.BranchError;
 
 @EActivity(R.layout.activity_main)
-public class MainActivity extends AppCompatActivity implements OnMoviesListener, OnMoviePassed, OnNewMoviesListener {
+public class MainActivity extends AppCompatActivity implements OnMoviesListener, OnMoviePassed, OnNewMoviesListener, AdapterView.OnItemSelectedListener {
 
     //deeplinking
     Branch branch;
@@ -59,12 +61,23 @@ public class MainActivity extends AppCompatActivity implements OnMoviesListener,
     @ViewById(R.id.categories)
     public Spinner categories;
 
+    @Override
+    protected void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        new Thread() {
+            public void run() {
+                Log.d(genyus.com.whichmovie.classes.Log.TAG, "get movies");
+                RequestManager.getInstance(MainActivity.this).getMoviesFromCategory(MainActivity.this, MainActivity.this);
+            }
+        }.start();
+    }
+
     @AfterViews
     protected void afterViews() {
         setSupportActionBar(toolbar);
         getSupportActionBar().setTitle("");
 
-        if(BuildConfig.DEBUG){
+        if (BuildConfig.DEBUG) {
             Log.d(genyus.com.whichmovie.classes.Log.TAG, "movies list size = " + GlobalVars.movies.size());
         }
 
@@ -78,7 +91,7 @@ public class MainActivity extends AppCompatActivity implements OnMoviesListener,
             @Override
             public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
                 Log.d(genyus.com.whichmovie.classes.Log.TAG, "swipepager size = " + swipePager.getChildCount());
-                if(position == swipePager.getChildCount()-1){
+                if (position == swipePager.getChildCount() - 1) {
                     Log.d(genyus.com.whichmovie.classes.Log.TAG, "should request new movies");
                     new Thread(new Runnable() {
                         @Override
@@ -104,21 +117,9 @@ public class MainActivity extends AppCompatActivity implements OnMoviesListener,
         categoryAdapter = new CategoryAdapter(this, R.layout.row_spinner_categories, GlobalVars.genres);
         categories.setAdapter(categoryAdapter);
         categories.setSelection(ObjectUtils.getGenrePositionById(PreferencesUtils.getDefaultCategory(this)));
-        categories.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-            @Override
-            public void onItemSelected(AdapterView<?> parent, View view, final int position, long id) {
-                new Thread() {
-                    public void run() {
-                        GlobalVars.reinitForCategoryChange(MainActivity.this);
-                        PreferencesUtils.setPreference(MainActivity.this, PreferencesUtils.KEY_DEFAULT_CATEGORY, GlobalVars.genres.get(position).getId());
-                        RequestManager.getInstance(MainActivity.this).getMoviesFromCategory(MainActivity.this, MainActivity.this);
-                    }
-                }.start();
-            }
-
-            @Override
-            public void onNothingSelected(AdapterView<?> parent) {
-
+        categories.post(new Runnable() {
+            public void run() {
+                categories.setOnItemSelectedListener(MainActivity.this);
             }
         });
     }
@@ -267,5 +268,22 @@ public class MainActivity extends AppCompatActivity implements OnMoviesListener,
             MovieFragment movieFragment = MovieFragment.newInstance(movie);
             moviesFragments.add(movieFragment);
         }
+    }
+
+    @Override
+    public void onItemSelected(AdapterView<?> adapterView, View view, final int i, long l) {
+        new Thread() {
+            public void run() {
+                Log.d(genyus.com.whichmovie.classes.Log.TAG, "on item selected");
+                GlobalVars.reinitForCategoryChange(MainActivity.this);
+                PreferencesUtils.setPreference(MainActivity.this, PreferencesUtils.KEY_DEFAULT_CATEGORY, GlobalVars.genres.get(i).getId());
+                RequestManager.getInstance(MainActivity.this).getMoviesFromCategory(MainActivity.this, MainActivity.this);
+            }
+        }.start();
+    }
+
+    @Override
+    public void onNothingSelected(AdapterView<?> adapterView) {
+
     }
 }
