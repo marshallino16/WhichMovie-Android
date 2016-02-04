@@ -13,6 +13,7 @@ import java.util.List;
 
 import genyus.com.whichmovie.model.Movie;
 import genyus.com.whichmovie.session.GlobalVars;
+import genyus.com.whichmovie.task.listener.OnMovieQueryListener;
 import genyus.com.whichmovie.task.listener.OnMoviesListener;
 import genyus.com.whichmovie.task.listener.OnNewMoviesListener;
 
@@ -230,6 +231,50 @@ public class MovieSerializer {
         GlobalVars.movies.addAll(movies);
         if(null != callback){
             callback.OnNewMoviesGet();
+        }
+    }
+
+    public static void fillMinimalistMoviesObject(String json, OnMovieQueryListener callback) {
+
+        ArrayList<Movie> movies = new ArrayList<>();
+
+        JsonParser parser = new JsonParser();
+        JsonObject jo = (JsonObject) parser.parse(json);
+        JsonArray ja = jo.getAsJsonArray(ARRAY_RESULT);
+
+        if (null != ja) {
+            for (JsonElement obj : ja) {
+
+                Movie movie = new Movie();
+                JsonObject movieObject = obj.getAsJsonObject();
+
+                JsonElement id = movieObject.get(OBJECT_ID);
+                JsonElement date = movieObject.get(OBJECT_DATE);
+                JsonElement poster = movieObject.get(OBJECT_POSTER);
+                JsonElement title = movieObject.get(OBJECT_TITLE);
+
+                if(!id.isJsonNull() && null != id){
+                    movie.setId(id.getAsInt());
+                }
+
+                if(!date.isJsonNull() && null != date && null != date.getAsString() && !date.getAsString().isEmpty()){
+                    movie.setRelease_date(date.getAsString());
+                }
+
+                if(!poster.isJsonNull() && null != poster && null != poster.getAsString() && !poster.getAsString().isEmpty()){
+                    movie.setPoster_path(poster.getAsString());
+                }
+
+                if(!title.isJsonNull() && null != title && null != title.getAsString() && !title.getAsString().isEmpty()){
+                    movie.setTitle(title.getAsString());
+                }
+
+                movies.add(movie);
+            }
+        }
+
+        if(null != callback){
+            callback.OnMovieQuery(movies);
         }
     }
 

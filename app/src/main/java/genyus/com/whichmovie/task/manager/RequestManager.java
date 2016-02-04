@@ -31,6 +31,7 @@ import genyus.com.whichmovie.task.listener.OnMovieCrewListener;
 import genyus.com.whichmovie.task.listener.OnMovieImageListener;
 import genyus.com.whichmovie.task.listener.OnMovieInfoListener;
 import genyus.com.whichmovie.task.listener.OnMoviePurchaseListener;
+import genyus.com.whichmovie.task.listener.OnMovieQueryListener;
 import genyus.com.whichmovie.task.listener.OnMovieVideoListener;
 import genyus.com.whichmovie.task.listener.OnMoviesListener;
 import genyus.com.whichmovie.task.listener.OnNewMoviesListener;
@@ -225,6 +226,36 @@ public class RequestManager {
                 return;
             } else {
                 this.getMovieInfos(context, callback, movieId);
+            }
+        }
+    }
+
+    public void getQueryMovieInfos(OnMovieQueryListener callback, String query) {
+        currentAttempt += 1;
+        ArrayList<NameValuePair> nameValuePairs = new ArrayList<>();
+        nameValuePairs.add(new BasicNameValuePair("api_key", APIConst.API_TOKEN));
+        nameValuePairs.add(new BasicNameValuePair("query", query));
+        if (AppUtils.isDeviceInFrench()) {
+            nameValuePairs.add(new BasicNameValuePair("language", "fr"));
+        }
+        RequestReturn returnedCode = RequestSender.sendRequestGet(APIConst.API_BASE_URL, APIConst.API_SEARCH, nameValuePairs);
+        if (null != returnedCode && !returnedCode.json.contains("Authentication error")) {
+            if (200 == returnedCode.code) {
+                Log.d(genyus.com.whichmovie.classes.Log.TAG, "movies query info json = " + returnedCode.json);
+
+                MovieSerializer.fillMinimalistMoviesObject(returnedCode.json, callback);
+                currentAttempt = 0;
+                return;
+            } else {
+                this.getQueryMovieInfos(callback, query);
+            }
+        } else {
+            if (ATTEMPT_MAX == currentAttempt) {
+                currentAttempt = 0;
+                callback.OnMovieQueryFailed(null);
+                return;
+            } else {
+                this.getQueryMovieInfos(callback, query);
             }
         }
     }

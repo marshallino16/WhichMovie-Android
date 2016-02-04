@@ -18,6 +18,7 @@ public class APIConst {
     public final static String API_CONFIGURATION = "configuration";
     public final static String API_LIST_MOVIES_CATEGORY = "discover/movie";
     public final static String API_NOW_PLAYING = "movie/now_playing";
+    public final static String API_SEARCH = "search/movie";
 
     public final static String API_INFO_MOVIE(int movie){
         return "movie/"+movie;

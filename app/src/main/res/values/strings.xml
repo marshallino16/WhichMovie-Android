@@ -8,6 +8,9 @@
     <string name="relevant_details">Get relevant details\non movies</string>
     <string name="designed_for_you">Suggestions designed\nfor you</string>
     <string name="legal_links">Legal purchase and\nstream links</string>
+    <string name="choose_favorite">Search your favorite movie!</string>
+    <string name="validate">Take me to my suggestions</string>
+    <string name="query_hint">V for Vendetta</string>
 
     <!-- notification -->
     <string name="notification_title">Psssst!</string>

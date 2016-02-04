@@ -35,6 +35,12 @@
         <item name="windowNoTitle">true</item>
         <item name="android:windowAnimationStyle">@style/AppTheme.Activity</item>
         <item name="android:listViewStyle">@style/AppTheme.ListView</item>
+        <item name="colorAccent">@color/colorAccent</item>
+    </style>
+
+    <style name="AppTheme.Widget" parent="@android:style/Theme.Holo">
+        <item name="android:textColorHint">@color/grey_font</item>
+        <item name="android:editTextColor">@android:color/white</item>
     </style>
 
     <style name="AppTheme.NoActionBar.Black">
