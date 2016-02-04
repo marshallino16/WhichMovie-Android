@@ -1,12 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
-<TextView
+<genyus.com.whichmovie.view.foreground.ForegroundTextView
     android:id="@+id/movie_title"
     xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:custom="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:background="@android:color/white"
     android:gravity="left|center_vertical"
-    android:padding="10dp"
+    android:padding="13dp"
     android:textAppearance="?android:attr/textAppearanceMedium"
-    android:textColor="@color/colorPrimaryDark"/>
+    android:textColor="@color/colorPrimaryDark"
+    custom:foreground="@drawable/ripple_background"/>
 

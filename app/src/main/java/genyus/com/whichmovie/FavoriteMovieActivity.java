@@ -1,14 +1,14 @@
 package genyus.com.whichmovie;
 
-import android.app.SearchManager;
-import android.content.Context;
 import android.content.Intent;
-import android.database.MatrixCursor;
 import android.support.v7.app.AppCompatActivity;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.util.Log;
+import android.view.View;
+import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.ImageView;
-import android.widget.SearchView;
 
 import org.androidannotations.annotations.AfterViews;
 import org.androidannotations.annotations.EActivity;
@@ -19,10 +19,13 @@ import org.androidannotations.annotations.ViewById;
 import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
 
-import genyus.com.whichmovie.adapter.MovieSuggestionAdapter;
+import genyus.com.whichmovie.adapter.MovieAdapter;
 import genyus.com.whichmovie.model.Movie;
+import genyus.com.whichmovie.session.GlobalVars;
 import genyus.com.whichmovie.task.listener.OnMovieQueryListener;
 import genyus.com.whichmovie.task.manager.RequestManager;
+import genyus.com.whichmovie.utils.PicassoTrustAll;
+import genyus.com.whichmovie.view.ClearableAutoCompleteTextView;
 
 /**
  * Created by GENyUS on 04/02/16.
@@ -30,13 +33,14 @@ import genyus.com.whichmovie.task.manager.RequestManager;
 @EActivity(R.layout.activity_favorite_movie)
 public class FavoriteMovieActivity extends AppCompatActivity implements OnMovieQueryListener {
 
-    private MovieSuggestionAdapter suggestionAdapter;
+    private MovieAdapter movieAdapter;
+    private ArrayList<Movie> movies = new ArrayList<>();
 
     @Extra
     Intent appLaunchIntent;
 
-    @ViewById(R.id.search_view)
-    SearchView searchView;
+    @ViewById(R.id.search_autocomplete)
+    ClearableAutoCompleteTextView autoCompleteTextView;
 
     @ViewById(R.id.validate)
     Button validate;
@@ -46,36 +50,47 @@ public class FavoriteMovieActivity extends AppCompatActivity implements OnMovieQ
 
     @AfterViews
     protected void afterView() {
-        String[] columns = new String[] { "_id", "title", "date", "poster"};
-        MatrixCursor matrixCursor = new MatrixCursor(columns);
-        startManagingCursor(matrixCursor);
-        suggestionAdapter = new MovieSuggestionAdapter(this, matrixCursor);
-        SearchManager searchManager = (SearchManager) getSystemService(Context.SEARCH_SERVICE);
-        searchView.setSearchableInfo(searchManager.getSearchableInfo(getComponentName()));
-        searchView.setMaxWidth(1000);
-        searchView.setSuggestionsAdapter(suggestionAdapter);
-        searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+        movieAdapter = new MovieAdapter(this, movies);
+        autoCompleteTextView.setAdapter(movieAdapter);
+        autoCompleteTextView.setThreshold(3);
+        autoCompleteTextView.addTextChangedListener(new TextWatcher() {
+
             @Override
-            public boolean onQueryTextSubmit(String s) {
-                launchQueryString(s);
-                return false;
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+
             }
 
             @Override
-            public boolean onQueryTextChange(String s) {
-                launchQueryString(s);
-                return false;
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+                if(!s.toString().isEmpty() && s.toString().length() >= 3){
+                    launchQueryString(s.toString());
+                } else {
+                    validate.setEnabled(false);
+                }
             }
         });
-        searchView.setOnSuggestionListener(new SearchView.OnSuggestionListener() {
+        autoCompleteTextView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
-            public boolean onSuggestionSelect(int i) {
-                return false;
-            }
+            public void onItemClick(AdapterView<?> adapterView, View view, int position, long l) {
+                try {
+                    autoCompleteTextView.setText(new String(movies.get(position).getTitle().getBytes("ISO-8859-1"))+"("+movies.get(position).getRelease_date().substring(0,4)+")");
+                } catch (UnsupportedEncodingException e) {
+                    e.printStackTrace();
+                    autoCompleteTextView.setText(movies.get(position).getTitle()+"("+movies.get(position).getRelease_date().substring(0,4)+")");
+                }
 
-            @Override
-            public boolean onSuggestionClick(int i) {
-                return false;
+                if(null != movies.get(position).getPoster_path()){
+                    if (null != GlobalVars.configuration) {
+                        PicassoTrustAll.getInstance(FavoriteMovieActivity.this).load(GlobalVars.configuration.getBase_url() + GlobalVars.configuration.getPoster_sizes().get(GlobalVars.configuration.getPoster_sizes().size() - 2) + movies.get(position).getPoster_path()).noPlaceholder().into(movieThumbnail);
+                    }
+                }
+
+                validate.setEnabled(true);
             }
         });
     }
@@ -105,23 +120,9 @@ public class FavoriteMovieActivity extends AppCompatActivity implements OnMovieQ
         Log.d(genyus.com.whichmovie.classes.Log.TAG, "listMovies size = " + listMovies.size());
         runOnUiThread(new Runnable() {
             @Override
-            public void run() {
-                String[] columns = new String[] { "_id", "title", "date", "poster"};
-                MatrixCursor matrixCursor = new MatrixCursor(columns);
-                startManagingCursor(matrixCursor);
-
-                for(int i=0 ; i < listMovies.size() ; ++i){
-                    Movie movie = listMovies.get(i);
-                    if(null != movie.getTitle() && null != movie.getPoster_path() && null != movie.getRelease_date()){
-                        try {
-                            matrixCursor.addRow(new Object[] {movie.getId(), new String(movie.getTitle().getBytes("ISO-8859-1")), movie.getRelease_date(), movie.getPoster_path()});
-                        } catch (UnsupportedEncodingException e) {
-                            e.printStackTrace();
-                            matrixCursor.addRow(new Object[] {movie.getId(), movie.getTitle(), movie.getRelease_date(), movie.getPoster_path()});
-                        }
-                    }
-                }
-                suggestionAdapter.changeCursor(matrixCursor);
+            public void run() {movies.clear();
+                movies.addAll(listMovies);
+                movieAdapter.notifyDataSetChanged();
             }
         });
     }

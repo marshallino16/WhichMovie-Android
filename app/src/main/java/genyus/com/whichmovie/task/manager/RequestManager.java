@@ -250,13 +250,9 @@ public class RequestManager {
                 this.getQueryMovieInfos(callback, query);
             }
         } else {
-            if (ATTEMPT_MAX == currentAttempt) {
-                currentAttempt = 0;
-                callback.OnMovieQueryFailed(null);
-                return;
-            } else {
-                this.getQueryMovieInfos(callback, query);
-            }
+            currentAttempt = 0;
+            callback.OnMovieQueryFailed(null);
+            return;
         }
     }
 

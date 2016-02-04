@@ -1,7 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent">
+                android:layout_height="match_parent"
+                android:background="@color/progress">
+
+    <ImageView
+        android:id="@+id/movie_thumbnail"
+        android:layout_width="220dp"
+        android:layout_height="280dp"
+        android:layout_centerInParent="true"/>
 
     <ImageView
         android:layout_width="match_parent"
@@ -31,16 +38,35 @@
                 android:textColor="@android:color/white"
                 android:textSize="25dp"/>
 
-            <SearchView
-                android:id="@+id/search_view"
+            <ImageView
+                android:id="@+id/search_icon"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentLeft="true"
+                android:layout_centerVertical="true"
+                android:layout_marginLeft="@dimen/activity_horizontal_margin"
+                android:layout_marginRight="8dp"
+                android:src="@drawable/ic_youtube_searched_for_white_24dp"/>
+
+            <genyus.com.whichmovie.view.ClearableAutoCompleteTextView
+                android:id="@+id/search_autocomplete"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_centerInParent="true"
                 android:layout_marginLeft="@dimen/activity_horizontal_margin"
                 android:layout_marginRight="@dimen/activity_horizontal_margin"
-                android:iconifiedByDefault="false"
-                android:queryHint="@string/query_hint"
-                android:theme="@style/AppTheme.Widget"></SearchView>
+                android:layout_toRightOf="@+id/search_icon"
+                android:drawableLeft="@drawable/ic_youtube_searched_for_white_24dp"
+                android:drawablePadding="8dp"
+                android:ellipsize="end"
+                android:hint="@string/query_hint"
+                android:imeOptions="actionDone"
+                android:inputType="text"
+                android:lines="1"
+                android:maxLines="1"
+                android:singleLine="true"
+                android:textColor="@color/colorPrimaryDark"
+                android:theme="@style/AppTheme.NoActionBar"/>
 
 
         </RelativeLayout>
@@ -50,12 +76,6 @@
             android:layout_height="0dp"
             android:layout_weight="1"
             android:paddingTop="@dimen/activity_vertical_margin">
-
-            <ImageView
-                android:id="@+id/movie_thumbnail"
-                android:layout_width="170dp"
-                android:layout_height="220dp"
-                android:layout_centerInParent="true"/>
 
             <View
                 android:layout_width="match_parent"
