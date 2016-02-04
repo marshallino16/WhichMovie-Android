@@ -11,6 +11,7 @@ import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
 
 import genyus.com.whichmovie.R;
@@ -71,13 +72,23 @@ public class CrewRecyclerViewAdapter extends RecyclerView.Adapter<CrewRecyclerVi
         if(null == crew.getName() || crew.getName().isEmpty()){
             holder.name.setVisibility(View.INVISIBLE);
         } else {
-            holder.name.setText(""+crew.getName());
+            try {
+                holder.name.setText(""+new String(crew.getName().getBytes("ISO-8859-1")));
+            } catch (UnsupportedEncodingException e) {
+                e.printStackTrace();
+                holder.name.setText(""+crew.getName());
+            }
         }
 
         if(null == crew.getCharacter() || crew.getCharacter().isEmpty()){
             holder.nameCharac.setVisibility(View.INVISIBLE);
         } else {
-            holder.nameCharac.setText(Html.fromHtml("<i>"+context.getResources().getString(R.string.as)+" "+crew.getCharacter()+"</i>"));
+            try {
+                holder.nameCharac.setText(Html.fromHtml("<i>"+context.getResources().getString(R.string.as)+" "+ new String(crew.getCharacter().getBytes("ISO-8859-1"))+"</i>"));
+            } catch (UnsupportedEncodingException e) {
+                e.printStackTrace();
+                holder.nameCharac.setText(Html.fromHtml("<i>"+context.getResources().getString(R.string.as)+" "+crew.getCharacter()+"</i>"));
+            }
         }
 
         if(crew.isClicked){
