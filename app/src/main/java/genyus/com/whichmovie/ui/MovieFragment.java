@@ -290,7 +290,12 @@ public class MovieFragment extends Fragment implements ObservableScrollViewCallb
                     if(null != movie.getGooglePlay()){
                         IntentUtils.searchOnGooglePlay(activity, movie.getGooglePlay());
                     } else {
-                        IntentUtils.searchMovieOnGooglePlayByTitle(activity, movie.getTitle());
+                        try {
+                            IntentUtils.searchMovieOnGooglePlayByTitle(activity, new String(movie.getTitle().getBytes("ISO-8859-1")));
+                        } catch (UnsupportedEncodingException e) {
+                            e.printStackTrace();
+                            IntentUtils.searchMovieOnGooglePlayByTitle(activity, movie.getTitle());
+                        }
                     }
                 }
             }
