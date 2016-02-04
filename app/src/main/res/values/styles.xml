@@ -121,7 +121,8 @@
     </style>
 
     <style name="PrimaryColorButton" parent="@android:style/Widget.Button">
-        <item name="colorButtonNormal">@color/colorPrimary</item>
+        <item name="colorButtonNormal">@color/progress</item>
+        <item name="android:padding">10dp</item>
     </style>
 
 </resources>
