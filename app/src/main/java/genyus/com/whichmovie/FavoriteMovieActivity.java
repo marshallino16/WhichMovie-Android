@@ -93,6 +93,13 @@ public class FavoriteMovieActivity extends AppCompatActivity implements OnMovieQ
                 validate.setEnabled(true);
             }
         });
+
+        validate.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                goToNextActivity();
+            }
+        });
     }
 
     private void launchQueryString(final String s){
