@@ -1,5 +1,6 @@
 package genyus.com.whichmovie;
 
+import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.view.animation.Animation;
@@ -10,16 +11,18 @@ import android.widget.TextView;
 
 import org.androidannotations.annotations.AfterViews;
 import org.androidannotations.annotations.EActivity;
+import org.androidannotations.annotations.Extra;
+import org.androidannotations.annotations.UiThread;
 import org.androidannotations.annotations.ViewById;
-import org.androidannotations.api.BackgroundExecutor;
-
-import genyus.com.whichmovie.task.manager.RequestManager;
 
 /**
  * Created by GENyUS on 04/02/16.
  */
 @EActivity(R.layout.activity_first_screen)
 public class LauncherActivity extends AppCompatActivity {
+
+    @Extra
+    Intent appLaunchIntent;
 
     @ViewById(R.id.relevant_icon)
     ImageView relevantIcon;
@@ -44,8 +47,6 @@ public class LauncherActivity extends AppCompatActivity {
 
     @AfterViews
     protected void afterView() {
-        getAllConfigurations();
-
         Animation slideFromLeft = AnimationUtils.loadAnimation(this, R.anim.slide_left);
         Animation slideFromRight = AnimationUtils.loadAnimation(this, R.anim.slide_right);
 
@@ -60,19 +61,20 @@ public class LauncherActivity extends AppCompatActivity {
         next.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                FavoriteMovieActivity_.intent(LauncherActivity.this).start();
+                goToNextActivity();
             }
         });
     }
 
-    private void getAllConfigurations(){
-        BackgroundExecutor.execute(new Runnable() {
-            @Override
-            public void run() {
-                RequestManager.getInstance(LauncherActivity.this).getConfigurations(null);
-                RequestManager.getInstance(LauncherActivity.this).getAllCategories(null);
-                RequestManager.getInstance(LauncherActivity.this).getMoviesFromCategory(LauncherActivity.this, null);
-            }
-        });
+    @Override
+    public void onNewIntent(Intent intent) {
+        this.setIntent(intent);
     }
+
+    @UiThread(propagation = UiThread.Propagation.REUSE)
+    void goToNextActivity() {
+        FavoriteMovieActivity_.intent(LauncherActivity.this).appLaunchIntent(getIntent()).start();
+        LauncherActivity.this.finish();
+    }
+
 }

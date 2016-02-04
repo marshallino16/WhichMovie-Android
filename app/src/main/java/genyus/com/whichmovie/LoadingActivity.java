@@ -89,7 +89,7 @@ public class LoadingActivity extends MovieActivity implements OnConfigurationLis
 
     @UiThread(propagation = UiThread.Propagation.REUSE)
     void goToNextActivity() {
-        MainActivity_.intent(LoadingActivity.this).appLaunchIntent(getIntent()).start();
+        LauncherActivity_.intent(LoadingActivity.this).appLaunchIntent(getIntent()).start();
         LoadingActivity.this.finish();
     }
 
