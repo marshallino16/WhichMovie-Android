@@ -86,7 +86,7 @@ public class MovieFragment extends Fragment implements ObservableScrollViewCallb
     //Views
     private FloatingActionButton next;
     private View margin, overlay, progressAlpha, progress;
-    private TextView title, vote, synopsis, productionCompanies, releaseDate, homepage;
+    private TextView title, vote, synopsis, productionCompanies, releaseDate, homepage, director;
     private CurrencyTextView budget, revenue;
     private ImageView poster, posterBlur;
     private ForegroundImageView firstVideoImage, googlePlay, vudu;
@@ -155,6 +155,7 @@ public class MovieFragment extends Fragment implements ObservableScrollViewCallb
         hashtags = (HashtagView) view.findViewById(R.id.hashtags);
         synopsis = (TextView) view.findViewById(R.id.synopsis);
         homepage = (TextView) view.findViewById(R.id.homepage);
+        director = (TextView) view.findViewById(R.id.director);
         listCast = (RecyclerView) view.findViewById(R.id.cast);
         fragmentContainer = (FrameLayout) view.findViewById(R.id.fragment_root);
         firstVideoImage = (ForegroundImageView) view.findViewById(R.id.first_video_thumbnail);
@@ -472,6 +473,16 @@ public class MovieFragment extends Fragment implements ObservableScrollViewCallb
                 @Override
                 public void run() {
                     //crew
+                    if(null != movie.getDirector() && !movie.getDirector().isEmpty()){
+                        try {
+                            director.setText(getResources().getString(R.string.director, new String(movie.getDirector().getBytes("ISO-8859-1"))));
+                        } catch (UnsupportedEncodingException e) {
+                            e.printStackTrace();
+                            director.setText(getResources().getString(R.string.director, movie.getDirector()));
+                        }
+                    }
+
+                    //cast
                     ArrayList<Crew> listCrew = movie.getCrew();
                     if (listCrew.size() > 21) {
                         listCrew = new ArrayList<>(movie.getCrew().subList(0, 20));

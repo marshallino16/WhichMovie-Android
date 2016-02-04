@@ -18,8 +18,10 @@ import genyus.com.whichmovie.utils.ObjectUtils;
 public class CrewSerializer {
 
     private final static String ARRAY_CAST = "cast";
+    private final static String ARRAY_CREW = "crew";
     private final static String OBJECT_ID = "id";
     private final static String OBJECT_NAME = "name";
+    private final static String OBJECT_JOB = "job";
     private final static String OBJECT_PROFILE_PATH = "profile_path";
     private final static String OBJECT_CAST_ID = "cast_id";
     private final static String OBJECT_CHARACTER = "character";
@@ -30,6 +32,7 @@ public class CrewSerializer {
         JsonParser parser = new JsonParser();
         JsonObject jo = (JsonObject) parser.parse(json);
         JsonArray ja = jo.getAsJsonArray(ARRAY_CAST);
+        JsonArray crewArray = jo.getAsJsonArray(ARRAY_CREW);
 
         Movie movie = ObjectUtils.getMovieById(movieid);
         if(null != movie){
@@ -44,17 +47,30 @@ public class CrewSerializer {
                     }
 
                     JsonElement name = castObject.get(OBJECT_NAME);
-                    if(!name.isJsonNull() && null != name && null != name.getAsString() && !name.getAsString().isEmpty()){
+                    if(null != name && !name.isJsonNull() && null != name.getAsString() && !name.getAsString().isEmpty()){
                         crew.setName(name.getAsString());
                     }
                     JsonElement profile_path = castObject.get(OBJECT_PROFILE_PATH);
-                    if(!profile_path.isJsonNull() && null != profile_path && null != profile_path.getAsString() && !profile_path.getAsString().isEmpty()){
+                    if(null!= profile_path && !profile_path.isJsonNull() && null != profile_path && null != profile_path.getAsString() && !profile_path.getAsString().isEmpty()){
                         crew.setProfile_path(profile_path.getAsString());
                     }
 
                     JsonElement character = castObject.get(OBJECT_CHARACTER);
-                    if(!character.isJsonNull() && null != character && null != character.getAsString() && !character.getAsString().isEmpty()){
+                    if(null != character && !character.isJsonNull() && null != character && null != character.getAsString() && !character.getAsString().isEmpty()){
                         crew.setCharacter(character.getAsString());
+                    }
+
+                    if (null != crewArray) {
+                        for (JsonElement crewMember : crewArray) {
+                            JsonObject crewObject = crewMember.getAsJsonObject();
+                            JsonElement job = crewObject.get(OBJECT_JOB);
+                            JsonElement nameDirector = crewObject.get(OBJECT_NAME);
+                            if(!job.isJsonNull() && null != job && null != job.getAsString() && !job.getAsString().isEmpty() && job.getAsString().equals("Director")){
+                                if(null != nameDirector && !nameDirector.isJsonNull()&& null != nameDirector.getAsString() && !nameDirector.getAsString().isEmpty()){
+                                    movie.setDirector(nameDirector.getAsString());
+                                }
+                            }
+                        }
                     }
 
                     movie.getCrew().add(crew);

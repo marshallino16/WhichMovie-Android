@@ -66,6 +66,7 @@
 
     <!-- sections -->
     <string name="as">as</string>
+    <string name="director">Director : %1$s</string>
     <string name="overview">Overview</string>
     <string name="cast">Casting</string>
     <string name="production_companie">Production companies</string>

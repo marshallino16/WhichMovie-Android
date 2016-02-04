@@ -65,6 +65,7 @@
     <string name="image_saved">L\'image a bien été sauvegardée.</string>
 
     <!-- sections -->
+    <string name="director">Directeur : %1$s</string>
     <string name="as">en</string>
     <string name="overview">Vue d\'ensemble</string>
     <string name="cast">Casting</string>

@@ -21,6 +21,7 @@ public class Movie implements Serializable {
     private String overview = "";
     private String release_date = "";
     private String poster_path;
+    private String director;
     private Double popularity;
     private String title = "";
     private boolean video;
@@ -245,6 +246,14 @@ public class Movie implements Serializable {
 
     public void setGooglePlay(String googlePlay) {
         this.googlePlay = googlePlay;
+    }
+
+    public String getDirector() {
+        return director;
+    }
+
+    public void setDirector(String director) {
+        this.director = director;
     }
 
     @Override
