@@ -126,7 +126,7 @@ public class RequestManager {
         }
 
         if(BuildConfig.DEBUG){
-            nameValuePairs.add(new BasicNameValuePair("year", "2011"));
+            nameValuePairs.add(new BasicNameValuePair("year", "2014"));
         }
 
         RequestReturn returnedCode = RequestSender.sendRequestGet(APIConst.API_BASE_URL, APIConst.API_LIST_MOVIES_CATEGORY, nameValuePairs);
@@ -160,7 +160,7 @@ public class RequestManager {
         nameValuePairs.add(new BasicNameValuePair("page", String.valueOf(GlobalVars.getPage(context))));
 
         if(BuildConfig.DEBUG){
-            nameValuePairs.add(new BasicNameValuePair("year", "2011"));
+            nameValuePairs.add(new BasicNameValuePair("year", "2014"));
         }
 
         nameValuePairs.add(new BasicNameValuePair("release_date.lte", UnitsUtils.getNowTime()));

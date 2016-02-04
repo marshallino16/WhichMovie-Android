@@ -220,7 +220,7 @@
                     android:orientation="horizontal"
                     android:paddingLeft="@dimen/activity_horizontal_margin"
                     android:paddingRight="@dimen/activity_horizontal_margin"
-                    android:visibility="gone">
+                    android:visibility="visible">
 
                     <RelativeLayout
                         android:layout_width="wrap_content"
@@ -252,7 +252,7 @@
                         android:layout_gravity="center_vertical"
                         android:layout_marginLeft="10dp"
                         android:background="@drawable/vudu"
-                        android:visibility="visible"
+                        android:visibility="gone"
                         custom:foreground="@drawable/ripple_background"/>
 
                 </LinearLayout>

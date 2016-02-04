@@ -16,7 +16,11 @@
     <!-- search -->
     <string name="search_on">Watch on</string>
 
+    <!-- onboarding -->
+    <string name="next">Next</string>
+
     <!-- preferences -->
+    <string name="about">About</string>
     <string name="ok">cool!</string>
     <string name="preferences">Preferences</string>
     <string name="thank">Thank you for checking!</string>

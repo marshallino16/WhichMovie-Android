@@ -28,6 +28,9 @@
             android:key="version"
             android:summary="@string/version_summary"
             android:title="@string/version"/>
+        <PreferenceScreen
+            android:key="about"
+            android:title="@string/about"/>
     </PreferenceCategory>
 
 </PreferenceScreen>

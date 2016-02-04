@@ -1,5 +1,6 @@
 package genyus.com.whichmovie.utils;
 
+import android.content.ActivityNotFoundException;
 import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
@@ -31,6 +32,17 @@ public class IntentUtils {
             mContext.startActivity(rateAppIntent);
         } else {
             Toast.makeText(mContext, "First, install Google Play Movie App :)", Toast.LENGTH_SHORT).show();
+        }
+    }
+
+    public final static void searchMovieOnGooglePlayByTitle(Context mContext, String title){
+        Uri uri = Uri.parse("https://play.google.com/store/search?c=movies&q=" + title);
+        Intent myAppLinkToMarket = new Intent(Intent.ACTION_VIEW, uri);
+        try {
+            mContext.startActivity(myAppLinkToMarket);
+        } catch (ActivityNotFoundException e) {
+            Toast.makeText(mContext, "First, install Google Play Movie App :)", Toast.LENGTH_SHORT).show();
+
         }
     }
 

@@ -9,6 +9,7 @@
     <string name="notification_message">Vous vous demandez ce que vous allez regarder ce soir? Tonight\'s movie peut vous aider!</string>
 
     <!-- preferences -->
+    <string name="about">A propos</string>
     <string name="ok">cool!</string>
     <string name="preferences">Préférences</string>
     <string name="thank">Merci d\'avoir cliqué!</string>
@@ -38,6 +39,9 @@
 
     <!-- search -->
     <string name="search_on">Regarder sur</string>
+
+    <!-- onboarding -->
+    <string name="next">Suivant</string>
 
     <!-- update -->
     <string name="update_title">Mise à jour disponible</string>

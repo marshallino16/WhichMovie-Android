@@ -1,36 +1,59 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-              xmlns:custom="http://schemas.android.com/apk/res-auto"
-              android:layout_width="match_parent"
-              android:layout_height="match_parent"
-              android:orientation="vertical">
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:custom="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
 
-    <genyus.com.whichmovie.view.foreground.ForegroundRelativeLayout
+    <ImageView
         android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_weight="1"
-        custom:foreground="@drawable/ripple_background">
+        android:layout_height="match_parent"
+        android:scaleType="centerCrop"
+        android:src="@drawable/posters"/>
 
-    </genyus.com.whichmovie.view.foreground.ForegroundRelativeLayout>
-
-    <genyus.com.whichmovie.view.foreground.ForegroundRelativeLayout
+    <View
         android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_weight="1"
-        custom:foreground="@drawable/ripple_background">
+        android:layout_height="match_parent"
+        android:background="@color/colorPrimaryDarkAlpha"/>
 
-    </genyus.com.whichmovie.view.foreground.ForegroundRelativeLayout>
-
-    <genyus.com.whichmovie.view.foreground.ForegroundRelativeLayout
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_weight="1"
-        custom:foreground="@drawable/ripple_background">
+        android:layout_height="match_parent"
+        android:orientation="vertical">
 
-        <Button
+        <genyus.com.whichmovie.view.foreground.ForegroundRelativeLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"/>
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            custom:foreground="@drawable/ripple_background">
 
-    </genyus.com.whichmovie.view.foreground.ForegroundRelativeLayout>
+        </genyus.com.whichmovie.view.foreground.ForegroundRelativeLayout>
 
-</LinearLayout>
+        <genyus.com.whichmovie.view.foreground.ForegroundRelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            custom:foreground="@drawable/ripple_background">
+
+        </genyus.com.whichmovie.view.foreground.ForegroundRelativeLayout>
+
+        <genyus.com.whichmovie.view.foreground.ForegroundRelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            custom:foreground="@drawable/ripple_background">
+
+            <Button
+                style="@style/PrimaryColorButton"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_alignParentBottom="true"
+                android:text="@string/next"
+                android:textAppearance="?android:attr/textAppearanceMedium"
+                android:textColor="@android:color/white"/>
+
+        </genyus.com.whichmovie.view.foreground.ForegroundRelativeLayout>
+
+    </LinearLayout>
+
+</RelativeLayout>

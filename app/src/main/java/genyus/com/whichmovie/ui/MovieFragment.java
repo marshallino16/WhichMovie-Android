@@ -285,8 +285,12 @@ public class MovieFragment extends Fragment implements ObservableScrollViewCallb
         googlePlay.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if(null != activity && null != movie.getGooglePlay()){
-                    IntentUtils.searchOnGooglePlay(activity, movie.getGooglePlay());
+                if(null != activity){
+                    if(null != movie.getGooglePlay()){
+                        IntentUtils.searchOnGooglePlay(activity, movie.getGooglePlay());
+                    } else {
+                        IntentUtils.searchMovieOnGooglePlayByTitle(activity, movie.getTitle());
+                    }
                 }
             }
         });
@@ -587,15 +591,10 @@ public class MovieFragment extends Fragment implements ObservableScrollViewCallb
                 @Override
                 public void run() {
                     if (null != getActivity()) {
-                        if(null != movie.getVudu() || null != movie.getGooglePlay()){
+                        if(null != movie.getVudu()){
                             if(null != view){
-                                view.findViewById(R.id.streaming_container).setVisibility(View.VISIBLE);
                                 if(null == movie.getVudu()){
-                                    view.findViewById(R.id.vudu).setVisibility(View.GONE);
-                                }
-
-                                if(null == movie.getGooglePlay()){
-                                    view.findViewById(R.id.googleplay).setVisibility(View.GONE);
+                                    view.findViewById(R.id.vudu).setVisibility(View.VISIBLE);
                                 }
                             }
                         }
