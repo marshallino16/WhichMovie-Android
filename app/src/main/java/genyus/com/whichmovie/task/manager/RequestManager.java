@@ -71,7 +71,9 @@ public class RequestManager {
                 Log.d(genyus.com.whichmovie.classes.Log.TAG, "configuration json = " + returnedCode.json);
                 ConfigurationSerializer.fillConfigurationObject(returnedCode.json);
                 currentAttempt = 0;
-                callback.OnConfigurationGet();
+                if(null != callback){
+                    callback.OnConfigurationGet();
+                }
                 return;
             } else {
                 this.getConfigurations(callback);
@@ -79,7 +81,9 @@ public class RequestManager {
         } else {
             if (ATTEMPT_MAX == currentAttempt) {
                 currentAttempt = 0;
-                callback.OnConfigurationFailed(null);
+                if(null != callback){
+                    callback.OnConfigurationFailed(null);
+                }
                 return;
             } else {
                 this.getConfigurations(callback);
@@ -97,7 +101,9 @@ public class RequestManager {
                 Log.d(genyus.com.whichmovie.classes.Log.TAG, "categories json = " + returnedCode.json);
                 CategoriesSerializer.fillCategoriesObject(returnedCode.json);
                 currentAttempt = 0;
-                callback.OnCategoriesGet();
+                if(null != callback){
+                    callback.OnCategoriesGet();
+                }
                 return;
             } else {
                 this.getAllCategories(callback);
@@ -105,7 +111,9 @@ public class RequestManager {
         } else {
             if (ATTEMPT_MAX == currentAttempt) {
                 currentAttempt = 0;
-                callback.OnCategoriesFailed(null);
+                if(null != callback){
+                    callback.OnCategoriesFailed(null);
+                }
                 return;
             } else {
                 this.getAllCategories(callback);
@@ -143,7 +151,9 @@ public class RequestManager {
         } else {
             if (ATTEMPT_MAX == currentAttempt) {
                 currentAttempt = 0;
-                callback.OnMoviesFailed(null);
+                if(null != callback){
+                    callback.OnMoviesFailed(null);
+                }
                 return;
             } else {
                 this.getMoviesFromCategory(context, callback);

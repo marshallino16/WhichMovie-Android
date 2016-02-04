@@ -131,7 +131,9 @@ public class MovieSerializer {
 
         GlobalVars.movies.clear();
         GlobalVars.movies.addAll(movies);
-        callback.OnMoviesGet();
+        if(null != callback){
+            callback.OnMoviesGet();
+        }
     }
 
     public static void fillNewMoviesObject(String json, OnNewMoviesListener callback) {
@@ -226,7 +228,9 @@ public class MovieSerializer {
         }
 
         GlobalVars.movies.addAll(movies);
-        callback.OnNewMoviesGet();
+        if(null != callback){
+            callback.OnNewMoviesGet();
+        }
     }
 
     @Deprecated
