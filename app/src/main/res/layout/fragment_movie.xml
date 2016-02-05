@@ -455,6 +455,16 @@
 
                 </LinearLayout>
 
+                <com.google.android.gms.ads.AdView
+                    android:id="@+id/adView"
+                    xmlns:ads="http://schemas.android.com/apk/res-auto"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_horizontal"
+                    android:visibility="visible"
+                    ads:adSize="BANNER"
+                    ads:adUnitId="ca-app-pub-8173266224774166/3263031131"/>
+
                 <LinearLayout
                     android:id="@+id/video_container"
                     android:layout_width="match_parent"
@@ -603,6 +613,17 @@
                     android:gravity="center"
                     android:numColumns="auto_fit"
                     android:stretchMode="columnWidth"/>
+
+                <com.google.android.gms.ads.AdView
+                    android:id="@+id/adView2"
+                    xmlns:ads="http://schemas.android.com/apk/res-auto"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_horizontal"
+                    android:layout_marginBottom="15dp"
+                    android:visibility="visible"
+                    ads:adSize="BANNER"
+                    ads:adUnitId="ca-app-pub-8173266224774166/8647939939"/>
 
             </LinearLayout>
 

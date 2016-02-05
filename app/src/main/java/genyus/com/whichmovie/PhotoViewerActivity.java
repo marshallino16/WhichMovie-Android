@@ -77,7 +77,7 @@ public class PhotoViewerActivity extends AppCompatActivity implements View.OnCli
     @AfterViews
     protected void afterViews() {
         if(new Ads().shouldDisplayInter()){
-            AdRequest adRequestInter = new AdRequest.Builder().build();
+            AdRequest adRequestInter = new AdRequest.Builder().addTestDevice("4021507637D702F226B9BE7F5F801BC5").build();
 
             interstitial = new InterstitialAd(PhotoViewerActivity.this);
             interstitial.setAdUnitId(Ads.inter_image);

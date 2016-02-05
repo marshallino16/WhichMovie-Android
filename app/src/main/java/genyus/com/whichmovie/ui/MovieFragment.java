@@ -32,6 +32,8 @@ import com.github.ksoichiro.android.observablescrollview.ObservableScrollView;
 import com.github.ksoichiro.android.observablescrollview.ObservableScrollViewCallbacks;
 import com.github.ksoichiro.android.observablescrollview.ScrollState;
 import com.github.ksoichiro.android.observablescrollview.ScrollUtils;
+import com.google.android.gms.ads.AdRequest;
+import com.google.android.gms.ads.AdView;
 import com.greenfrvr.hashtagview.HashtagView;
 import com.squareup.picasso.Callback;
 import com.squareup.picasso.Picasso;
@@ -83,6 +85,10 @@ public class MovieFragment extends Fragment implements ObservableScrollViewCallb
     public int vibrantRGB = -1;
     private float height = 0;
 
+    //adview
+    private AdView adView;
+    private AdView adView2;
+
     //Views
     private FloatingActionButton next;
     private View margin, overlay, progressAlpha, progress;
@@ -131,9 +137,31 @@ public class MovieFragment extends Fragment implements ObservableScrollViewCallb
     }
 
     @Override
+    public void onPause() {
+        super.onPause();
+        if (adView != null && adView2 != null) {
+            adView.pause();
+            adView2.pause();
+        }
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        if (adView != null && adView2 != null) {
+            adView.resume();
+            adView2.resume();
+        }
+    }
+
+    @Override
     public void onDestroy() {
         super.onDestroy();
         PicassoTrustAll.getInstance(activity).cancelRequest(targetPoster);
+        if (adView != null && adView2 != null) {
+            adView.destroy();
+            adView2.destroy();
+        }
     }
 
     @Nullable
@@ -141,6 +169,8 @@ public class MovieFragment extends Fragment implements ObservableScrollViewCallb
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         view = inflater.inflate(R.layout.fragment_movie, container, false);
 
+        adView = (AdView) view.findViewById(R.id.adView);
+        adView2 = (AdView) view.findViewById(R.id.adView2);
         next = (FloatingActionButton) view.findViewById(R.id.fab);
         margin = view.findViewById(R.id.margin);
         overlay = view.findViewById(R.id.overlay);
@@ -175,6 +205,12 @@ public class MovieFragment extends Fragment implements ObservableScrollViewCallb
 
         overlay.setAlpha(0);
         posterBlurContainer.setAlpha(0);
+
+        //ads
+        AdRequest adRequest = new AdRequest.Builder().addTestDevice("4021507637D702F226B9BE7F5F801BC5").build();
+        AdRequest adRequest2 = new AdRequest.Builder().addTestDevice("4021507637D702F226B9BE7F5F801BC5").build();
+        adView.loadAd(adRequest);
+        adView2.loadAd(adRequest2);
 
         //header image loading
         if (null != GlobalVars.configuration) {

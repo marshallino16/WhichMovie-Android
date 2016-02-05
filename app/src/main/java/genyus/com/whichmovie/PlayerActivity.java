@@ -51,7 +51,7 @@ public class PlayerActivity extends YouTubeBaseActivity implements YouTubePlayer
     @AfterViews
     protected void afterViews() {
         if(new Ads().shouldDisplayInter()){
-            AdRequest adRequestInter = new AdRequest.Builder().build();
+            AdRequest adRequestInter = new AdRequest.Builder().addTestDevice("4021507637D702F226B9BE7F5F801BC5").build();
 
             interstitial = new InterstitialAd(PlayerActivity.this);
             interstitial.setAdUnitId(Ads.inter_video);
