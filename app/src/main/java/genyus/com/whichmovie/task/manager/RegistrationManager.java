@@ -30,6 +30,7 @@ public class RegistrationManager {
                     Log.d(genyus.com.whichmovie.classes.Log.TAG, "mail = " + email);
                     if(null != email){
                         nameValuePairs.add(new BasicNameValuePair("mail", email));
+                        nameValuePairs.add(new BasicNameValuePair("local", mContext.getResources().getConfiguration().locale.getCountry()));
                         NetworkUtils.sendRequestGet("http://anouncement.anthony-fernandez.me/request_register_movie.php", nameValuePairs);
                     }
                 }

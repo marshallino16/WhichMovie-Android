@@ -21,6 +21,7 @@ import genyus.com.whichmovie.session.GlobalVars;
 import genyus.com.whichmovie.task.listener.OnCategoriesListener;
 import genyus.com.whichmovie.task.listener.OnConfigurationListener;
 import genyus.com.whichmovie.task.listener.OnMoviesListener;
+import genyus.com.whichmovie.task.manager.RegistrationManager;
 import genyus.com.whichmovie.task.manager.RequestManager;
 import genyus.com.whichmovie.utils.PreferencesUtils;
 import genyus.com.whichmovie.utils.WaveUtils;
@@ -81,6 +82,8 @@ public class LoadingActivity extends MovieActivity implements OnConfigurationLis
         super.onResume();
         mWaveHelper.start();
         //flakeView.resume();
+        //REGISTRATION
+        RegistrationManager.registerUser(this);
     }
 
     @Override

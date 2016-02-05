@@ -33,7 +33,6 @@ import genyus.com.whichmovie.model.Movie;
 import genyus.com.whichmovie.session.GlobalVars;
 import genyus.com.whichmovie.task.listener.OnMoviesListener;
 import genyus.com.whichmovie.task.listener.OnNewMoviesListener;
-import genyus.com.whichmovie.task.manager.RegistrationManager;
 import genyus.com.whichmovie.task.manager.RequestManager;
 import genyus.com.whichmovie.ui.MovieFragment;
 import genyus.com.whichmovie.utils.AppUtils;
@@ -145,8 +144,6 @@ public class MainActivity extends AppCompatActivity implements OnMoviesListener,
     @Override
     protected void onResume() {
         super.onResume();
-        //REGISTRATION
-        RegistrationManager.registerUser(this);
         //Version code
         PreferencesUtils.setLastAppVersionCode(this);
         //Check available update
