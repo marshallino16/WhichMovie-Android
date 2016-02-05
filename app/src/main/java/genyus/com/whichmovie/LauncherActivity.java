@@ -1,6 +1,8 @@
 package genyus.com.whichmovie;
 
 import android.content.Intent;
+import android.os.Bundle;
+import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.view.animation.Animation;
@@ -14,6 +16,8 @@ import org.androidannotations.annotations.EActivity;
 import org.androidannotations.annotations.Extra;
 import org.androidannotations.annotations.UiThread;
 import org.androidannotations.annotations.ViewById;
+
+import genyus.com.whichmovie.utils.AnalyticsEventUtils;
 
 /**
  * Created by GENyUS on 04/02/16.
@@ -44,6 +48,12 @@ public class LauncherActivity extends AppCompatActivity {
 
     @ViewById(R.id.next)
     Button next;
+
+    @Override
+    protected void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        AnalyticsEventUtils.sendScreenEnterAction(LauncherActivity.class.getName());
+    }
 
     @AfterViews
     protected void afterView() {
@@ -77,4 +87,9 @@ public class LauncherActivity extends AppCompatActivity {
         LauncherActivity.this.finish();
     }
 
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        AnalyticsEventUtils.sendScreenQuitAction(LauncherActivity.class.getName());
+    }
 }

@@ -19,6 +19,7 @@ import genyus.com.whichmovie.PlayerActivity_;
 import genyus.com.whichmovie.R;
 import genyus.com.whichmovie.classes.Quality;
 import genyus.com.whichmovie.model.Video;
+import genyus.com.whichmovie.utils.AnalyticsEventUtils;
 import genyus.com.whichmovie.utils.PicassoTrustAll;
 import genyus.com.whichmovie.utils.YouTubeThumbnail;
 
@@ -64,6 +65,7 @@ public class VideoAdapter extends ArrayAdapter<Video> {
         thumbnail.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                AnalyticsEventUtils.sendClickAction("Video_"+listVideos.get(position).getType()+"_"+listVideos.get(position).getKey());
                 PlayerActivity_.intent(context).videoKey(listVideos.get(position).getKey()).start();
             }
         });

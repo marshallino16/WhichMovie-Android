@@ -27,6 +27,7 @@ import genyus.com.whichmovie.model.Movie;
 import genyus.com.whichmovie.session.GlobalVars;
 import genyus.com.whichmovie.task.listener.OnMovieQueryListener;
 import genyus.com.whichmovie.task.manager.RequestManager;
+import genyus.com.whichmovie.utils.AnalyticsEventUtils;
 import genyus.com.whichmovie.utils.PicassoTrustAll;
 import genyus.com.whichmovie.utils.PreferencesUtils;
 import genyus.com.whichmovie.view.ClearableAutoCompleteTextView;
@@ -60,6 +61,7 @@ public class FavoriteMovieActivity extends AppCompatActivity implements OnMovieQ
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         setTheme(R.style.AppTheme_NoActionBar_Parent);
         super.onCreate(savedInstanceState);
+        AnalyticsEventUtils.sendScreenEnterAction(FavoriteMovieActivity.class.getName());
     }
 
     @AfterViews
@@ -103,6 +105,7 @@ public class FavoriteMovieActivity extends AppCompatActivity implements OnMovieQ
                 date = movies.get(position).getRelease_date();
 
                 enable = true;
+                AnalyticsEventUtils.sendSuggestionAction("Movie_"+movies.get(position).getTitle());
             }
         });
 
@@ -122,6 +125,12 @@ public class FavoriteMovieActivity extends AppCompatActivity implements OnMovieQ
                 }
             }
         });
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        AnalyticsEventUtils.sendScreenQuitAction(FavoriteMovieActivity.class.getName());
     }
 
     private void launchQueryString(final String s) {

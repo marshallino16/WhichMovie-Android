@@ -17,6 +17,7 @@ import org.androidannotations.annotations.Extra;
 import org.androidannotations.annotations.ViewById;
 
 import genyus.com.whichmovie.classes.Config;
+import genyus.com.whichmovie.utils.AnalyticsEventUtils;
 
 /**
  * Created by GENyUS on 31/01/16.
@@ -38,6 +39,7 @@ public class PlayerActivity extends YouTubeBaseActivity implements YouTubePlayer
         requestWindowFeature(Window.FEATURE_NO_TITLE);
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,
                 WindowManager.LayoutParams.FLAG_FULLSCREEN);
+        AnalyticsEventUtils.sendScreenEnterAction(PlayerActivity.class.getName());
     }
 
     @AfterViews
@@ -141,4 +143,10 @@ public class PlayerActivity extends YouTubeBaseActivity implements YouTubePlayer
         public void onVideoStarted() {
         }
     };
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        AnalyticsEventUtils.sendScreenQuitAction(PlayerActivity.class.getName());
+    }
 }

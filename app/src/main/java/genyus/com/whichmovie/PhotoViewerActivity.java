@@ -4,7 +4,9 @@ import android.Manifest;
 import android.content.pm.PackageManager;
 import android.content.res.ColorStateList;
 import android.os.AsyncTask;
+import android.os.Bundle;
 import android.os.Environment;
+import android.support.annotation.Nullable;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
@@ -33,6 +35,7 @@ import java.util.Date;
 import genyus.com.whichmovie.adapter.ImageSlideshowPagerAdapter;
 import genyus.com.whichmovie.model.Image;
 import genyus.com.whichmovie.session.GlobalVars;
+import genyus.com.whichmovie.utils.AnalyticsEventUtils;
 
 @EActivity(R.layout.activity_photo_viewer)
 public class PhotoViewerActivity extends AppCompatActivity implements View.OnClickListener {
@@ -57,6 +60,12 @@ public class PhotoViewerActivity extends AppCompatActivity implements View.OnCli
 
     @ViewById(R.id.viewpager)
     ViewPager slideShow;
+
+    @Override
+    protected void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        AnalyticsEventUtils.sendScreenEnterAction(PhotoViewerActivity.class.getName());
+    }
 
     @AfterViews
     protected void afterViews() {
@@ -91,6 +100,7 @@ public class PhotoViewerActivity extends AppCompatActivity implements View.OnCli
                 }
 
                 final String url = GlobalVars.configuration.getBase_url() + GlobalVars.configuration.getBackdrop_sizes().get(GlobalVars.configuration.getBackdrop_sizes().size() - 1) + listImagesSlide.get(slideShow.getCurrentItem()).getPath();
+                AnalyticsEventUtils.sendSaveAction("Save_"+url);
                 new DownloadFile().execute(url);
             }
         }
@@ -169,5 +179,11 @@ public class PhotoViewerActivity extends AppCompatActivity implements View.OnCli
                 }
             }
         }
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        AnalyticsEventUtils.sendScreenQuitAction(PhotoViewerActivity.class.getName());
     }
 }

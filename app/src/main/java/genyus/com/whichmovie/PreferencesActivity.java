@@ -36,6 +36,9 @@ public class PreferencesActivity extends AppCompatPreferenceActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         addPreferencesFromResource(R.xml.preferences);
+
+        AnalyticsEventUtils.sendScreenEnterAction(PreferencesActivity.class.getName());
+
         getSupportActionBar().setTitle(R.string.preferences);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
@@ -62,6 +65,7 @@ public class PreferencesActivity extends AppCompatPreferenceActivity {
         findPreference("resetMoviePreferences").setOnPreferenceClickListener(new CustomPreferenceClickListener() {
             @Override
             public boolean onClick(Preference preference) {
+                AnalyticsEventUtils.sendClickAction("Reset_movie_prefs");
                 PreferencesUtils.setPagePreference(PreferencesActivity.this, 1);
                 Toast.makeText(PreferencesActivity.this, getResources().getString(R.string.changes_next_time), Toast.LENGTH_LONG).show();
                 return false;
@@ -79,6 +83,7 @@ public class PreferencesActivity extends AppCompatPreferenceActivity {
         findPreference("checkboxToCheck").setOnPreferenceChangeListener(new Preference.OnPreferenceChangeListener() {
             @Override
             public boolean onPreferenceChange(Preference preference, Object newValue) {
+                AnalyticsEventUtils.sendClickAction("Checkbox_to_check");
                 if ((Boolean) newValue == true) {
                     new MaterialDialog.Builder(PreferencesActivity.this)
                             .content(getResources().getString(R.string.thank))
@@ -93,6 +98,7 @@ public class PreferencesActivity extends AppCompatPreferenceActivity {
         ratePreference.setOnPreferenceClickListener(new CustomPreferenceClickListener() {
             @Override
             public boolean onClick(android.preference.Preference preference) {
+                AnalyticsEventUtils.sendClickAction("Rate");
                 final RatingDialog fiveStarsDialog = new RatingDialog(PreferencesActivity.this, "dev.genyus@gmail.com");
                 fiveStarsDialog.setRateText("That kind of you!\nWhy don't you take 5 seconds to rate us? \nAnd do not forget, we love you very much!")
                         .setTitle("So rate us maybe")
@@ -101,7 +107,7 @@ public class PreferencesActivity extends AppCompatPreferenceActivity {
                         .setNegativeReviewListener(new NegativeReviewListener() {
                             @Override
                             public void onNegativeReview(int i) {
-                                AnalyticsEventUtils.sendEventAction("Rate", "bad - " + i);
+                                AnalyticsEventUtils.sendRateAction("bad - " + i);
                             }
                         })
                         .setReviewListener(new ReviewListener() {
@@ -132,6 +138,7 @@ public class PreferencesActivity extends AppCompatPreferenceActivity {
             version.setOnPreferenceClickListener(new CustomPreferenceClickListener() {
                 @Override
                 public boolean onClick(android.preference.Preference preference) {
+                    AnalyticsEventUtils.sendClickAction("Version");
                     showVersionDialog();
                     return true;
                 }
@@ -139,6 +146,12 @@ public class PreferencesActivity extends AppCompatPreferenceActivity {
         } catch (Exception ignore) {
         }
 
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        AnalyticsEventUtils.sendScreenQuitAction(PreferencesActivity.class.getName());
     }
 
     private abstract class CustomPreferenceClickListener implements android.preference.Preference.OnPreferenceClickListener {

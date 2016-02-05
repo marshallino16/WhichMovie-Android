@@ -3,6 +3,8 @@ package genyus.com.whichmovie;
 import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.Typeface;
+import android.os.Bundle;
+import android.support.annotation.Nullable;
 import android.util.Log;
 import android.view.View;
 import android.widget.LinearLayout;
@@ -23,6 +25,7 @@ import genyus.com.whichmovie.task.listener.OnConfigurationListener;
 import genyus.com.whichmovie.task.listener.OnMoviesListener;
 import genyus.com.whichmovie.task.manager.RegistrationManager;
 import genyus.com.whichmovie.task.manager.RequestManager;
+import genyus.com.whichmovie.utils.AnalyticsEventUtils;
 import genyus.com.whichmovie.utils.PreferencesUtils;
 import genyus.com.whichmovie.utils.WaveUtils;
 import genyus.com.whichmovie.view.FlakeView;
@@ -46,6 +49,12 @@ public class LoadingActivity extends MovieActivity implements OnConfigurationLis
 
     @ViewById(R.id.app_name)
     TextView appName;
+
+    @Override
+    protected void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        AnalyticsEventUtils.sendScreenEnterAction(LoadingActivity.class.getName());
+    }
 
     @AfterViews
     protected void afterViews() {
@@ -84,6 +93,12 @@ public class LoadingActivity extends MovieActivity implements OnConfigurationLis
         //flakeView.resume();
         //REGISTRATION
         RegistrationManager.registerUser(this);
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        AnalyticsEventUtils.sendScreenQuitAction(LoadingActivity.class.getName());
     }
 
     @Override

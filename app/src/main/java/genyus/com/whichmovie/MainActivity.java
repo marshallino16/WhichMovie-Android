@@ -35,6 +35,7 @@ import genyus.com.whichmovie.task.listener.OnMoviesListener;
 import genyus.com.whichmovie.task.listener.OnNewMoviesListener;
 import genyus.com.whichmovie.task.manager.RequestManager;
 import genyus.com.whichmovie.ui.MovieFragment;
+import genyus.com.whichmovie.utils.AnalyticsEventUtils;
 import genyus.com.whichmovie.utils.AppUtils;
 import genyus.com.whichmovie.utils.ObjectUtils;
 import genyus.com.whichmovie.utils.PreferencesUtils;
@@ -68,6 +69,7 @@ public class MainActivity extends AppCompatActivity implements OnMoviesListener,
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        AnalyticsEventUtils.sendScreenEnterAction(MainActivity.class.getName());
         new Thread() {
             public void run() {
                 Log.d(genyus.com.whichmovie.classes.Log.TAG, "get movies");
@@ -135,7 +137,12 @@ public class MainActivity extends AppCompatActivity implements OnMoviesListener,
         Branch.BranchReferralInitListener branchReferralInitListener = new Branch.BranchReferralInitListener() {
             @Override
             public void onInitFinished(JSONObject referringParams, BranchError error) {
-
+                if (error == null) {
+                    String data = "deep link data: " + referringParams.toString();
+                    AnalyticsEventUtils.sendDeepLinkingAction(data);
+                } else {
+                    Log.i("CardPrint", error.getMessage());
+                }
             }
         };
         branch.initSession(branchReferralInitListener, this.getIntent().getData(), this);
@@ -193,6 +200,13 @@ public class MainActivity extends AppCompatActivity implements OnMoviesListener,
     }
 
     @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        AnalyticsEventUtils.sendScreenQuitAction(MainActivity.class.getName());
+    }
+
+
+    @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.menu_main, menu);
         return true;
@@ -210,6 +224,8 @@ public class MainActivity extends AppCompatActivity implements OnMoviesListener,
             Intent share = new Intent(android.content.Intent.ACTION_SEND);
             share.setType("text/plain");
             share.putExtra(Intent.EXTRA_TEXT, getResources().getString(R.string.share_message, title));
+
+            AnalyticsEventUtils.sendShareAction("MOVIE_"+title);
 
             Log.d(genyus.com.whichmovie.classes.Log.TAG, "title = " + title);
             startActivity(Intent.createChooser(share, getString(R.string.share_title)));
@@ -303,6 +319,7 @@ public class MainActivity extends AppCompatActivity implements OnMoviesListener,
     public void onItemSelected(AdapterView<?> adapterView, View view, final int i, long l) {
         new Thread() {
             public void run() {
+                AnalyticsEventUtils.sendCategoryAction("Category_"+GlobalVars.genres.get(i).getName());
                 Log.d(genyus.com.whichmovie.classes.Log.TAG, "on item selected");
                 GlobalVars.reinitForCategoryChange(MainActivity.this);
                 PreferencesUtils.setPreference(MainActivity.this, PreferencesUtils.KEY_DEFAULT_CATEGORY, GlobalVars.genres.get(i).getId());

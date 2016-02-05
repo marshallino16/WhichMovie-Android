@@ -109,4 +109,24 @@ public class AnalyticsEventUtils {
                     .build());
         }
     }
+
+    public static void sendSuggestionAction(String action) {
+        Tracker tracker = GlobalVarsAnalytics.tracker();
+        if (tracker!=null) {
+            tracker.send(new HitBuilders.EventBuilder()
+                    .setCategory(Analytics.EVENT.SUGGESTIONS.toString())
+                    .setAction(action)
+                    .build());
+        }
+    }
+
+    public static void sendDeepLinkingAction(String action) {
+        Tracker tracker = GlobalVarsAnalytics.tracker();
+        if (tracker!=null) {
+            tracker.send(new HitBuilders.EventBuilder()
+                    .setCategory(Analytics.EVENT.DEEP_LINKING.toString())
+                    .setAction(action)
+                    .build());
+        }
+    }
 }

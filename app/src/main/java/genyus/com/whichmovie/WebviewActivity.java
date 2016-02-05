@@ -1,5 +1,7 @@
 package genyus.com.whichmovie;
 
+import android.os.Bundle;
+import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.webkit.WebView;
@@ -9,6 +11,8 @@ import org.androidannotations.annotations.AfterViews;
 import org.androidannotations.annotations.EActivity;
 import org.androidannotations.annotations.Extra;
 import org.androidannotations.annotations.ViewById;
+
+import genyus.com.whichmovie.utils.AnalyticsEventUtils;
 
 @EActivity(R.layout.activity_webview)
 public class WebviewActivity extends AppCompatActivity{
@@ -24,6 +28,12 @@ public class WebviewActivity extends AppCompatActivity{
 
     @ViewById(R.id.toolbar)
     Toolbar toolbar;
+
+    @Override
+    protected void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        AnalyticsEventUtils.sendScreenEnterAction(WebviewActivity.class.getName());
+    }
 
     @AfterViews
     protected void afterViews() {
@@ -70,5 +80,11 @@ public class WebviewActivity extends AppCompatActivity{
     @Override
     protected void onResume() {
         super.onResume();
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        AnalyticsEventUtils.sendScreenQuitAction(WebviewActivity.class.getName());
     }
 }

@@ -14,6 +14,8 @@ public interface Analytics {
         ELEMENT_CLICK,
         STREAM,
         CATEGORY,
+        SUGGESTIONS,
+        DEEP_LINKING,
         SHARE,
         RATE,
         SAVE,

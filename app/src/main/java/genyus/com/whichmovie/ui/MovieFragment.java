@@ -60,6 +60,7 @@ import genyus.com.whichmovie.task.listener.OnMovieInfoListener;
 import genyus.com.whichmovie.task.listener.OnMoviePurchaseListener;
 import genyus.com.whichmovie.task.listener.OnMovieVideoListener;
 import genyus.com.whichmovie.task.manager.RequestManager;
+import genyus.com.whichmovie.utils.AnalyticsEventUtils;
 import genyus.com.whichmovie.utils.IntentUtils;
 import genyus.com.whichmovie.utils.PicassoTrustAll;
 import genyus.com.whichmovie.utils.ThemeUtils;
@@ -182,13 +183,31 @@ public class MovieFragment extends Fragment implements ObservableScrollViewCallb
 
         if (null != movie.getTitle()) {
             title.setText("" + Html.fromHtml("<b>" + movie.getTitle() + "</b>"));
+            title.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    AnalyticsEventUtils.sendClickAction("Title");
+                }
+            });
         }
 
         if (null != movie.getOverview()) {
             synopsis.setText("" + movie.getOverview());
+            synopsis.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    AnalyticsEventUtils.sendClickAction("Synopsis");
+                }
+            });
         }
 
         releaseDate.setText(getResources().getString(R.string.released) + " " + movie.getRelease_date());
+        releaseDate.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                AnalyticsEventUtils.sendClickAction("Release_date");
+            }
+        });
 
         //Website homepage
         if (null != movie.getHomepage() && !movie.getHomepage().isEmpty()) {
@@ -196,6 +215,7 @@ public class MovieFragment extends Fragment implements ObservableScrollViewCallb
             homepage.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
+                    AnalyticsEventUtils.sendClickAction("Homepage");
                     WebviewActivity_.intent(getActivity()).movieName(movie.getTitle()).link(movie.getHomepage()).start();
                 }
             });
@@ -205,6 +225,7 @@ public class MovieFragment extends Fragment implements ObservableScrollViewCallb
         firstVideoControl.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                AnalyticsEventUtils.sendClickAction("Youtube_video");
                 PlayerActivity_.intent(getActivity()).videoKey(String.valueOf(firstVideoImage.getTag())).start();
             }
         });
@@ -227,6 +248,12 @@ public class MovieFragment extends Fragment implements ObservableScrollViewCallb
 
         progressAlpha.setBackgroundResource(R.drawable.round_progress_alpha);
         progress.setBackgroundResource(R.drawable.round_progress);
+        progress.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                AnalyticsEventUtils.sendClickAction("Progress");
+            }
+        });
 
         float halfWidth = UnitsUtils.getScreenPercentWidthSize(getActivity(), 50.0f);
         float progressWidth = halfWidth * ((movie.getVote_average()) * 10.0f / 100f);
@@ -251,6 +278,7 @@ public class MovieFragment extends Fragment implements ObservableScrollViewCallb
         hashtags.addOnTagClickListener(new HashtagView.TagsClickListener() {
             @Override
             public void onItemClicked(Object item) {
+                AnalyticsEventUtils.sendClickAction("Hashtags");
                 Log.d(genyus.com.whichmovie.classes.Log.TAG, "Tag click = " + item.toString());
             }
         });
@@ -264,6 +292,7 @@ public class MovieFragment extends Fragment implements ObservableScrollViewCallb
         next.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                AnalyticsEventUtils.sendClickAction("Next");
                 Log.d(genyus.com.whichmovie.classes.Log.TAG, "Next clicked");
                 if (activity instanceof MainActivity) {
                     ((OnMoviePassed) activity).OnMoviePassed(MovieFragment.this);
@@ -277,8 +306,10 @@ public class MovieFragment extends Fragment implements ObservableScrollViewCallb
             public void onClick(View view) {
                 if (null != activity) {
                     if (null != movie.getGooglePlay()) {
+                        AnalyticsEventUtils.sendStreamAction("GOOGLE_PLAY_"+movie.getGooglePlay());
                         IntentUtils.searchOnGooglePlay(activity, movie.getGooglePlay());
                     } else {
+                        AnalyticsEventUtils.sendStreamAction("GOOGLE_PLAY_"+movie.getTitle());
                         IntentUtils.searchMovieOnGooglePlayByTitle(activity, movie.getTitle());
                     }
                 }
@@ -289,6 +320,7 @@ public class MovieFragment extends Fragment implements ObservableScrollViewCallb
             @Override
             public void onClick(View view) {
                 if (null != activity && null != movie.getVudu()) {
+                    AnalyticsEventUtils.sendStreamAction("VUDU_"+movie.getVudu());
                     IntentUtils.searchOnVudu(activity, movie.getVudu());
                 }
             }
@@ -470,6 +502,7 @@ public class MovieFragment extends Fragment implements ObservableScrollViewCallb
                     castAdapter.setOnItemClickListener(new CrewRecyclerViewAdapter.OnCrewItemClickListener() {
                         @Override
                         public void onItemClick(int position, View v) {
+                            AnalyticsEventUtils.sendClickAction("Crew");
                             if (movie.getCrew().get(position).isClicked) {
                                 movie.getCrew().get(position).isClicked = false;
                             } else {
