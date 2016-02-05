@@ -102,4 +102,16 @@ public class PreferencesUtils {
         return prefEditText;
     }
 
+    public static boolean isFirstRun(Context c){
+        SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(c);
+        boolean prefEditText = sharedPreferences.getBoolean("firstrun", true);
+        return prefEditText;
+    }
+
+    public static void setFirstRun(Context c){
+        SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(c);
+        SharedPreferences.Editor editor = preferences.edit();
+        editor.putBoolean("firstrun", false);
+        editor.apply();
+    }
 }

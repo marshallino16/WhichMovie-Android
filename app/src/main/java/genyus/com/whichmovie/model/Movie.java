@@ -95,6 +95,8 @@ public class Movie implements Serializable {
         } catch (UnsupportedEncodingException e) {
             e.printStackTrace();
             return overview;
+        } catch (NullPointerException e) {
+            return overview;
         }
     }
 
@@ -131,6 +133,8 @@ public class Movie implements Serializable {
             return new String(title.getBytes("ISO-8859-1"));
         } catch (UnsupportedEncodingException e) {
             e.printStackTrace();
+            return title;
+        } catch (NullPointerException e) {
             return title;
         }
     }
@@ -264,6 +268,8 @@ public class Movie implements Serializable {
             return new String(director.getBytes("ISO-8859-1"));
         } catch (UnsupportedEncodingException e) {
             e.printStackTrace();
+            return director;
+        } catch (NullPointerException e) {
             return director;
         }
     }

@@ -25,6 +25,8 @@ public class Genre implements Serializable{
         } catch (UnsupportedEncodingException e) {
             e.printStackTrace();
             return name;
+        } catch (NullPointerException e) {
+            return name;
         }
     }
 

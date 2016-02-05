@@ -46,6 +46,8 @@ public class Crew implements Serializable{
         } catch (UnsupportedEncodingException e) {
             e.printStackTrace();
             return character;
+        } catch (NullPointerException e) {
+            return character;
         }
     }
 
@@ -58,6 +60,8 @@ public class Crew implements Serializable{
             return new String(name.getBytes("ISO-8859-1"));
         } catch (UnsupportedEncodingException e) {
             e.printStackTrace();
+            return name;
+        } catch (NullPointerException e) {
             return name;
         }
     }

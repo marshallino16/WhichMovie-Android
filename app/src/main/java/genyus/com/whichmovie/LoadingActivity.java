@@ -22,6 +22,7 @@ import genyus.com.whichmovie.task.listener.OnCategoriesListener;
 import genyus.com.whichmovie.task.listener.OnConfigurationListener;
 import genyus.com.whichmovie.task.listener.OnMoviesListener;
 import genyus.com.whichmovie.task.manager.RequestManager;
+import genyus.com.whichmovie.utils.PreferencesUtils;
 import genyus.com.whichmovie.utils.WaveUtils;
 import genyus.com.whichmovie.view.FlakeView;
 import genyus.com.whichmovie.view.WaveView;
@@ -89,7 +90,12 @@ public class LoadingActivity extends MovieActivity implements OnConfigurationLis
 
     @UiThread(propagation = UiThread.Propagation.REUSE)
     void goToNextActivity() {
-        LauncherActivity_.intent(LoadingActivity.this).appLaunchIntent(getIntent()).start();
+        if(PreferencesUtils.isFirstRun(this)){
+            PreferencesUtils.setFirstRun(this);
+            LauncherActivity_.intent(LoadingActivity.this).appLaunchIntent(getIntent()).start();
+        } else {
+            MainActivity_.intent(LoadingActivity.this).appLaunchIntent(getIntent()).start();
+        }
         LoadingActivity.this.finish();
     }
 
