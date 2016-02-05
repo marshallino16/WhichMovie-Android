@@ -3,6 +3,11 @@
     <string name="accroche">what should I watch ?</string>
     <string name="action_settings">Settings</string>
     <string name="unknown">unknown</string>
+    <string name="power_by">Tonigh\'s movie\nprovided by Thnkly Studio</string>
+    <string name="dbmovie">We are using themoviedb.org</string>
+
+    <!-- about -->
+
 
     <!-- launcher -->
     <string name="relevant_details">Get relevant details\non movies</string>
@@ -30,6 +35,7 @@
     <string name="next">Next</string>
 
     <!-- preferences -->
+    <string name="changes_next_time">Changes will be effective on next startup</string>
     <string name="about">About</string>
     <string name="ok">cool!</string>
     <string name="preferences">Preferences</string>

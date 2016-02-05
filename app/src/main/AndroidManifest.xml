@@ -61,6 +61,10 @@
             android:configChanges="keyboardHidden|orientation|screenSize"/>
 
         <activity
+            android:name=".AboutActivity_"
+            android:configChanges="keyboardHidden|orientation|screenSize"/>
+
+        <activity
             android:name=".PlayerActivity_"
             android:configChanges="keyboardHidden|orientation|screenSize"/>
 

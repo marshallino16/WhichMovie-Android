@@ -7,6 +7,7 @@ import android.os.Bundle;
 import android.preference.Preference;
 import android.preference.PreferenceScreen;
 import android.view.MenuItem;
+import android.widget.Toast;
 
 import com.afollestad.materialdialogs.MaterialDialog;
 
@@ -38,10 +39,19 @@ public class PreferencesActivity extends AppCompatPreferenceActivity {
         getSupportActionBar().setTitle(R.string.preferences);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
+        findPreference("about").setOnPreferenceClickListener(new CustomPreferenceClickListener() {
+            @Override
+            public boolean onClick(Preference preference) {
+                AboutActivity_.intent(PreferencesActivity.this).start();
+                return false;
+            }
+        });
+
         findPreference("resetMoviePreferences").setOnPreferenceClickListener(new CustomPreferenceClickListener() {
             @Override
             public boolean onClick(Preference preference) {
                 PreferencesUtils.setPagePreference(PreferencesActivity.this, 1);
+                Toast.makeText(PreferencesActivity.this, getResources().getString(R.string.changes_next_time), Toast.LENGTH_LONG).show();
                 return false;
             }
         });

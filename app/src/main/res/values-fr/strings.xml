@@ -3,6 +3,8 @@
     <string name="accroche">what should I watch ?</string>
     <string name="action_settings">Paramètres</string>
     <string name="unknown">inconnu</string>
+    <string name="power_by">Tonigh\'s movie\nproduit par Thnkly Studio</string>
+    <string name="dbmovie">Nous utilisons themoviedb.org</string>
 
     <!-- notification -->
     <string name="notification_title">Psssst!</string>
@@ -19,6 +21,7 @@
     <string name="understood">Je comprends</string>
 
     <!-- preferences -->
+    <string name="changes_next_time">Les changements seront effectifs au prochain démarrage</string>
     <string name="about">A propos</string>
     <string name="ok">cool!</string>
     <string name="preferences">Préférences</string>
