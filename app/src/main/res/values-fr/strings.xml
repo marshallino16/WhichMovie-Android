@@ -21,6 +21,8 @@
     <string name="understood">Je comprends</string>
 
     <!-- preferences -->
+    <string name="contact">Contact us</string>
+    <string name="contact_summary">Donnez nous votre avis</string>
     <string name="changes_next_time">Les changements seront effectifs au prochain démarrage</string>
     <string name="about">A propos</string>
     <string name="ok">cool!</string>

@@ -17,6 +17,10 @@
             android:key="rate"
             android:title="@string/rate"/>
         <PreferenceScreen
+            android:key="contact"
+            android:summary="@string/contact_summary"
+            android:title="@string/contact"/>
+        <PreferenceScreen
             android:key="tos"
             android:summary="@string/term_of_service_summary"
             android:title="@string/term_of_service_title"/>

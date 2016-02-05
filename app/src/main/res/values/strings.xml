@@ -35,6 +35,8 @@
     <string name="next">Next</string>
 
     <!-- preferences -->
+    <string name="contact">Contact us</string>
+    <string name="contact_summary">Give us your feedback</string>
     <string name="changes_next_time">Changes will be effective on next startup</string>
     <string name="about">About</string>
     <string name="ok">cool!</string>

@@ -39,6 +39,18 @@ public class PreferencesActivity extends AppCompatPreferenceActivity {
         getSupportActionBar().setTitle(R.string.preferences);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
+        findPreference("contact").setOnPreferenceClickListener(new CustomPreferenceClickListener() {
+            @Override
+            public boolean onClick(Preference preference) {
+                Intent emailIntent = new Intent(Intent.ACTION_SENDTO, Uri.fromParts(
+                        "mailto", "thnklystudio@gmail.com", null));
+                emailIntent.putExtra(Intent.EXTRA_SUBJECT, "[Tonight's movie] - Contact form");
+                startActivity(Intent.createChooser(emailIntent, "Email us"));
+                return false;
+            }
+        });
+
+
         findPreference("about").setOnPreferenceClickListener(new CustomPreferenceClickListener() {
             @Override
             public boolean onClick(Preference preference) {
