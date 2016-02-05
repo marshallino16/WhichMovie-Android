@@ -1,6 +1,7 @@
 package genyus.com.whichmovie.model;
 
 import java.io.Serializable;
+import java.io.UnsupportedEncodingException;
 
 /**
  * Created by genyus on 26/11/15.
@@ -19,7 +20,12 @@ public class Genre implements Serializable{
     }
 
     public String getName() {
-        return name;
+        try {
+            return new String(name.getBytes("ISO-8859-1"));
+        } catch (UnsupportedEncodingException e) {
+            e.printStackTrace();
+            return name;
+        }
     }
 
     public void setName(String name) {

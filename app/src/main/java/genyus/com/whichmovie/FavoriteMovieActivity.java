@@ -1,6 +1,8 @@
 package genyus.com.whichmovie;
 
 import android.content.Intent;
+import android.os.Bundle;
+import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 import android.text.Editable;
 import android.text.TextWatcher;
@@ -10,13 +12,14 @@ import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.ImageView;
 
+import com.afollestad.materialdialogs.MaterialDialog;
+
 import org.androidannotations.annotations.AfterViews;
 import org.androidannotations.annotations.EActivity;
 import org.androidannotations.annotations.Extra;
 import org.androidannotations.annotations.UiThread;
 import org.androidannotations.annotations.ViewById;
 
-import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
 
 import genyus.com.whichmovie.adapter.MovieAdapter;
@@ -36,6 +39,8 @@ public class FavoriteMovieActivity extends AppCompatActivity implements OnMovieQ
     private MovieAdapter movieAdapter;
     private ArrayList<Movie> movies = new ArrayList<>();
 
+    private boolean enable = false;
+
     @Extra
     Intent appLaunchIntent;
 
@@ -47,6 +52,12 @@ public class FavoriteMovieActivity extends AppCompatActivity implements OnMovieQ
 
     @ViewById(R.id.movie_thumbnail)
     ImageView movieThumbnail;
+
+    @Override
+    protected void onCreate(@Nullable Bundle savedInstanceState) {
+        setTheme(R.style.AppTheme_NoActionBar_Parent);
+        super.onCreate(savedInstanceState);
+    }
 
     @AfterViews
     protected void afterView() {
@@ -67,42 +78,44 @@ public class FavoriteMovieActivity extends AppCompatActivity implements OnMovieQ
 
             @Override
             public void afterTextChanged(Editable s) {
-                if(!s.toString().isEmpty() && s.toString().length() >= 3){
+                if (!s.toString().isEmpty() && s.toString().length() >= 3) {
                     launchQueryString(s.toString());
                 } else {
-                    validate.setEnabled(false);
+                    enable = false;
                 }
             }
         });
         autoCompleteTextView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int position, long l) {
-                try {
-                    autoCompleteTextView.setText(new String(movies.get(position).getTitle().getBytes("ISO-8859-1"))+"("+movies.get(position).getRelease_date().substring(0,4)+")");
-                } catch (UnsupportedEncodingException e) {
-                    e.printStackTrace();
-                    autoCompleteTextView.setText(movies.get(position).getTitle()+"("+movies.get(position).getRelease_date().substring(0,4)+")");
-                }
+                autoCompleteTextView.setText(movies.get(position).getTitle() + "(" + movies.get(position).getRelease_date().substring(0, 4) + ")");
 
-                if(null != movies.get(position).getPoster_path()){
+                if (null != movies.get(position).getPoster_path()) {
                     if (null != GlobalVars.configuration) {
                         PicassoTrustAll.getInstance(FavoriteMovieActivity.this).load(GlobalVars.configuration.getBase_url() + GlobalVars.configuration.getPoster_sizes().get(GlobalVars.configuration.getPoster_sizes().size() - 2) + movies.get(position).getPoster_path()).noPlaceholder().into(movieThumbnail);
                     }
                 }
 
-                validate.setEnabled(true);
+                enable = true;
             }
         });
 
         validate.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                goToNextActivity();
+                if (enable) {
+                    goToNextActivity();
+                } else {
+                    new MaterialDialog.Builder(FavoriteMovieActivity.this)
+                            .content(getResources().getString(R.string.select_movie_first))
+                            .positiveText(R.string.understood)
+                            .show();
+                }
             }
         });
     }
 
-    private void launchQueryString(final String s){
+    private void launchQueryString(final String s) {
         new Thread(new Runnable() {
             @Override
             public void run() {
@@ -127,7 +140,8 @@ public class FavoriteMovieActivity extends AppCompatActivity implements OnMovieQ
         Log.d(genyus.com.whichmovie.classes.Log.TAG, "listMovies size = " + listMovies.size());
         runOnUiThread(new Runnable() {
             @Override
-            public void run() {movies.clear();
+            public void run() {
+                movies.clear();
                 movies.addAll(listMovies);
                 movieAdapter.notifyDataSetChanged();
             }

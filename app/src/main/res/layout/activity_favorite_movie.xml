@@ -90,7 +90,6 @@
                 android:layout_alignParentBottom="true"
                 android:layout_margin="0dp"
                 android:background="@drawable/selector_rect_progress"
-                android:enabled="false"
                 android:padding="10dp"
                 android:text="@string/validate"
                 android:textColor="@android:color/white"/>

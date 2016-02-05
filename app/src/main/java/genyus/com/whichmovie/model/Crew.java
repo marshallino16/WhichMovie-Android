@@ -1,6 +1,7 @@
 package genyus.com.whichmovie.model;
 
 import java.io.Serializable;
+import java.io.UnsupportedEncodingException;
 
 /**
  * Created by genyus on 09/12/15.
@@ -40,7 +41,12 @@ public class Crew implements Serializable{
     }
 
     public String getCharacter() {
-        return character;
+        try {
+            return new String(character.getBytes("ISO-8859-1"));
+        } catch (UnsupportedEncodingException e) {
+            e.printStackTrace();
+            return character;
+        }
     }
 
     public void setCharacter(String character) {
@@ -48,7 +54,12 @@ public class Crew implements Serializable{
     }
 
     public String getName() {
-        return name;
+        try {
+            return new String(name.getBytes("ISO-8859-1"));
+        } catch (UnsupportedEncodingException e) {
+            e.printStackTrace();
+            return name;
+        }
     }
 
     public void setName(String name) {

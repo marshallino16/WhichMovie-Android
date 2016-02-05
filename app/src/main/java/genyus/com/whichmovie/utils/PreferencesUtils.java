@@ -16,8 +16,10 @@ public class PreferencesUtils {
 
     public static final String KEY_DEFAULT_CATEGORY = "default_category";
     public static final String KEY_VERSION_CODE = "version_code";
+    public static final String KEY_FAVORITE_DATE = "date";
+    public static final String KEY_FAVORITE_ID = "id";
     public final static String KEY_RATE = "rate";
-    public final static String KEY_PAGE = "rate";
+    public final static String KEY_PAGE = "page";
 
     public static final int DEFAULT_CATEGORY = 28;
 
@@ -30,6 +32,18 @@ public class PreferencesUtils {
     private static int getPreference(Context context, String key){
         SharedPreferences prefs = context.getSharedPreferences(MY_PREFS_NAME, Context.MODE_PRIVATE);
         int restoredPref = prefs.getInt(key, -1);
+        return restoredPref;
+    }
+
+    public static void setStringPreference(Context context, String key, String value){
+        SharedPreferences.Editor editor = context.getSharedPreferences(MY_PREFS_NAME, Context.MODE_PRIVATE).edit();
+        editor.putString(key, value);
+        editor.commit();
+    }
+
+    private static String getStringPreference(Context context, String key){
+        SharedPreferences prefs = context.getSharedPreferences(MY_PREFS_NAME, Context.MODE_PRIVATE);
+        String restoredPref = prefs.getString(key, null);
         return restoredPref;
     }
 

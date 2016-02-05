@@ -7,7 +7,6 @@ import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.TextView;
 
-import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
 
 import genyus.com.whichmovie.R;
@@ -33,20 +32,10 @@ public class MovieAdapter extends ArrayAdapter<Movie> {
         }
 
         TextView movieTitle = (TextView) convertView.findViewById(R.id.movie_title);
-        if(null != listMovies.get(position).getRelease_date() && listMovies.get(position).getRelease_date().length() > 4){
-            try {
-                movieTitle.setText(new String(listMovies.get(position).getTitle().getBytes("ISO-8859-1"))+"("+listMovies.get(position).getRelease_date().substring(0,4)+")");
-            } catch (UnsupportedEncodingException e) {
-                e.printStackTrace();
-                movieTitle.setText(listMovies.get(position).getTitle()+"("+listMovies.get(position).getRelease_date().substring(0,4)+")");
-            }
+        if (null != listMovies.get(position).getRelease_date() && listMovies.get(position).getRelease_date().length() > 4) {
+            movieTitle.setText(listMovies.get(position).getTitle() + "(" + listMovies.get(position).getRelease_date().substring(0, 4) + ")");
         } else {
-            try {
-                movieTitle.setText(new String(listMovies.get(position).getTitle().getBytes("ISO-8859-1")));
-            } catch (UnsupportedEncodingException e) {
-                e.printStackTrace();
-                movieTitle.setText(listMovies.get(position).getTitle());
-            }
+            movieTitle.setText(listMovies.get(position).getTitle());
         }
 
         return convertView;

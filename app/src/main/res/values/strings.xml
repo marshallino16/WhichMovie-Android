@@ -11,6 +11,8 @@
     <string name="choose_favorite">Search your favorite movie!</string>
     <string name="validate">Take me to my suggestions</string>
     <string name="query_hint">V for Vendetta</string>
+    <string name="select_movie_first">First you need to select a favorite movie.</string>
+    <string name="understood">I get it</string>
 
     <!-- notification -->
     <string name="notification_title">Psssst!</string>

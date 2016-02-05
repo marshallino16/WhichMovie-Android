@@ -37,7 +37,6 @@ import com.squareup.picasso.Callback;
 import com.squareup.picasso.Picasso;
 import com.squareup.picasso.Target;
 
-import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
 
 import genyus.com.whichmovie.MainActivity;
@@ -182,21 +181,11 @@ public class MovieFragment extends Fragment implements ObservableScrollViewCallb
         }
 
         if (null != movie.getTitle()) {
-            try {
-                title.setText("" + Html.fromHtml("<b>" + new String(movie.getTitle().getBytes("ISO-8859-1")) + "</b>"));
-            } catch (UnsupportedEncodingException e) {
-                e.printStackTrace();
-                title.setText("" + Html.fromHtml("<b>" + movie.getTitle() + "</b>"));
-            }
+            title.setText("" + Html.fromHtml("<b>" + movie.getTitle() + "</b>"));
         }
 
         if (null != movie.getOverview()) {
-            try {
-                synopsis.setText("" + new String(movie.getOverview().getBytes("ISO-8859-1")));
-            } catch (UnsupportedEncodingException e) {
-                e.printStackTrace();
-                synopsis.setText("" + movie.getOverview());
-            }
+            synopsis.setText("" + movie.getOverview());
         }
 
         releaseDate.setText(getResources().getString(R.string.released) + " " + movie.getRelease_date());
@@ -286,16 +275,11 @@ public class MovieFragment extends Fragment implements ObservableScrollViewCallb
         googlePlay.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if(null != activity){
-                    if(null != movie.getGooglePlay()){
+                if (null != activity) {
+                    if (null != movie.getGooglePlay()) {
                         IntentUtils.searchOnGooglePlay(activity, movie.getGooglePlay());
                     } else {
-                        try {
-                            IntentUtils.searchMovieOnGooglePlayByTitle(activity, new String(movie.getTitle().getBytes("ISO-8859-1")));
-                        } catch (UnsupportedEncodingException e) {
-                            e.printStackTrace();
-                            IntentUtils.searchMovieOnGooglePlayByTitle(activity, movie.getTitle());
-                        }
+                        IntentUtils.searchMovieOnGooglePlayByTitle(activity, movie.getTitle());
                     }
                 }
             }
@@ -304,7 +288,7 @@ public class MovieFragment extends Fragment implements ObservableScrollViewCallb
         vudu.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if(null != activity && null != movie.getVudu()){
+                if (null != activity && null != movie.getVudu()) {
                     IntentUtils.searchOnVudu(activity, movie.getVudu());
                 }
             }
@@ -425,12 +409,7 @@ public class MovieFragment extends Fragment implements ObservableScrollViewCallb
                 public void run() {
                     //infos
                     if (null != movie.getTitle()) {
-                        try {
-                            title.setText(Html.fromHtml("<b>" + new String(movie.getTitle().getBytes("ISO-8859-1")) + "</b><small> - " + movie.getRuntime() + " min</small>"));
-                        } catch (UnsupportedEncodingException e) {
-                            e.printStackTrace();
-                            title.setText(Html.fromHtml("<b>" + movie.getTitle() + "</b><small> - " + movie.getRuntime() + " min</small>"));
-                        }
+                        title.setText(Html.fromHtml("<b>" + movie.getTitle() + "</b><small> - " + movie.getRuntime() + " min</small>"));
                     }
 
                     if (0 != movie.getBudget()) {
@@ -478,13 +457,8 @@ public class MovieFragment extends Fragment implements ObservableScrollViewCallb
                 @Override
                 public void run() {
                     //crew
-                    if(null != movie.getDirector() && !movie.getDirector().isEmpty()){
-                        try {
-                            director.setText(getResources().getString(R.string.director, new String(movie.getDirector().getBytes("ISO-8859-1"))));
-                        } catch (UnsupportedEncodingException e) {
-                            e.printStackTrace();
-                            director.setText(getResources().getString(R.string.director, movie.getDirector()));
-                        }
+                    if (null != movie.getDirector() && !movie.getDirector().isEmpty()) {
+                        director.setText(getResources().getString(R.string.director, movie.getDirector()));
                     }
 
                     //cast
@@ -607,9 +581,9 @@ public class MovieFragment extends Fragment implements ObservableScrollViewCallb
                 @Override
                 public void run() {
                     if (null != getActivity()) {
-                        if(null != movie.getVudu()){
-                            if(null != view){
-                                if(null == movie.getVudu()){
+                        if (null != movie.getVudu()) {
+                            if (null != view) {
+                                if (null == movie.getVudu()) {
                                     view.findViewById(R.id.vudu).setVisibility(View.VISIBLE);
                                 }
                             }

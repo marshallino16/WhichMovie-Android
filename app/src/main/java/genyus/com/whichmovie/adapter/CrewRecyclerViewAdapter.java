@@ -11,7 +11,6 @@ import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
-import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
 
 import genyus.com.whichmovie.R;
@@ -41,7 +40,7 @@ public class CrewRecyclerViewAdapter extends RecyclerView.Adapter<CrewRecyclerVi
 
         @Override
         public void onClick(View v) {
-            if(null != onCrewItemClickListener){
+            if (null != onCrewItemClickListener) {
                 onCrewItemClickListener.onItemClick(getPosition(), v);
             }
         }
@@ -69,29 +68,19 @@ public class CrewRecyclerViewAdapter extends RecyclerView.Adapter<CrewRecyclerVi
         Crew crew = listCrew.get(position);
         PicassoTrustAll.getInstance(context).load(GlobalVars.configuration.getBase_url() + GlobalVars.configuration.getProfile_sizes().get(1) + crew.getProfile_path()).placeholder(android.R.color.transparent).into(holder.profile);
 
-        if(null == crew.getName() || crew.getName().isEmpty()){
+        if (null == crew.getName() || crew.getName().isEmpty()) {
             holder.name.setVisibility(View.INVISIBLE);
         } else {
-            try {
-                holder.name.setText(""+new String(crew.getName().getBytes("ISO-8859-1")));
-            } catch (UnsupportedEncodingException e) {
-                e.printStackTrace();
-                holder.name.setText(""+crew.getName());
-            }
+            holder.name.setText("" + crew.getName());
         }
 
-        if(null == crew.getCharacter() || crew.getCharacter().isEmpty()){
+        if (null == crew.getCharacter() || crew.getCharacter().isEmpty()) {
             holder.nameCharac.setVisibility(View.INVISIBLE);
         } else {
-            try {
-                holder.nameCharac.setText(Html.fromHtml("<i>"+context.getResources().getString(R.string.as)+" "+ new String(crew.getCharacter().getBytes("ISO-8859-1"))+"</i>"));
-            } catch (UnsupportedEncodingException e) {
-                e.printStackTrace();
-                holder.nameCharac.setText(Html.fromHtml("<i>"+context.getResources().getString(R.string.as)+" "+crew.getCharacter()+"</i>"));
-            }
+            holder.nameCharac.setText(Html.fromHtml("<i>" + context.getResources().getString(R.string.as) + " " + crew.getCharacter() + "</i>"));
         }
 
-        if(crew.isClicked){
+        if (crew.isClicked) {
             Log.d(genyus.com.whichmovie.classes.Log.TAG, "crew is clicked");
         }
     }

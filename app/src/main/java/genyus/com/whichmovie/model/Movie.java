@@ -1,6 +1,7 @@
 package genyus.com.whichmovie.model;
 
 import java.io.Serializable;
+import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
 
 import genyus.com.whichmovie.utils.ObjectUtils;
@@ -89,7 +90,12 @@ public class Movie implements Serializable {
     }
 
     public String getOverview() {
-        return overview;
+        try {
+            return new String(overview.getBytes("ISO-8859-1"));
+        } catch (UnsupportedEncodingException e) {
+            e.printStackTrace();
+            return overview;
+        }
     }
 
     public void setOverview(String overview) {
@@ -121,7 +127,12 @@ public class Movie implements Serializable {
     }
 
     public String getTitle() {
-        return title;
+        try {
+            return new String(title.getBytes("ISO-8859-1"));
+        } catch (UnsupportedEncodingException e) {
+            e.printStackTrace();
+            return title;
+        }
     }
 
     public void setTitle(String title) {
@@ -249,7 +260,12 @@ public class Movie implements Serializable {
     }
 
     public String getDirector() {
-        return director;
+        try {
+            return new String(director.getBytes("ISO-8859-1"));
+        } catch (UnsupportedEncodingException e) {
+            e.printStackTrace();
+            return director;
+        }
     }
 
     public void setDirector(String director) {

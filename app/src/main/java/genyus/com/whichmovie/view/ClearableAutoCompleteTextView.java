@@ -1,6 +1,7 @@
 package genyus.com.whichmovie.view;
 
 import android.content.Context;
+import android.graphics.Rect;
 import android.graphics.drawable.Drawable;
 import android.util.AttributeSet;
 import android.view.MotionEvent;
@@ -95,4 +96,17 @@ public class ClearableAutoCompleteTextView extends AutoCompleteTextView {
         this.setCompoundDrawablesWithIntrinsicBounds(null, null, imgClearButton, null);
     }
 
+    @Override
+    public boolean enoughToFilter() {
+        return true;
+    }
+
+    @Override
+    protected void onFocusChanged(boolean focused, int direction,
+                                  Rect previouslyFocusedRect) {
+        super.onFocusChanged(focused, direction, previouslyFocusedRect);
+        if (focused && getAdapter() != null) {
+            performFiltering(getText(), 0);
+        }
+    }
 }
