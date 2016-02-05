@@ -7,6 +7,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.Log;
+import android.view.MotionEvent;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.Button;
@@ -97,6 +98,13 @@ public class FavoriteMovieActivity extends AppCompatActivity implements OnMovieQ
                 }
 
                 enable = true;
+            }
+        });
+        autoCompleteTextView.setOnTouchListener(new View.OnTouchListener(){
+            @Override
+            public boolean onTouch(View v, MotionEvent event){
+                autoCompleteTextView.showDropDown();
+                return false;
             }
         });
 

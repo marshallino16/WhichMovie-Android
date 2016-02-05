@@ -105,8 +105,9 @@ public class ClearableAutoCompleteTextView extends AutoCompleteTextView {
     protected void onFocusChanged(boolean focused, int direction,
                                   Rect previouslyFocusedRect) {
         super.onFocusChanged(focused, direction, previouslyFocusedRect);
-        if (focused && getAdapter() != null) {
+        if (focused) {
             performFiltering(getText(), 0);
+            showDropDown();
         }
     }
 }

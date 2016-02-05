@@ -8,6 +8,16 @@
     <string name="notification_title">Psssst!</string>
     <string name="notification_message">Vous vous demandez ce que vous allez regarder ce soir? Tonight\'s movie peut vous aider!</string>
 
+    <!-- launcher -->
+    <string name="relevant_details">Uniquement des \ndétailspertinents</string>
+    <string name="designed_for_you">Suggestions designées\npour vous</string>
+    <string name="legal_links">Liens d\'achats et\nstreaming légaux</string>
+    <string name="choose_favorite">Rerchercher votre film préféré!</string>
+    <string name="validate">Aller à mes suggestions</string>
+    <string name="query_hint">Pirates des caraibes</string>
+    <string name="select_movie_first">Vous devez dans un premier temps, selectionner votre film préféré. Nous devons apprendre à vous connaître!</string>
+    <string name="understood">Je comprends</string>
+
     <!-- preferences -->
     <string name="about">A propos</string>
     <string name="ok">cool!</string>
