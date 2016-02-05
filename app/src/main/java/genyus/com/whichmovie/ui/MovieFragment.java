@@ -207,8 +207,8 @@ public class MovieFragment extends Fragment implements ObservableScrollViewCallb
         posterBlurContainer.setAlpha(0);
 
         //ads
-        AdRequest adRequest = new AdRequest.Builder().addTestDevice("4021507637D702F226B9BE7F5F801BC5").build();
-        AdRequest adRequest2 = new AdRequest.Builder().addTestDevice("4021507637D702F226B9BE7F5F801BC5").build();
+        AdRequest adRequest = new AdRequest.Builder().build();
+        AdRequest adRequest2 = new AdRequest.Builder().build();
         adView.loadAd(adRequest);
         adView2.loadAd(adRequest2);
 
