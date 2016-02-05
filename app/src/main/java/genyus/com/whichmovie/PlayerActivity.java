@@ -6,6 +6,9 @@ import android.view.Window;
 import android.view.WindowManager;
 import android.widget.Toast;
 
+import com.google.android.gms.ads.AdListener;
+import com.google.android.gms.ads.AdRequest;
+import com.google.android.gms.ads.InterstitialAd;
 import com.google.android.youtube.player.YouTubeBaseActivity;
 import com.google.android.youtube.player.YouTubeInitializationResult;
 import com.google.android.youtube.player.YouTubePlayer;
@@ -16,6 +19,7 @@ import org.androidannotations.annotations.EActivity;
 import org.androidannotations.annotations.Extra;
 import org.androidannotations.annotations.ViewById;
 
+import genyus.com.whichmovie.classes.Ads;
 import genyus.com.whichmovie.classes.Config;
 import genyus.com.whichmovie.utils.AnalyticsEventUtils;
 
@@ -26,6 +30,8 @@ import genyus.com.whichmovie.utils.AnalyticsEventUtils;
 public class PlayerActivity extends YouTubeBaseActivity implements YouTubePlayer.OnInitializedListener, YouTubePlayer.OnFullscreenListener {
 
     private static final int RECOVERY_DIALOG_REQUEST = 1;
+
+    private InterstitialAd interstitial;
 
     @Extra
     String videoKey;
@@ -44,7 +50,28 @@ public class PlayerActivity extends YouTubeBaseActivity implements YouTubePlayer
 
     @AfterViews
     protected void afterViews() {
-        youtubePlayerView.initialize(Config.YOUTUBE_API_KEY_DEBUG, this);
+        if(new Ads().shouldDisplayInter()){
+            AdRequest adRequestInter = new AdRequest.Builder().build();
+
+            interstitial = new InterstitialAd(PlayerActivity.this);
+            interstitial.setAdUnitId(Ads.inter_video);
+            interstitial.loadAd(adRequestInter);
+            interstitial.setAdListener(new AdListener(){
+
+                @Override
+                public void onAdLoaded(){
+                    interstitial.show();
+                }
+
+                @Override
+                public void onAdClosed() {
+                    super.onAdClosed();
+                    youtubePlayerView.initialize(Config.YOUTUBE_API_KEY_DEBUG, PlayerActivity.this);
+                }
+            });
+        } else {
+            youtubePlayerView.initialize(Config.YOUTUBE_API_KEY_DEBUG, this);
+        }
     }
 
     @Override

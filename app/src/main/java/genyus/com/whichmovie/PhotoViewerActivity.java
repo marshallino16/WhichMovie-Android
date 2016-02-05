@@ -16,6 +16,10 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.Toast;
 
+import com.google.android.gms.ads.AdListener;
+import com.google.android.gms.ads.AdRequest;
+import com.google.android.gms.ads.InterstitialAd;
+
 import org.androidannotations.annotations.AfterViews;
 import org.androidannotations.annotations.EActivity;
 import org.androidannotations.annotations.Extra;
@@ -33,6 +37,7 @@ import java.util.ArrayList;
 import java.util.Date;
 
 import genyus.com.whichmovie.adapter.ImageSlideshowPagerAdapter;
+import genyus.com.whichmovie.classes.Ads;
 import genyus.com.whichmovie.model.Image;
 import genyus.com.whichmovie.session.GlobalVars;
 import genyus.com.whichmovie.utils.AnalyticsEventUtils;
@@ -42,6 +47,8 @@ public class PhotoViewerActivity extends AppCompatActivity implements View.OnCli
 
     private final static String DOWNLOAD_FOLDER = "TonightMovies";
     private static final int REQUEST_WRITE_STORAGE = 112;
+
+    private InterstitialAd interstitial;
 
     @Extra
     int positionImage;
@@ -69,6 +76,20 @@ public class PhotoViewerActivity extends AppCompatActivity implements View.OnCli
 
     @AfterViews
     protected void afterViews() {
+        if(new Ads().shouldDisplayInter()){
+            AdRequest adRequestInter = new AdRequest.Builder().build();
+
+            interstitial = new InterstitialAd(PhotoViewerActivity.this);
+            interstitial.setAdUnitId(Ads.inter_image);
+            interstitial.loadAd(adRequestInter);
+            interstitial.setAdListener(new AdListener(){
+
+                @Override
+                public void onAdLoaded(){
+                    interstitial.show();
+                }
+            });
+        }
         quit.setOnClickListener(this);
         save.setOnClickListener(this);
 
