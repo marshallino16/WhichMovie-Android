@@ -6,4 +6,16 @@ package genyus.com.whichmovie.classes;
 public interface Analytics {
 
     public final static String PROPERTY_ID = "UA-70817529-1";
+
+    public enum EVENT {
+
+        SCREEN_ENTER,
+        SCREEN_QUIT,
+        ELEMENT_CLICK,
+        STREAM,
+        CATEGORY,
+        SHARE,
+        RATE,
+        SAVE,
+    }
 }
