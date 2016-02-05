@@ -13,7 +13,6 @@ import org.apache.http.message.BasicNameValuePair;
 
 import java.util.ArrayList;
 
-import genyus.com.whichmovie.BuildConfig;
 import genyus.com.whichmovie.api.APIConst;
 import genyus.com.whichmovie.classes.RequestReturn;
 import genyus.com.whichmovie.model.Movie;
@@ -134,8 +133,9 @@ public class RequestManager {
             nameValuePairs.add(new BasicNameValuePair("language", "fr"));
         }
 
-        if(BuildConfig.DEBUG){
-            nameValuePairs.add(new BasicNameValuePair("year", "2014"));
+        String date = PreferencesUtils.getStringPreference(context, PreferencesUtils.KEY_FAVORITE_DATE);
+        if(null != date && date.length() > 4){
+            nameValuePairs.add(new BasicNameValuePair("year", date.substring(0, 4)));
         }
 
         RequestReturn returnedCode = RequestSender.sendRequestGet(APIConst.API_BASE_URL, APIConst.API_LIST_MOVIES_CATEGORY, nameValuePairs);
@@ -170,8 +170,9 @@ public class RequestManager {
         nameValuePairs.add(new BasicNameValuePair("include_adult", "false"));
         nameValuePairs.add(new BasicNameValuePair("page", String.valueOf(GlobalVars.getPage(context))));
 
-        if(BuildConfig.DEBUG){
-            nameValuePairs.add(new BasicNameValuePair("year", "2014"));
+        String date = PreferencesUtils.getStringPreference(context, PreferencesUtils.KEY_FAVORITE_DATE);
+        if(null != date && date.length() > 4){
+            nameValuePairs.add(new BasicNameValuePair("year", date.substring(0, 4)));
         }
 
         nameValuePairs.add(new BasicNameValuePair("release_date.lte", UnitsUtils.getNowTime()));

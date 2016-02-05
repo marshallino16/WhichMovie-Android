@@ -41,7 +41,7 @@ public class PreferencesUtils {
         editor.commit();
     }
 
-    private static String getStringPreference(Context context, String key){
+    public static String getStringPreference(Context context, String key){
         SharedPreferences prefs = context.getSharedPreferences(MY_PREFS_NAME, Context.MODE_PRIVATE);
         String restoredPref = prefs.getString(key, null);
         return restoredPref;

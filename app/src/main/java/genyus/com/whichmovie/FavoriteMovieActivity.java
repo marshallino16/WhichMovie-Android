@@ -28,6 +28,7 @@ import genyus.com.whichmovie.session.GlobalVars;
 import genyus.com.whichmovie.task.listener.OnMovieQueryListener;
 import genyus.com.whichmovie.task.manager.RequestManager;
 import genyus.com.whichmovie.utils.PicassoTrustAll;
+import genyus.com.whichmovie.utils.PreferencesUtils;
 import genyus.com.whichmovie.view.ClearableAutoCompleteTextView;
 
 /**
@@ -40,6 +41,8 @@ public class FavoriteMovieActivity extends AppCompatActivity implements OnMovieQ
     private ArrayList<Movie> movies = new ArrayList<>();
 
     private boolean enable = false;
+    private int id;
+    private String date;
 
     @Extra
     Intent appLaunchIntent;
@@ -96,6 +99,9 @@ public class FavoriteMovieActivity extends AppCompatActivity implements OnMovieQ
                     }
                 }
 
+                id = movies.get(position).getId();
+                date = movies.get(position).getRelease_date();
+
                 enable = true;
             }
         });
@@ -104,6 +110,9 @@ public class FavoriteMovieActivity extends AppCompatActivity implements OnMovieQ
             @Override
             public void onClick(View view) {
                 if (enable) {
+                    PreferencesUtils.setStringPreference(FavoriteMovieActivity.this, PreferencesUtils.KEY_FAVORITE_DATE, date);
+                    PreferencesUtils.setStringPreference(FavoriteMovieActivity.this, PreferencesUtils.KEY_FAVORITE_ID, String.valueOf(id));
+
                     goToNextActivity();
                 } else {
                     new MaterialDialog.Builder(FavoriteMovieActivity.this)
