@@ -6,6 +6,9 @@
     <string name="power_by">Tonigh\'s movie\nproduit par Thnkly Studio</string>
     <string name="dbmovie">Nous utilisons themoviedb.org</string>
 
+    <string name="google_app_id">1:789605604572:android:decbff372a2b61c1</string>
+    
+
     <!-- notification -->
     <string name="notification_title">Psssst!</string>
     <string name="notification_message">Vous vous demandez ce que vous allez regarder ce soir? Tonight\'s movie peut vous aider!</string>
