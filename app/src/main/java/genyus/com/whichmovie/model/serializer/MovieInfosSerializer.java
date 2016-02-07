@@ -5,6 +5,8 @@ import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 
+import java.io.UnsupportedEncodingException;
+
 import genyus.com.whichmovie.model.Movie;
 import genyus.com.whichmovie.task.listener.OnMovieInfoListener;
 import genyus.com.whichmovie.utils.ObjectUtils;
@@ -68,7 +70,14 @@ public class MovieInfosSerializer {
                             for (JsonElement obj : companies) {
                                 JsonElement name = obj.getAsJsonObject().get(OBJECT_NAME);
                                 if(!name.isJsonNull() && null != name){
-                                    movie.getProductionCompanies().add(name.getAsString());
+                                    try {
+                                        movie.getProductionCompanies().add(new String(name.getAsString().getBytes("ISO-8859-1")));
+                                    } catch (UnsupportedEncodingException e) {
+                                        e.printStackTrace();
+                                        movie.getProductionCompanies().add(name.getAsString());
+                                    } catch (NullPointerException e) {
+                                        movie.getProductionCompanies().add(name.getAsString());
+                                    }
                                 }
                             }
                         }
