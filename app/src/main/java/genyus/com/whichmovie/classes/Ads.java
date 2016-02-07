@@ -12,8 +12,8 @@ public class Ads {
 
     public boolean shouldDisplayInter(){
         Random r = new Random();
-        int i1 = r.nextInt(5 - 0) + 0;
-        if(i1 == 4){
+        int i1 = r.nextInt(4 - 0) + 0;
+        if(i1 == 3){
             return true;
         } else {
             return false;
