@@ -555,6 +555,7 @@ public class MovieFragment extends Fragment implements ObservableScrollViewCallb
                         }
                     });
                     listCast.setAdapter(castAdapter);
+                    listCast.scrollToPosition(0);
                 }
             });
         }
