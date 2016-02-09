@@ -1,5 +1,6 @@
 package genyus.com.whichmovie;
 
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -8,6 +9,7 @@ import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.Log;
 import android.view.View;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.ImageView;
@@ -54,6 +56,9 @@ public class FavoriteMovieActivity extends AppCompatActivity implements OnMovieQ
     @ViewById(R.id.validate)
     Button validate;
 
+    @ViewById(R.id.overlay)
+    View overlay;
+
     @ViewById(R.id.movie_thumbnail)
     ImageView movieThumbnail;
 
@@ -93,11 +98,13 @@ public class FavoriteMovieActivity extends AppCompatActivity implements OnMovieQ
         autoCompleteTextView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int position, long l) {
+                hideKeyboard();
                 autoCompleteTextView.setText(movies.get(position).getTitle() + "(" + movies.get(position).getRelease_date().substring(0, 4) + ")");
 
                 if (null != movies.get(position).getPoster_path()) {
                     if (null != GlobalVars.configuration) {
                         PicassoTrustAll.getInstance(FavoriteMovieActivity.this).load(GlobalVars.configuration.getBase_url() + GlobalVars.configuration.getPoster_sizes().get(GlobalVars.configuration.getPoster_sizes().size() - 2) + movies.get(position).getPoster_path()).noPlaceholder().into(movieThumbnail);
+                        overlay.setVisibility(View.VISIBLE);
                     }
                 }
 
@@ -135,15 +142,6 @@ public class FavoriteMovieActivity extends AppCompatActivity implements OnMovieQ
         AnalyticsEventUtils.sendScreenQuitAction(FavoriteMovieActivity.class.getName());
     }
 
-    private void launchQueryString(final String s) {
-        new Thread(new Runnable() {
-            @Override
-            public void run() {
-                RequestManager.getInstance(FavoriteMovieActivity.this).getQueryMovieInfos(FavoriteMovieActivity.this, s);
-            }
-        }).start();
-    }
-
     @Override
     public void onNewIntent(Intent intent) {
         this.setIntent(intent);
@@ -171,5 +169,23 @@ public class FavoriteMovieActivity extends AppCompatActivity implements OnMovieQ
     @Override
     public void OnMovieQueryFailed(String reason) {
         Log.e(genyus.com.whichmovie.classes.Log.TAG, "Error getting query movies : " + reason);
+    }
+
+    private void launchQueryString(final String s) {
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                RequestManager.getInstance(FavoriteMovieActivity.this).getQueryMovieInfos(FavoriteMovieActivity.this, s);
+            }
+        }).start();
+    }
+
+    private void hideKeyboard(){
+        // Check if no view has focus:
+        View view = this.getCurrentFocus();
+        if (view != null) {
+            InputMethodManager imm = (InputMethodManager)getSystemService(Context.INPUT_METHOD_SERVICE);
+            imm.hideSoftInputFromWindow(view.getWindowToken(), 0);
+        }
     }
 }
