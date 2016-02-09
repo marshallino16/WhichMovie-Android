@@ -77,4 +77,12 @@ public class Crew implements Serializable{
     public void setProfile_path(String profile_path) {
         this.profile_path = profile_path;
     }
+
+    @Override
+    public boolean equals(Object o) {
+        if(((Crew)o).getId() == id){
+            return true;
+        }
+        return false;
+    }
 }

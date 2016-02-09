@@ -73,7 +73,9 @@ public class CrewSerializer {
                         }
                     }
 
-                    movie.getCrew().add(crew);
+                    if(!movie.getCrew().contains(crew)){
+                        movie.getCrew().add(crew);
+                    }
                 }
             }
             if(null != callback){
