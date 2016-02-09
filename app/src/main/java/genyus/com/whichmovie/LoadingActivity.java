@@ -109,7 +109,6 @@ public class LoadingActivity extends MovieActivity implements OnConfigurationLis
     @UiThread(propagation = UiThread.Propagation.REUSE)
     void goToNextActivity() {
         if(PreferencesUtils.isFirstRun(this)){
-            PreferencesUtils.setFirstRun(this);
             LauncherActivity_.intent(LoadingActivity.this).appLaunchIntent(getIntent()).start();
         } else {
             MainActivity_.intent(LoadingActivity.this).appLaunchIntent(getIntent()).start();

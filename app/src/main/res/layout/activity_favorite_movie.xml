@@ -5,12 +5,6 @@
                 android:background="@color/progress">
 
     <ImageView
-        android:id="@+id/movie_thumbnail"
-        android:layout_width="220dp"
-        android:layout_height="280dp"
-        android:layout_centerInParent="true"/>
-
-    <ImageView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:scaleType="centerCrop"
@@ -76,6 +70,12 @@
             android:layout_height="0dp"
             android:layout_weight="1"
             android:paddingTop="@dimen/activity_vertical_margin">
+
+            <ImageView
+                android:id="@+id/movie_thumbnail"
+                android:layout_width="220dp"
+                android:layout_height="match_parent"
+                android:layout_centerInParent="true"/>
 
             <View
                 android:layout_width="match_parent"

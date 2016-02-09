@@ -14,7 +14,7 @@
     <string name="notification_message">Vous vous demandez ce que vous allez regarder ce soir? Tonight\'s movie peut vous aider!</string>
 
     <!-- launcher -->
-    <string name="relevant_details">Uniquement des \ndétailspertinents</string>
+    <string name="relevant_details">Uniquement des \ndétails pertinents</string>
     <string name="designed_for_you">Suggestions designées\npour vous</string>
     <string name="legal_links">Liens d\'achats et\nstreaming légaux</string>
     <string name="choose_favorite">Rerchercher votre film préféré!</string>
@@ -67,7 +67,7 @@
     <string name="update_positive">Mettre à jour</string>
 
     <!-- version -->
-    <string name="version">version 1.0.0.alpha.INT</string>
+    <string name="version">version 1.0.0.alpha</string>
     <string name="made_in_france">fait avec ❤ pour vous en France.</string>
 
     <!-- internet -->

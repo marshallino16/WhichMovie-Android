@@ -113,9 +113,11 @@ public class FavoriteMovieActivity extends AppCompatActivity implements OnMovieQ
             @Override
             public void onClick(View view) {
                 if (enable) {
+                    //Set first run
+                    PreferencesUtils.setFirstRun(FavoriteMovieActivity.this);
+                    //Store preference movie infos
                     PreferencesUtils.setStringPreference(FavoriteMovieActivity.this, PreferencesUtils.KEY_FAVORITE_DATE, date);
                     PreferencesUtils.setStringPreference(FavoriteMovieActivity.this, PreferencesUtils.KEY_FAVORITE_ID, String.valueOf(id));
-
                     goToNextActivity();
                 } else {
                     new MaterialDialog.Builder(FavoriteMovieActivity.this)
