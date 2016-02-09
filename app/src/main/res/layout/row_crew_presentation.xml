@@ -7,7 +7,7 @@
               android:orientation="vertical">
 
     <genyus.com.whichmovie.view.FontTextView
-        android:id="@+id/cast_name_charac"
+        android:id="@+id/cast_name"
         android:layout_width="100dp"
         android:layout_height="wrap_content"
         android:background="@color/overlay"
@@ -31,7 +31,7 @@
     </RelativeLayout>
 
     <genyus.com.whichmovie.view.FontTextView
-        android:id="@+id/cast_name"
+        android:id="@+id/cast_name_charac"
         android:layout_width="100dp"
         android:layout_height="wrap_content"
         android:background="@color/overlay"

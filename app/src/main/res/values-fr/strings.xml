@@ -24,7 +24,7 @@
     <string name="understood">Je comprends</string>
 
     <!-- preferences -->
-    <string name="contact">Contact us</string>
+    <string name="contact">Contactez-nous</string>
     <string name="contact_summary">Donnez nous votre avis</string>
     <string name="changes_next_time">Les changements seront effectifs au prochain démarrage</string>
     <string name="about">A propos</string>
@@ -84,7 +84,7 @@
 
     <!-- sections -->
     <string name="director">Dirigé par %1$s</string>
-    <string name="as">en</string>
+    <string name="as">est</string>
     <string name="overview">Vue d\'ensemble</string>
     <string name="cast">Casting</string>
     <string name="production_companie">Compagnies de production</string>
