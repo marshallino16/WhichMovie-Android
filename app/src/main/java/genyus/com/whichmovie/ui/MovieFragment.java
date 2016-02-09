@@ -342,10 +342,10 @@ public class MovieFragment extends Fragment implements ObservableScrollViewCallb
             public void onClick(View view) {
                 if (null != activity) {
                     if (null != movie.getGooglePlay()) {
-                        AnalyticsEventUtils.sendStreamAction("GOOGLE_PLAY_"+movie.getGooglePlay());
+                        AnalyticsEventUtils.sendStreamAction("GOOGLE_PLAY_" + movie.getGooglePlay());
                         IntentUtils.searchOnGooglePlay(activity, movie.getGooglePlay());
                     } else {
-                        AnalyticsEventUtils.sendStreamAction("GOOGLE_PLAY_"+movie.getTitle());
+                        AnalyticsEventUtils.sendStreamAction("GOOGLE_PLAY_" + movie.getTitle());
                         IntentUtils.searchMovieOnGooglePlayByTitle(activity, movie.getTitle());
                     }
                 }
@@ -356,7 +356,7 @@ public class MovieFragment extends Fragment implements ObservableScrollViewCallb
             @Override
             public void onClick(View view) {
                 if (null != activity && null != movie.getVudu()) {
-                    AnalyticsEventUtils.sendStreamAction("VUDU_"+movie.getVudu());
+                    AnalyticsEventUtils.sendStreamAction("VUDU_" + movie.getVudu());
                     IntentUtils.searchOnVudu(activity, movie.getVudu());
                 }
             }
@@ -422,7 +422,10 @@ public class MovieFragment extends Fragment implements ObservableScrollViewCallb
         @Override
         public void onBitmapLoaded(Bitmap bitmap, Picasso.LoadedFrom from) {
             poster.setImageBitmap(bitmap);
-            posterBlur.setImageBitmap(blurBitmap(bitmap));
+            Bitmap blured = blurBitmap(bitmap);
+            if (null != blured) {
+                posterBlur.setImageBitmap(blured);
+            }
 
             posterBlur.setScaleX(1.2f);
             posterBlur.setScaleY(1.2f);
@@ -454,19 +457,23 @@ public class MovieFragment extends Fragment implements ObservableScrollViewCallb
     };
 
     public Bitmap blurBitmap(Bitmap bitmap) {
-
-        Bitmap outBitmap = Bitmap.createBitmap(bitmap.getWidth(), bitmap.getHeight(), Bitmap.Config.ARGB_8888);
-        RenderScript rs = RenderScript.create(this.activity);
-        ScriptIntrinsicBlur blurScript = ScriptIntrinsicBlur.create(rs, Element.U8_4(rs));
-        Allocation allIn = Allocation.createFromBitmap(rs, bitmap);
-        Allocation allOut = Allocation.createFromBitmap(rs, outBitmap);
-        blurScript.setRadius(25.f);
-        blurScript.setInput(allIn);
-        blurScript.forEach(allOut);
-        allOut.copyTo(outBitmap);
-        //bitmap.recycle();
-        rs.destroy();
-        return outBitmap;
+        try {
+            Bitmap outBitmap = Bitmap.createBitmap(bitmap.getWidth(), bitmap.getHeight(), Bitmap.Config.ARGB_8888);
+            RenderScript rs = RenderScript.create(this.activity);
+            ScriptIntrinsicBlur blurScript = ScriptIntrinsicBlur.create(rs, Element.U8_4(rs));
+            Allocation allIn = Allocation.createFromBitmap(rs, bitmap);
+            Allocation allOut = Allocation.createFromBitmap(rs, outBitmap);
+            blurScript.setRadius(25.f);
+            blurScript.setInput(allIn);
+            blurScript.forEach(allOut);
+            allOut.copyTo(outBitmap);
+            //bitmap.recycle();
+            rs.destroy();
+            return outBitmap;
+        } catch (OutOfMemoryError error) {
+            error.printStackTrace();
+            return null;
+        }
     }
 
     @Override
