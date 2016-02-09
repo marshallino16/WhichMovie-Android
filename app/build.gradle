@@ -38,7 +38,7 @@ android {
         applicationId "genyus.com.whichmovie"
         minSdkVersion 16
         targetSdkVersion 23
-        versionCode 23
+        versionCode 3
         versionName "1.0.1"
         renderscriptTargetApi 20
         renderscriptSupportModeEnabled true
