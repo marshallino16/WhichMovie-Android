@@ -573,9 +573,12 @@ public class MovieFragment extends Fragment implements ObservableScrollViewCallb
                 @Override
                 public void run() {
                     //images
-                    ArrayList<Image> listImage = movie.getImages();
-                    if (listImage.size() > 10) {
-                        listImage = new ArrayList<>(movie.getImages().subList(0, 9));
+                    ArrayList<Image> listImage = new ArrayList<>();
+                    if(null != movie.getImages()){
+                        listImage = movie.getImages();
+                        if (listImage.size() > 10) {
+                            listImage = new ArrayList<>(movie.getImages().subList(0, 9));
+                        }
                     }
                     Log.d(genyus.com.whichmovie.classes.Log.TAG, "movie image get");
                     ImageAdapter imageAdapter = new ImageAdapter(getContext(), listImage, MovieFragment.this, R.id.fragment_root);
