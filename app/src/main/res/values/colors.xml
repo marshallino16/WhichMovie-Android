@@ -16,6 +16,9 @@
     <color name="progress">#FFC107</color>
     <color name="progress_darker">#d19f08</color>
     <color name="progress_dark">#d7a307</color>
+
+    <!-- overlay -->
     <color name="overlay">#c8131313</color>
+    <color name="scrim_imagery">#a8131313</color>
 
 </resources>

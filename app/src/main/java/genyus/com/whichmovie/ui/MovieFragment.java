@@ -537,7 +537,7 @@ public class MovieFragment extends Fragment implements ObservableScrollViewCallb
                 public void run() {
                     //crew
                     if (null != movie.getDirector() && !movie.getDirector().isEmpty()) {
-                        director.setText(getResources().getString(R.string.director, movie.getDirector()));
+                        director.setText(activity.getResources().getString(R.string.director, movie.getDirector()));
                     }
 
                     //cast

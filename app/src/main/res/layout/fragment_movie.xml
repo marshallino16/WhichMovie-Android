@@ -216,7 +216,7 @@
                     android:id="@+id/streaming_container"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginBottom="5dp"
+                    android:layout_marginBottom="10dp"
                     android:orientation="horizontal"
                     android:paddingLeft="@dimen/activity_horizontal_margin"
                     android:paddingRight="@dimen/activity_horizontal_margin"
@@ -261,7 +261,7 @@
                     android:id="@+id/productionCompanies"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginBottom="5dp"
+                    android:layout_marginBottom="10dp"
                     android:paddingLeft="@dimen/activity_horizontal_margin"
                     android:paddingRight="@dimen/activity_horizontal_margin"
                     android:textColor="@android:color/white"/>
@@ -461,6 +461,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_horizontal"
+                    android:layout_marginBottom="10dp"
                     android:visibility="visible"
                     ads:adSize="BANNER"
                     ads:adUnitId="ca-app-pub-8173266224774166/3263031131"/>
@@ -561,6 +562,7 @@
                         android:id="@+id/videos"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
+                        android:layout_marginBottom="10dp"
                         android:divider="@android:color/transparent"
                         android:dividerHeight="0dp"
                         android:fadingEdge="none"
@@ -572,7 +574,7 @@
 
                 </LinearLayout>
 
-                <!-- revenu / budget etc-->
+                <!-- pictures -->
 
                 <LinearLayout
                     android:layout_width="match_parent"

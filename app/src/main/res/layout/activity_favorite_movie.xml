@@ -16,7 +16,7 @@
         android:id="@+id/overlay"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="@color/overlay" />
+        android:background="@color/scrim_imagery" />
 
     <ImageView
         android:layout_width="match_parent"
@@ -38,13 +38,13 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_centerHorizontal="true"
-                android:background="@color/colorPrimaryDark"
+                android:background="@color/colorPrimary"
                 android:fontFamily="sans-serif-light"
                 android:gravity="center"
                 android:padding="@dimen/activity_horizontal_margin"
                 android:text="@string/choose_favorite"
                 android:textColor="@android:color/white"
-                android:textSize="25dp" />
+                android:textAppearance="?android:attr/textAppearanceLarge" />
 
             <ImageView
                 android:id="@+id/search_icon"
