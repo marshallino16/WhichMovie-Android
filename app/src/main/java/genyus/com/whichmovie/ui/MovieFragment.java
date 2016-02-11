@@ -457,21 +457,25 @@ public class MovieFragment extends Fragment implements ObservableScrollViewCallb
     };
 
     public Bitmap blurBitmap(Bitmap bitmap) {
-        try {
-            Bitmap outBitmap = Bitmap.createBitmap(bitmap.getWidth(), bitmap.getHeight(), Bitmap.Config.ARGB_8888);
-            RenderScript rs = RenderScript.create(this.activity);
-            ScriptIntrinsicBlur blurScript = ScriptIntrinsicBlur.create(rs, Element.U8_4(rs));
-            Allocation allIn = Allocation.createFromBitmap(rs, bitmap);
-            Allocation allOut = Allocation.createFromBitmap(rs, outBitmap);
-            blurScript.setRadius(25.f);
-            blurScript.setInput(allIn);
-            blurScript.forEach(allOut);
-            allOut.copyTo(outBitmap);
-            //bitmap.recycle();
-            rs.destroy();
-            return outBitmap;
-        } catch (OutOfMemoryError error) {
-            error.printStackTrace();
+        if(null != activity){
+            try {
+                Bitmap outBitmap = Bitmap.createBitmap(bitmap.getWidth(), bitmap.getHeight(), Bitmap.Config.ARGB_8888);
+                RenderScript rs = RenderScript.create(this.activity);
+                ScriptIntrinsicBlur blurScript = ScriptIntrinsicBlur.create(rs, Element.U8_4(rs));
+                Allocation allIn = Allocation.createFromBitmap(rs, bitmap);
+                Allocation allOut = Allocation.createFromBitmap(rs, outBitmap);
+                blurScript.setRadius(25.f);
+                blurScript.setInput(allIn);
+                blurScript.forEach(allOut);
+                allOut.copyTo(outBitmap);
+                //bitmap.recycle();
+                rs.destroy();
+                return outBitmap;
+            } catch (OutOfMemoryError error) {
+                error.printStackTrace();
+                return null;
+            }
+        } else {
             return null;
         }
     }
@@ -537,11 +541,14 @@ public class MovieFragment extends Fragment implements ObservableScrollViewCallb
                     }
 
                     //cast
-                    ArrayList<Crew> listCrew = movie.getCrew();
-                    if (listCrew.size() > 21) {
-                        listCrew = new ArrayList<>(movie.getCrew().subList(0, 20));
+                    ArrayList<Crew> listCrew = new ArrayList<>();
+                    if(null != movie.getCrew()){
+                        listCrew = movie.getCrew();
+                        if (listCrew.size() > 21) {
+                            listCrew = new ArrayList<>(movie.getCrew().subList(0, 20));
+                        }
                     }
-                    final CrewRecyclerViewAdapter castAdapter = new CrewRecyclerViewAdapter(getActivity(), listCrew);
+                    final CrewRecyclerViewAdapter castAdapter = new CrewRecyclerViewAdapter(activity, listCrew);
                     castAdapter.setOnItemClickListener(new CrewRecyclerViewAdapter.OnCrewItemClickListener() {
                         @Override
                         public void onItemClick(int position, View v) {
@@ -581,7 +588,7 @@ public class MovieFragment extends Fragment implements ObservableScrollViewCallb
                         }
                     }
                     Log.d(genyus.com.whichmovie.classes.Log.TAG, "movie image get");
-                    ImageAdapter imageAdapter = new ImageAdapter(getContext(), listImage, MovieFragment.this, R.id.fragment_root);
+                    ImageAdapter imageAdapter = new ImageAdapter(activity, listImage, MovieFragment.this, R.id.fragment_root);
                     listImages.setNumColumns(2);
                     listImages.setAdapter(imageAdapter);
                     listImages.setExpanded(true);
@@ -607,7 +614,7 @@ public class MovieFragment extends Fragment implements ObservableScrollViewCallb
                             videoContainer.setVisibility(View.GONE);
                         } else {
                             final String firstVideoKey = movie.getVideos().get(0).getKey();
-                            PicassoTrustAll.getInstance(getActivity()).load(YouTubeThumbnail.getUrlFromVideoId(firstVideoKey, Quality.MAXIMUM)).placeholder(android.R.color.transparent).into(firstVideoImage, new Callback() {
+                            PicassoTrustAll.getInstance(activity).load(YouTubeThumbnail.getUrlFromVideoId(firstVideoKey, Quality.MAXIMUM)).placeholder(android.R.color.transparent).into(firstVideoImage, new Callback() {
                                 @Override
                                 public void onSuccess() {
                                     //nothing
@@ -615,18 +622,18 @@ public class MovieFragment extends Fragment implements ObservableScrollViewCallb
 
                                 @Override
                                 public void onError() {
-                                    PicassoTrustAll.getInstance(getActivity()).load(YouTubeThumbnail.getUrlFromVideoId(firstVideoKey, Quality.HIGH)).placeholder(android.R.color.transparent).into(firstVideoImage);
+                                    PicassoTrustAll.getInstance(activity).load(YouTubeThumbnail.getUrlFromVideoId(firstVideoKey, Quality.HIGH)).placeholder(android.R.color.transparent).into(firstVideoImage);
                                 }
                             });
                             firstVideoImage.setOnClickListener(new View.OnClickListener() {
                                 @Override
                                 public void onClick(View view) {
-                                    PlayerActivity_.intent(getActivity()).videoKey(firstVideoKey).start();
+                                    PlayerActivity_.intent(activity).videoKey(firstVideoKey).start();
                                 }
                             });
                             firstVideoImage.setTag(firstVideoKey);
 
-                            if (1 < movie.getVideos().size()) {
+                            if (null != movie.getVideos() && 1 < movie.getVideos().size()) {
                                 ArrayList<Video> listVideo = movie.getVideos();
                                 if (listVideo.size() >= 5) {
                                     listVideo = new ArrayList<>(movie.getVideos().subList(1, 5));
@@ -635,7 +642,7 @@ public class MovieFragment extends Fragment implements ObservableScrollViewCallb
                                 }
 
                                 Log.d(genyus.com.whichmovie.classes.Log.TAG, "movie videos get");
-                                VideoAdapter videoAdapter = new VideoAdapter(getContext(), listVideo);
+                                VideoAdapter videoAdapter = new VideoAdapter(activity, listVideo);
                                 listVideos.setNumColumns(2);
                                 listVideos.setAdapter(videoAdapter);
                                 listVideos.setExpanded(true);
@@ -660,7 +667,7 @@ public class MovieFragment extends Fragment implements ObservableScrollViewCallb
             activity.runOnUiThread(new Runnable() {
                 @Override
                 public void run() {
-                    if (null != getActivity()) {
+                    if (null != activity) {
                         if (null != movie.getVudu()) {
                             if (null != view) {
                                 if (null == movie.getVudu()) {
