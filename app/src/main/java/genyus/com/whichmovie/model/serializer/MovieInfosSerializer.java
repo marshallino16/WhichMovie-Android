@@ -89,7 +89,7 @@ public class MovieInfosSerializer {
 
             if(null != callback){
                 if(callback instanceof MovieFragment){
-                    if(((MovieFragment)callback).isAdded() && ((MovieFragment)callback).isInLayout()){
+                    if(((MovieFragment)callback).isAdded()){
                         callback.OnMovieInfosGet();
                     }
                 } else {

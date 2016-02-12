@@ -124,15 +124,6 @@ public class MovieFragment extends Fragment implements ObservableScrollViewCallb
         Bundle bundle = getArguments();
         if (null != bundle && bundle.containsKey("movie")) {
             movie = (Movie) bundle.getSerializable("movie");
-            new Thread() {
-                public void run() {
-                    RequestManager.getInstance(MovieFragment.this.activity).getMovieInfos(MovieFragment.this.activity, MovieFragment.this, movie.getId());
-                    RequestManager.getInstance(MovieFragment.this.activity).getMovieCrew(MovieFragment.this, movie.getId());
-                    RequestManager.getInstance(MovieFragment.this.activity).getMovieImages(MovieFragment.this, movie.getId());
-                    RequestManager.getInstance(MovieFragment.this.activity).getMovieVideos(MovieFragment.this, movie.getId());
-                    RequestManager.getInstance(MovieFragment.this.activity).getMoviePurchase(MovieFragment.this.activity, MovieFragment.this, movie.getId(), movie);
-                }
-            }.start();
         }
     }
 
@@ -162,6 +153,20 @@ public class MovieFragment extends Fragment implements ObservableScrollViewCallb
             adView.destroy();
             adView2.destroy();
         }
+    }
+
+    @Override
+    public void onStart() {
+        super.onStart();
+        new Thread() {
+            public void run() {
+                RequestManager.getInstance(MovieFragment.this.activity).getMovieInfos(MovieFragment.this.activity, MovieFragment.this, movie.getId());
+                RequestManager.getInstance(MovieFragment.this.activity).getMovieCrew(MovieFragment.this, movie.getId());
+                RequestManager.getInstance(MovieFragment.this.activity).getMovieImages(MovieFragment.this, movie.getId());
+                RequestManager.getInstance(MovieFragment.this.activity).getMovieVideos(MovieFragment.this, movie.getId());
+                RequestManager.getInstance(MovieFragment.this.activity).getMoviePurchase(MovieFragment.this.activity, MovieFragment.this, movie.getId(), movie);
+            }
+        }.start();
     }
 
     @Nullable
@@ -457,7 +462,7 @@ public class MovieFragment extends Fragment implements ObservableScrollViewCallb
     };
 
     public Bitmap blurBitmap(Bitmap bitmap) {
-        if(null != activity){
+        if (null != activity) {
             try {
                 Bitmap outBitmap = Bitmap.createBitmap(bitmap.getWidth(), bitmap.getHeight(), Bitmap.Config.ARGB_8888);
                 RenderScript rs = RenderScript.create(this.activity);
@@ -482,7 +487,7 @@ public class MovieFragment extends Fragment implements ObservableScrollViewCallb
 
     @Override
     public void OnMovieInfosGet() {
-        if (null != this && this.isInLayout() && null != activity && isAdded()) {
+        if (null != this && null != activity && isAdded()) {
             activity.runOnUiThread(new Runnable() {
                 @Override
                 public void run() {
@@ -542,7 +547,7 @@ public class MovieFragment extends Fragment implements ObservableScrollViewCallb
 
                     //cast
                     ArrayList<Crew> listCrew = new ArrayList<>();
-                    if(null != movie.getCrew()){
+                    if (null != movie.getCrew()) {
                         listCrew = movie.getCrew();
                         if (listCrew.size() > 21) {
                             listCrew = new ArrayList<>(movie.getCrew().subList(0, 20));
@@ -581,7 +586,7 @@ public class MovieFragment extends Fragment implements ObservableScrollViewCallb
                 public void run() {
                     //images
                     ArrayList<Image> listImage = new ArrayList<>();
-                    if(null != movie.getImages()){
+                    if (null != movie.getImages()) {
                         listImage = movie.getImages();
                         if (listImage.size() > 10) {
                             listImage = new ArrayList<>(movie.getImages().subList(0, 9));

@@ -138,7 +138,7 @@ public class RequestManager {
         if (BuildConfig.DEBUG) {
             String date = PreferencesUtils.getStringPreference(context, PreferencesUtils.KEY_FAVORITE_DATE);
             if (null != date && date.length() > 4) {
-                nameValuePairs.add(new BasicNameValuePair("year", date.substring(0, 4)));
+                //nameValuePairs.add(new BasicNameValuePair("year", date.substring(0, 4)));
             }
         }
 
@@ -177,7 +177,7 @@ public class RequestManager {
         if (BuildConfig.DEBUG) {
             String date = PreferencesUtils.getStringPreference(context, PreferencesUtils.KEY_FAVORITE_DATE);
             if (null != date && date.length() > 4) {
-                nameValuePairs.add(new BasicNameValuePair("year", date.substring(0, 4)));
+                //nameValuePairs.add(new BasicNameValuePair("year", date.substring(0, 4)));
             }
         }
 
@@ -440,7 +440,7 @@ public class RequestManager {
 
                 if(null != callback){
                     if(callback instanceof MovieFragment){
-                        if(((MovieFragment)callback).isAdded() && ((MovieFragment)callback).isInLayout()){
+                        if(((MovieFragment)callback).isAdded()){
                             callback.OnMoviePurchase();
                         }
                     } else {

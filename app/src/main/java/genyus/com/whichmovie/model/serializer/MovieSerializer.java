@@ -135,7 +135,7 @@ public class MovieSerializer {
         GlobalVars.movies.addAll(movies);
         if(null != callback){
             if(callback instanceof MovieFragment){
-                if(((MovieFragment)callback).isAdded() && ((MovieFragment)callback).isInLayout()){
+                if(((MovieFragment)callback).isAdded()){
                     callback.OnMoviesGet();
                 }
             } else {
@@ -238,7 +238,7 @@ public class MovieSerializer {
         GlobalVars.movies.addAll(movies);
         if(null != callback){
             if(callback instanceof MovieFragment){
-                if(((MovieFragment)callback).isAdded() && ((MovieFragment)callback).isInLayout()){
+                if(((MovieFragment)callback).isAdded()){
                     callback.OnNewMoviesGet();
                 }
             } else {
@@ -288,7 +288,7 @@ public class MovieSerializer {
 
         if(null != callback){
             if(callback instanceof MovieFragment){
-                if(((MovieFragment)callback).isAdded() && ((MovieFragment)callback).isInLayout()){
+                if(((MovieFragment)callback).isAdded()){
                     callback.OnMovieQuery(movies);
                 }
             } else {
