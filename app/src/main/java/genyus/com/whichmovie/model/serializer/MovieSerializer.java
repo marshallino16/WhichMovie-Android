@@ -16,6 +16,7 @@ import genyus.com.whichmovie.session.GlobalVars;
 import genyus.com.whichmovie.task.listener.OnMovieQueryListener;
 import genyus.com.whichmovie.task.listener.OnMoviesListener;
 import genyus.com.whichmovie.task.listener.OnNewMoviesListener;
+import genyus.com.whichmovie.ui.MovieFragment;
 
 /**
  * Created by anthony on 11/30/15.
@@ -133,7 +134,13 @@ public class MovieSerializer {
         GlobalVars.movies.clear();
         GlobalVars.movies.addAll(movies);
         if(null != callback){
-            callback.OnMoviesGet();
+            if(callback instanceof MovieFragment){
+                if(((MovieFragment)callback).isAdded() && ((MovieFragment)callback).isInLayout()){
+                    callback.OnMoviesGet();
+                }
+            } else {
+                callback.OnMoviesGet();
+            }
         }
     }
 
@@ -230,7 +237,13 @@ public class MovieSerializer {
 
         GlobalVars.movies.addAll(movies);
         if(null != callback){
-            callback.OnNewMoviesGet();
+            if(callback instanceof MovieFragment){
+                if(((MovieFragment)callback).isAdded() && ((MovieFragment)callback).isInLayout()){
+                    callback.OnNewMoviesGet();
+                }
+            } else {
+                callback.OnNewMoviesGet();
+            }
         }
     }
 
@@ -274,7 +287,13 @@ public class MovieSerializer {
         }
 
         if(null != callback){
-            callback.OnMovieQuery(movies);
+            if(callback instanceof MovieFragment){
+                if(((MovieFragment)callback).isAdded() && ((MovieFragment)callback).isInLayout()){
+                    callback.OnMovieQuery(movies);
+                }
+            } else {
+                callback.OnMovieQuery(movies);
+            }
         }
     }
 

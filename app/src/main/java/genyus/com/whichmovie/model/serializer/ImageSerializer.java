@@ -8,6 +8,7 @@ import com.google.gson.JsonParser;
 import genyus.com.whichmovie.model.Image;
 import genyus.com.whichmovie.model.Movie;
 import genyus.com.whichmovie.task.listener.OnMovieImageListener;
+import genyus.com.whichmovie.ui.MovieFragment;
 import genyus.com.whichmovie.utils.ObjectUtils;
 
 /**
@@ -50,7 +51,13 @@ public class ImageSerializer {
             }
 
             if(null != callback){
-                callback.OnMovieImageGet();
+                if(callback instanceof MovieFragment){
+                    if(((MovieFragment)callback).isAdded() && ((MovieFragment)callback).isInLayout()){
+                        callback.OnMovieImageGet();
+                    }
+                } else {
+                    callback.OnMovieImageGet();
+                }
             }
         }
     }

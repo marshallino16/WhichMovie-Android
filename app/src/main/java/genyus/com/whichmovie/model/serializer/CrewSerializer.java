@@ -10,6 +10,7 @@ import com.google.gson.JsonParser;
 import genyus.com.whichmovie.model.Crew;
 import genyus.com.whichmovie.model.Movie;
 import genyus.com.whichmovie.task.listener.OnMovieCrewListener;
+import genyus.com.whichmovie.ui.MovieFragment;
 import genyus.com.whichmovie.utils.ObjectUtils;
 
 /**
@@ -79,7 +80,13 @@ public class CrewSerializer {
                 }
             }
             if(null != callback){
-                callback.OnMovieCrewGet();
+                if(callback instanceof MovieFragment){
+                    if(((MovieFragment)callback).isAdded() && ((MovieFragment)callback).isInLayout()){
+                        callback.OnMovieCrewGet();
+                    }
+                } else {
+                    callback.OnMovieCrewGet();
+                }
                 Log.w(genyus.com.whichmovie.classes.Log.TAG, "crew size = " + movie.getCrew().size());
             }
         }

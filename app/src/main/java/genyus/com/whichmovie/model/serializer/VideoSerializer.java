@@ -8,6 +8,7 @@ import com.google.gson.JsonParser;
 import genyus.com.whichmovie.model.Movie;
 import genyus.com.whichmovie.model.Video;
 import genyus.com.whichmovie.task.listener.OnMovieVideoListener;
+import genyus.com.whichmovie.ui.MovieFragment;
 import genyus.com.whichmovie.utils.ObjectUtils;
 
 /**
@@ -76,7 +77,13 @@ public class VideoSerializer {
             }
 
             if (null != callback) {
-                callback.OnMovieVideoGet();
+                if(callback instanceof MovieFragment){
+                    if(((MovieFragment)callback).isAdded() && ((MovieFragment)callback).isInLayout()){
+                        callback.OnMovieVideoGet();
+                    }
+                } else {
+                    callback.OnMovieVideoGet();
+                }
             }
         }
     }

@@ -35,6 +35,7 @@ import genyus.com.whichmovie.task.listener.OnMovieQueryListener;
 import genyus.com.whichmovie.task.listener.OnMovieVideoListener;
 import genyus.com.whichmovie.task.listener.OnMoviesListener;
 import genyus.com.whichmovie.task.listener.OnNewMoviesListener;
+import genyus.com.whichmovie.ui.MovieFragment;
 import genyus.com.whichmovie.utils.AppUtils;
 import genyus.com.whichmovie.utils.PreferencesUtils;
 import genyus.com.whichmovie.utils.UnitsUtils;
@@ -72,7 +73,7 @@ public class RequestManager {
                 Log.d(genyus.com.whichmovie.classes.Log.TAG, "configuration json = " + returnedCode.json);
                 ConfigurationSerializer.fillConfigurationObject(returnedCode.json);
                 currentAttempt = 0;
-                if(null != callback){
+                if (null != callback) {
                     callback.OnConfigurationGet();
                 }
                 return;
@@ -82,8 +83,8 @@ public class RequestManager {
         } else {
             if (ATTEMPT_MAX == currentAttempt) {
                 currentAttempt = 0;
-                if(null != callback){
-                    callback.OnConfigurationFailed(null);
+                if (null != callback) {
+                    //callback.OnConfigurationFailed(null);
                 }
                 return;
             } else {
@@ -102,7 +103,7 @@ public class RequestManager {
                 Log.d(genyus.com.whichmovie.classes.Log.TAG, "categories json = " + returnedCode.json);
                 CategoriesSerializer.fillCategoriesObject(returnedCode.json);
                 currentAttempt = 0;
-                if(null != callback){
+                if (null != callback) {
                     callback.OnCategoriesGet();
                 }
                 return;
@@ -112,8 +113,8 @@ public class RequestManager {
         } else {
             if (ATTEMPT_MAX == currentAttempt) {
                 currentAttempt = 0;
-                if(null != callback){
-                    callback.OnCategoriesFailed(null);
+                if (null != callback) {
+                    //callback.OnCategoriesFailed(null);
                 }
                 return;
             } else {
@@ -134,9 +135,9 @@ public class RequestManager {
             nameValuePairs.add(new BasicNameValuePair("language", "fr"));
         }
 
-        if(BuildConfig.DEBUG){
+        if (BuildConfig.DEBUG) {
             String date = PreferencesUtils.getStringPreference(context, PreferencesUtils.KEY_FAVORITE_DATE);
-            if(null != date && date.length() > 4){
+            if (null != date && date.length() > 4) {
                 nameValuePairs.add(new BasicNameValuePair("year", date.substring(0, 4)));
             }
         }
@@ -155,8 +156,8 @@ public class RequestManager {
         } else {
             if (ATTEMPT_MAX == currentAttempt) {
                 currentAttempt = 0;
-                if(null != callback){
-                    callback.OnMoviesFailed(null);
+                if (null != callback) {
+                   // callback.OnMoviesFailed(null);
                 }
                 return;
             } else {
@@ -173,9 +174,9 @@ public class RequestManager {
         nameValuePairs.add(new BasicNameValuePair("include_adult", "false"));
         nameValuePairs.add(new BasicNameValuePair("page", String.valueOf(GlobalVars.getPage(context))));
 
-        if(BuildConfig.DEBUG){
+        if (BuildConfig.DEBUG) {
             String date = PreferencesUtils.getStringPreference(context, PreferencesUtils.KEY_FAVORITE_DATE);
-            if(null != date && date.length() > 4){
+            if (null != date && date.length() > 4) {
                 nameValuePairs.add(new BasicNameValuePair("year", date.substring(0, 4)));
             }
         }
@@ -199,7 +200,7 @@ public class RequestManager {
         } else {
             if (ATTEMPT_MAX == currentAttempt) {
                 currentAttempt = 0;
-                callback.OnNewMoviesFailed(null);
+                //callback.OnNewMoviesFailed(null);
                 return;
             } else {
                 this.getNewMoviesFromCategory(context, callback);
@@ -228,7 +229,7 @@ public class RequestManager {
         } else {
             if (ATTEMPT_MAX == currentAttempt) {
                 currentAttempt = 0;
-                callback.OnMovieInfosFailed(null);
+                //callback.OnMovieInfosFailed(null);
                 return;
             } else {
                 this.getMovieInfos(context, callback, movieId);
@@ -257,7 +258,7 @@ public class RequestManager {
             }
         } else {
             currentAttempt = 0;
-            callback.OnMovieQueryFailed(null);
+            //callback.OnMovieQueryFailed(null);
             return;
         }
     }
@@ -322,7 +323,7 @@ public class RequestManager {
         } else {
             if (ATTEMPT_MAX == currentAttempt) {
                 currentAttempt = 0;
-                callback.OnMovieCrewFailed(null);
+                //callback.OnMovieCrewFailed(null);
                 return;
             } else {
                 this.getMovieCrew(callback, movieId);
@@ -348,7 +349,7 @@ public class RequestManager {
         } else {
             if (ATTEMPT_MAX == currentAttempt) {
                 currentAttempt = 0;
-                callback.OnMovieImageFailed(null);
+                //callback.OnMovieImageFailed(null);
                 return;
             } else {
                 this.getMovieImages(callback, movieId);
@@ -377,7 +378,7 @@ public class RequestManager {
         } else {
             if (ATTEMPT_MAX == currentAttempt) {
                 currentAttempt = 0;
-                callback.OnMovieVideoFailed(null);
+                //callback.OnMovieVideoFailed(null);
                 return;
             } else {
                 this.getMovieVideos(callback, movieId);
@@ -393,37 +394,39 @@ public class RequestManager {
             if (200 == returnedCode.code) {
                 Log.d(genyus.com.whichmovie.classes.Log.TAG, "movies purchase json = " + returnedCode.json);
 
-                //serializing
-                JsonParser parser = new JsonParser();
-                JsonObject jo = (JsonObject) parser.parse(returnedCode.json);
+                try {
+                    //serializing
+                    JsonParser parser = new JsonParser();
+                    JsonObject jo = (JsonObject) parser.parse(returnedCode.json);
 
-                if (null != jo) {
-                    JsonElement id = jo.get("id");
-                    if(null != id && !id.isJsonNull()){
-                        int identifiant = id.getAsInt();
+                    if (null != jo) {
+                        JsonElement id = jo.get("id");
+                        if (null != id && !id.isJsonNull()) {
+                            int identifiant = id.getAsInt();
 
-                        //purchase link
-                        ArrayList<NameValuePair> nameValuePairsLink = new ArrayList<>();
-                        RequestReturn returnedCodeLink = RequestSender.sendRequestGet(APIConst.API_PURCHASE_BASE_URL(context), APIConst.API_PURCHASE_LINK + String.valueOf(identifiant), nameValuePairsLink);
-                        if (null != returnedCodeLink) {
-                            if (200 == returnedCodeLink.code) {
-                                JsonParser parserLink = new JsonParser();
-                                JsonObject joLink = (JsonObject) parserLink.parse(returnedCodeLink.json);
-                                JsonArray ja = joLink.getAsJsonArray("purchase_android_sources");
+                            //purchase link
+                            ArrayList<NameValuePair> nameValuePairsLink = new ArrayList<>();
+                            RequestReturn returnedCodeLink = RequestSender.sendRequestGet(APIConst.API_PURCHASE_BASE_URL(context), APIConst.API_PURCHASE_LINK + String.valueOf(identifiant), nameValuePairsLink);
+                            if (null != returnedCodeLink) {
+                                if (200 == returnedCodeLink.code) {
+                                    JsonParser parserLink = new JsonParser();
+                                    JsonObject joLink = (JsonObject) parserLink.parse(returnedCodeLink.json);
+                                    JsonArray ja = joLink.getAsJsonArray("purchase_android_sources");
 
-                                if (null != ja) {
-                                    for (JsonElement obj : ja) {
-                                        JsonObject linkObject = obj.getAsJsonObject();
+                                    if (null != ja) {
+                                        for (JsonElement obj : ja) {
+                                            JsonObject linkObject = obj.getAsJsonObject();
 
-                                        if(null != linkObject && !linkObject.get("source").isJsonNull() && null != linkObject.get("source").getAsString() && linkObject.get("source").getAsString().equals("vudu")){
-                                            if(!linkObject.get("link").isJsonNull() && null != linkObject.get("link").getAsString()){
-                                                movie.setVudu(linkObject.get("link").getAsString());
+                                            if (null != linkObject && !linkObject.get("source").isJsonNull() && null != linkObject.get("source").getAsString() && linkObject.get("source").getAsString().equals("vudu")) {
+                                                if (!linkObject.get("link").isJsonNull() && null != linkObject.get("link").getAsString()) {
+                                                    movie.setVudu(linkObject.get("link").getAsString());
+                                                }
                                             }
-                                        }
 
-                                        if(null != linkObject && !linkObject.get("source").isJsonNull() && null != linkObject.get("source").getAsString() && linkObject.get("source").getAsString().equals("google_play")){
-                                            if(!linkObject.get("link").isJsonNull() && null != linkObject.get("link").getAsString()){
-                                                movie.setGooglePlay(linkObject.get("link").getAsString());
+                                            if (null != linkObject && !linkObject.get("source").isJsonNull() && null != linkObject.get("source").getAsString() && linkObject.get("source").getAsString().equals("google_play")) {
+                                                if (!linkObject.get("link").isJsonNull() && null != linkObject.get("link").getAsString()) {
+                                                    movie.setGooglePlay(linkObject.get("link").getAsString());
+                                                }
                                             }
                                         }
                                     }
@@ -431,9 +434,19 @@ public class RequestManager {
                             }
                         }
                     }
+                } catch (Exception error) {
+                    error.printStackTrace();
                 }
 
-                callback.OnMoviePurchase();
+                if(null != callback){
+                    if(callback instanceof MovieFragment){
+                        if(((MovieFragment)callback).isAdded() && ((MovieFragment)callback).isInLayout()){
+                            callback.OnMoviePurchase();
+                        }
+                    } else {
+                        callback.OnMoviePurchase();
+                    }
+                }
                 currentAttempt = 0;
                 return;
             } else {
@@ -442,7 +455,7 @@ public class RequestManager {
         } else {
             if (ATTEMPT_MAX == currentAttempt) {
                 currentAttempt = 0;
-                callback.OnMoviePurchaseFailed(null);
+                //callback.OnMoviePurchaseFailed(null);
                 return;
             } else {
                 this.getMoviePurchase(context, callback, movieId, movie);

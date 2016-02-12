@@ -482,7 +482,7 @@ public class MovieFragment extends Fragment implements ObservableScrollViewCallb
 
     @Override
     public void OnMovieInfosGet() {
-        if (null != this && null != activity && isAdded()) {
+        if (null != this && this.isInLayout() && null != activity && isAdded()) {
             activity.runOnUiThread(new Runnable() {
                 @Override
                 public void run() {
@@ -512,7 +512,7 @@ public class MovieFragment extends Fragment implements ObservableScrollViewCallb
                                 companies = android.text.TextUtils.concat(companies, Html.fromHtml(", " + "<i><u>" + movie.getProductionCompanies().get(i) + "</u></i> "));
                             }
                         } else {
-                            companies = Html.fromHtml(getResources().getString(R.string.producted_by) + " " + "<i><u>" + movie.getProductionCompanies().get(i) + "</u></i> ");
+                            companies = Html.fromHtml(activity.getResources().getString(R.string.producted_by) + " " + "<i><u>" + movie.getProductionCompanies().get(i) + "</u></i> ");
                         }
                     }
                     for (int i = 0; i < movie.getProductionCompanies().size(); ++i) {

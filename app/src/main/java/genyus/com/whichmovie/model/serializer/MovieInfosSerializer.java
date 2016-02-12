@@ -9,6 +9,7 @@ import java.io.UnsupportedEncodingException;
 
 import genyus.com.whichmovie.model.Movie;
 import genyus.com.whichmovie.task.listener.OnMovieInfoListener;
+import genyus.com.whichmovie.ui.MovieFragment;
 import genyus.com.whichmovie.utils.ObjectUtils;
 
 /**
@@ -85,7 +86,16 @@ public class MovieInfosSerializer {
 
                 }
             }
-            callback.OnMovieInfosGet();
+
+            if(null != callback){
+                if(callback instanceof MovieFragment){
+                    if(((MovieFragment)callback).isAdded() && ((MovieFragment)callback).isInLayout()){
+                        callback.OnMovieInfosGet();
+                    }
+                } else {
+                    callback.OnMovieInfosGet();
+                }
+            }
         }
     }
 }
