@@ -19,6 +19,6 @@
 
     <!-- overlay -->
     <color name="overlay">#c8131313</color>
-    <color name="scrim_imagery">#a8131313</color>
+    <color name="scrim_imagery">#991b1b1b</color>
 
 </resources>
