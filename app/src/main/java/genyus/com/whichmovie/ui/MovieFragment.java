@@ -473,16 +473,18 @@ public class MovieFragment extends Fragment implements ObservableScrollViewCallb
         if (null != activity) {
             try {
                 Bitmap outBitmap = Bitmap.createBitmap(bitmap.getWidth(), bitmap.getHeight(), Bitmap.Config.ARGB_8888);
-                RenderScript rs = RenderScript.create(this.activity);
-                ScriptIntrinsicBlur blurScript = ScriptIntrinsicBlur.create(rs, Element.U8_4(rs));
-                Allocation allIn = Allocation.createFromBitmap(rs, bitmap);
-                Allocation allOut = Allocation.createFromBitmap(rs, outBitmap);
-                blurScript.setRadius(25.f);
-                blurScript.setInput(allIn);
-                blurScript.forEach(allOut);
-                allOut.copyTo(outBitmap);
-                //bitmap.recycle();
-                rs.destroy();
+                if(null != outBitmap){
+                    RenderScript rs = RenderScript.create(this.activity);
+                    ScriptIntrinsicBlur blurScript = ScriptIntrinsicBlur.create(rs, Element.U8_4(rs));
+                    Allocation allIn = Allocation.createFromBitmap(rs, bitmap);
+                    Allocation allOut = Allocation.createFromBitmap(rs, outBitmap);
+                    blurScript.setRadius(25.f);
+                    blurScript.setInput(allIn);
+                    blurScript.forEach(allOut);
+                    allOut.copyTo(outBitmap);
+                    //bitmap.recycle();
+                    rs.destroy();
+                }
                 return outBitmap;
             } catch (OutOfMemoryError error) {
                 error.printStackTrace();

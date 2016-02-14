@@ -35,6 +35,8 @@ public class AppUtils {
                     .ownText();
         } catch (IOException e) {
             e.printStackTrace();
+        } catch (OutOfMemoryError error){
+            error.printStackTrace();
         }
 
         Log.d(genyus.com.whichmovie.classes.Log.TAG, "Play Store version = " + newVersion);
