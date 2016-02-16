@@ -72,12 +72,16 @@ public class MovieInfosSerializer {
                                 JsonElement name = obj.getAsJsonObject().get(OBJECT_NAME);
                                 if(!name.isJsonNull() && null != name){
                                     try {
-                                        movie.getProductionCompanies().add(new String(name.getAsString().getBytes("ISO-8859-1")));
+                                        if(!movie.getProductionCompanies().contains(new String(name.getAsString().getBytes("ISO-8859-1")))){
+                                            movie.getProductionCompanies().add(new String(name.getAsString().getBytes("ISO-8859-1")));
+                                        }
                                     } catch (UnsupportedEncodingException e) {
                                         e.printStackTrace();
-                                        movie.getProductionCompanies().add(name.getAsString());
+                                        if(!movie.getProductionCompanies().contains(name.getAsString())){
+                                            movie.getProductionCompanies().add(name.getAsString());
+                                        }
                                     } catch (NullPointerException e) {
-                                        movie.getProductionCompanies().add(name.getAsString());
+                                        e.printStackTrace();
                                     }
                                 }
                             }
