@@ -20,6 +20,7 @@ import com.afollestad.materialdialogs.DialogAction;
 import com.afollestad.materialdialogs.MaterialDialog;
 
 import org.androidannotations.annotations.AfterViews;
+import org.androidannotations.annotations.Click;
 import org.androidannotations.annotations.EActivity;
 import org.androidannotations.annotations.Extra;
 import org.androidannotations.annotations.ViewById;
@@ -316,6 +317,11 @@ public class MainActivity extends AppCompatActivity implements OnMoviesListener,
                 }
             }
         }
+    }
+
+    @Click(R.id.menu_icon)
+    void menuIconWasClicked() {
+        categories.performClick();
     }
 
     private void generateFragmentFromMovies(){
