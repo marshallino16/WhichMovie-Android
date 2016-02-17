@@ -13,6 +13,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
+import android.widget.ImageView;
 import android.widget.Spinner;
 
 import com.afollestad.materialdialogs.DialogAction;
@@ -65,6 +66,9 @@ public class MainActivity extends AppCompatActivity implements OnMoviesListener,
 
     @ViewById(R.id.categories)
     public Spinner categories;
+
+    @ViewById(R.id.menu_icon)
+    public ImageView listIcon;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -220,7 +224,16 @@ public class MainActivity extends AppCompatActivity implements OnMoviesListener,
             PreferencesActivity_.intent(this).start();
             return true;
         } else if (id == R.id.action_share){
-            String title =  moviesFragments.get(swipePager.getCurrentItem()).movie.getTitle();
+            String title =  null;
+            try {
+                title =  moviesFragments.get(swipePager.getCurrentItem()).movie.getTitle();
+            } catch (NullPointerException ex){
+                if(AppUtils.isDeviceInFrench()){
+                    title = "un";
+                } else {
+                    title = "a";
+                }
+            }
             Intent share = new Intent(android.content.Intent.ACTION_SEND);
             share.setType("text/plain");
             share.putExtra(Intent.EXTRA_TEXT, getResources().getString(R.string.share_message, title));

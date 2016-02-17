@@ -6,7 +6,9 @@ import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 import com.google.gson.reflect.TypeToken;
+import com.google.gson.stream.JsonReader;
 
+import java.io.StringReader;
 import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.List;
@@ -42,10 +44,14 @@ public class MovieSerializer {
 
     public static void fillMoviesObject(String json, OnMoviesListener callback) {
 
+        StringReader reader = new StringReader(json);
+        JsonReader jsonReader = new JsonReader(reader);
+        jsonReader.setLenient(true);
+
         ArrayList<Movie> movies = new ArrayList<>();
 
         JsonParser parser = new JsonParser();
-        JsonObject jo = (JsonObject) parser.parse(json);
+        JsonObject jo = (JsonObject) parser.parse(jsonReader);
         JsonArray ja = jo.getAsJsonArray(ARRAY_RESULT);
 
         if (null != ja) {
@@ -146,10 +152,14 @@ public class MovieSerializer {
 
     public static void fillNewMoviesObject(String json, OnNewMoviesListener callback) {
 
+        StringReader reader = new StringReader(json);
+        JsonReader jsonReader = new JsonReader(reader);
+        jsonReader.setLenient(true);
+
         ArrayList<Movie> movies = new ArrayList<>();
 
         JsonParser parser = new JsonParser();
-        JsonObject jo = (JsonObject) parser.parse(json);
+        JsonObject jo = (JsonObject) parser.parse(jsonReader);
         JsonArray ja = jo.getAsJsonArray(ARRAY_RESULT);
 
         if (null != ja) {
@@ -249,10 +259,14 @@ public class MovieSerializer {
 
     public static void fillMinimalistMoviesObject(String json, OnMovieQueryListener callback) {
 
+        StringReader reader = new StringReader(json);
+        JsonReader jsonReader = new JsonReader(reader);
+        jsonReader.setLenient(true);
+
         ArrayList<Movie> movies = new ArrayList<>();
 
         JsonParser parser = new JsonParser();
-        JsonObject jo = (JsonObject) parser.parse(json);
+        JsonObject jo = (JsonObject) parser.parse(jsonReader);
         JsonArray ja = jo.getAsJsonArray(ARRAY_RESULT);
 
         if (null != ja) {

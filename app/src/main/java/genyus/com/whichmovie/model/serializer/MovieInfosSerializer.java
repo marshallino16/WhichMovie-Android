@@ -4,7 +4,9 @@ import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
+import com.google.gson.stream.JsonReader;
 
+import java.io.StringReader;
 import java.io.UnsupportedEncodingException;
 
 import genyus.com.whichmovie.model.Movie;
@@ -28,8 +30,12 @@ public class MovieInfosSerializer {
 
     public static void fillConfigurationObject(String json, OnMovieInfoListener callback) {
 
+        StringReader reader = new StringReader(json);
+        JsonReader jsonReader = new JsonReader(reader);
+        jsonReader.setLenient(true);
+
         JsonParser parser = new JsonParser();
-        JsonObject jo = (JsonObject) parser.parse(json);
+        JsonObject jo = (JsonObject) parser.parse(jsonReader);
 
         if (null != jo) {
 

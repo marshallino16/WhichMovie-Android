@@ -4,7 +4,9 @@ import com.google.gson.Gson;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 import com.google.gson.reflect.TypeToken;
+import com.google.gson.stream.JsonReader;
 
+import java.io.StringReader;
 import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.List;
@@ -32,8 +34,12 @@ public class ConfigurationSerializer {
 
         Configuration conf = new Configuration();
 
+        StringReader reader = new StringReader(json);
+        JsonReader jsonReader = new JsonReader(reader);
+        jsonReader.setLenient(true);
+
         JsonParser parser = new JsonParser();
-        JsonObject jo = (JsonObject) parser.parse(json);
+        JsonObject jo = (JsonObject) parser.parse(jsonReader);
         JsonObject ja = jo.getAsJsonObject(OBJECT_IMAGES);
 
         if(null != ja){

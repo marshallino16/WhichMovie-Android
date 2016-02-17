@@ -4,6 +4,9 @@ import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
+import com.google.gson.stream.JsonReader;
+
+import java.io.StringReader;
 
 import genyus.com.whichmovie.model.Image;
 import genyus.com.whichmovie.model.Movie;
@@ -22,8 +25,12 @@ public class ImageSerializer {
 
     public static void fillImagesObject(String json, OnMovieImageListener callback) {
 
+        StringReader reader = new StringReader(json);
+        JsonReader jsonReader = new JsonReader(reader);
+        jsonReader.setLenient(true);
+
         JsonParser parser = new JsonParser();
-        JsonObject jo = (JsonObject) parser.parse(json);
+        JsonObject jo = (JsonObject) parser.parse(jsonReader);
         JsonArray ja = jo.getAsJsonArray(ARRAY_BACKDROPS);
 
         if (null != ja) {

@@ -4,7 +4,9 @@ import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
+import com.google.gson.stream.JsonReader;
 
+import java.io.StringReader;
 import java.util.ArrayList;
 
 import genyus.com.whichmovie.model.Genre;
@@ -23,8 +25,12 @@ public class CategoriesSerializer {
 
         ArrayList<Genre> genres = new ArrayList<>();
 
+        StringReader reader = new StringReader(json);
+        JsonReader jsonReader = new JsonReader(reader);
+        jsonReader.setLenient(true);
+
         JsonParser parser = new JsonParser();
-        JsonObject jo = (JsonObject) parser.parse(json);
+        JsonObject jo = (JsonObject) parser.parse(jsonReader);
         JsonArray ja = jo.getAsJsonArray(ARRAY_GENRE);
 
         if (null != ja) {
