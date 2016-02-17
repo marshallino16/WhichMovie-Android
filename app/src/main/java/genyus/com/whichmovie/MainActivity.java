@@ -71,6 +71,9 @@ public class MainActivity extends AppCompatActivity implements OnMoviesListener,
     @ViewById(R.id.menu_icon)
     public ImageView listIcon;
 
+    @ViewById(R.id.imageMockupRatio)
+    public ImageView imageMockupRatio;
+
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

@@ -684,6 +684,8 @@ public class MovieFragment extends Fragment implements ObservableScrollViewCallb
                                     listVideos.setNumColumns(2);
                                     listVideos.setAdapter(videoAdapter);
                                     listVideos.setExpanded(true);
+                                } else {
+                                    listVideos.setVisibility(View.GONE);
                                 }
                             }
                         }
@@ -796,24 +798,6 @@ public class MovieFragment extends Fragment implements ObservableScrollViewCallb
             view.findViewById(R.id.line3).setBackgroundColor(vibrant.getRgb());
             view.findViewById(R.id.line4).setBackgroundColor(vibrant.getRgb());
             view.findViewById(R.id.line5).setBackgroundColor(vibrant.getRgb());
-
-
-        /*ThemeUtils.revealColorAnimateViewDrawable(getActivity(), vibrant.getRgb(), backgroundProgress);
-        ThemeUtils.revealColorAnimateViewDrawable(getActivity(), vibrant.getRgb(), backgroundRevenue);
-        ThemeUtils.revealColorAnimateViewDrawableAlpha(getActivity(), vibrantDark.getRgb(), backgroundBudget);
-        ThemeUtils.revealColorAnimateViewDrawableAlpha(getActivity(), vibrantDark.getRgb(), backgroundProgressAlpha);
-
-        ThemeUtils.revealColorAnimateViewTextColor(getActivity(), vibrant.getRgb(), ((TextView)view.findViewById(R.id.title1)));
-        ThemeUtils.revealColorAnimateViewTextColor(getActivity(), vibrant.getRgb(), ((TextView)view.findViewById(R.id.title2)));
-        ThemeUtils.revealColorAnimateViewTextColor(getActivity(), vibrant.getRgb(), ((TextView)view.findViewById(R.id.title3)));
-        ThemeUtils.revealColorAnimateViewTextColor(getActivity(), vibrant.getRgb(), ((TextView)view.findViewById(R.id.title4)));
-        ThemeUtils.revealColorAnimateViewTextColor(getActivity(), vibrant.getRgb(), ((TextView)view.findViewById(R.id.title5)));
-
-        ThemeUtils.revealColorAnimateViewBackgroundColor(getActivity(), vibrant.getRgb(), view.findViewById(R.id.line1));
-        ThemeUtils.revealColorAnimateViewBackgroundColor(getActivity(), vibrant.getRgb(), view.findViewById(R.id.line2));
-        ThemeUtils.revealColorAnimateViewBackgroundColor(getActivity(), vibrant.getRgb(), view.findViewById(R.id.line3));
-        ThemeUtils.revealColorAnimateViewBackgroundColor(getActivity(), vibrant.getRgb(), view.findViewById(R.id.line4));
-        ThemeUtils.revealColorAnimateViewBackgroundColor(getActivity(), vibrant.getRgb(), view.findViewById(R.id.line5));*/
         }
     }
 }

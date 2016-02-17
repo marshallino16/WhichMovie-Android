@@ -1,10 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout
-    android:id="@+id/fragment_root"
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:custom="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/fragment_root"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@android:color/transparent"
@@ -20,7 +19,7 @@
             android:id="@+id/poster"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:scaleType="centerCrop"/>
+            android:scaleType="centerCrop" />
 
         <FrameLayout
             android:id="@+id/posterBlurContainer"
@@ -31,7 +30,7 @@
                 android:id="@+id/posterBlur"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:scaleType="centerCrop"/>
+                android:scaleType="centerCrop" />
         </FrameLayout>
 
     </FrameLayout>
@@ -45,20 +44,20 @@
         <View
             android:layout_width="match_parent"
             android:layout_height="0dp"
-            android:layout_weight="0.6"/>
+            android:layout_weight="0.6" />
 
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="0dp"
             android:layout_weight="1"
-            android:background="@drawable/elevation_shadow"/>
+            android:background="@drawable/elevation_shadow" />
     </LinearLayout>
 
     <View
         android:id="@+id/overlay"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="@color/overlay"/>
+        android:background="@color/overlay" />
 
     <LinearLayout
         android:id="@+id/header"
@@ -83,7 +82,7 @@
                 android:gravity="left|center_vertical"
                 android:paddingLeft="16dp"
                 android:textAppearance="?android:attr/textAppearanceLarge"
-                android:textColor="@android:color/white"/>
+                android:textColor="@android:color/white" />
 
             <com.greenfrvr.hashtagview.HashtagView
                 android:id="@+id/hashtags"
@@ -100,7 +99,7 @@
                 app:tagPaddingBottom="0dp"
                 app:tagPaddingRight="5dp"
                 app:tagPaddingTop="2dp"
-                app:tagTextColor="@android:color/white"/>
+                app:tagTextColor="@android:color/white" />
 
             <LinearLayout
                 android:id="@+id/rateContainer"
@@ -133,7 +132,7 @@
                             android:gravity="center_vertical"
                             android:paddingLeft="10dp"
                             android:textAppearance="?android:attr/textAppearanceMedium"
-                            android:textColor="@android:color/white"/>
+                            android:textColor="@android:color/white" />
 
                     </RelativeLayout>
 
@@ -142,7 +141,7 @@
                 <View
                     android:layout_width="0dp"
                     android:layout_height="match_parent"
-                    android:layout_weight="1"/>
+                    android:layout_weight="1" />
 
             </LinearLayout>
 
@@ -151,7 +150,7 @@
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="0dp"
-            android:layout_weight="1.5"/>
+            android:layout_weight="1.5" />
 
     </LinearLayout>
 
@@ -179,7 +178,7 @@
             <View
                 android:id="@+id/margin"
                 android:layout_width="match_parent"
-                android:layout_height="0dp"/>
+                android:layout_height="0dp" />
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -201,14 +200,14 @@
                         android:paddingLeft="@dimen/activity_horizontal_margin"
                         android:text="@string/overview"
                         android:textAppearance="?android:attr/textAppearanceMedium"
-                        android:textColor="@color/progress"/>
+                        android:textColor="@color/progress" />
 
                     <View
                         android:id="@+id/line1"
                         android:layout_width="match_parent"
                         android:layout_height="1dp"
                         android:layout_gravity="center_vertical"
-                        android:background="@color/progress_alpha"/>
+                        android:background="@color/progress_alpha" />
 
                 </LinearLayout>
 
@@ -231,7 +230,7 @@
                             android:layout_height="wrap_content"
                             android:layout_centerVertical="true"
                             android:text="@string/search_on"
-                            android:textColor="@android:color/white"/>
+                            android:textColor="@android:color/white" />
 
                     </RelativeLayout>
 
@@ -243,7 +242,7 @@
                         android:layout_marginLeft="10dp"
                         android:background="@drawable/google_play_movie"
                         android:visibility="visible"
-                        custom:foreground="@drawable/ripple_background"/>
+                        custom:foreground="@drawable/ripple_background" />
 
                     <genyus.com.whichmovie.view.ForegroundImageView
                         android:id="@+id/vudu"
@@ -253,7 +252,7 @@
                         android:layout_marginLeft="10dp"
                         android:background="@drawable/vudu"
                         android:visibility="gone"
-                        custom:foreground="@drawable/ripple_background"/>
+                        custom:foreground="@drawable/ripple_background" />
 
                 </LinearLayout>
 
@@ -264,7 +263,7 @@
                     android:layout_marginBottom="10dp"
                     android:paddingLeft="@dimen/activity_horizontal_margin"
                     android:paddingRight="@dimen/activity_horizontal_margin"
-                    android:textColor="@android:color/white"/>
+                    android:textColor="@android:color/white" />
 
                 <TextView
                     android:id="@+id/director"
@@ -273,7 +272,7 @@
                     android:layout_marginBottom="10dp"
                     android:paddingLeft="@dimen/activity_horizontal_margin"
                     android:paddingRight="@dimen/activity_horizontal_margin"
-                    android:textColor="@android:color/white"/>
+                    android:textColor="@android:color/white" />
 
                 <TextView
                     android:id="@+id/synopsis"
@@ -282,7 +281,7 @@
                     android:layout_marginBottom="10dp"
                     android:paddingLeft="@dimen/activity_horizontal_margin"
                     android:paddingRight="@dimen/activity_horizontal_margin"
-                    android:textColor="@android:color/white"/>
+                    android:textColor="@android:color/white" />
 
                 <TextView
                     android:id="@+id/release_date"
@@ -291,7 +290,7 @@
                     android:layout_marginBottom="10dp"
                     android:paddingLeft="@dimen/activity_horizontal_margin"
                     android:paddingRight="@dimen/activity_horizontal_margin"
-                    android:textColor="@android:color/white"/>
+                    android:textColor="@android:color/white" />
 
                 <TextView
                     android:id="@+id/homepage"
@@ -306,7 +305,7 @@
                     android:text="@string/homepage"
                     android:textColor="@android:color/white"
                     android:textStyle="bold"
-                    android:visibility="gone"/>
+                    android:visibility="gone" />
 
                 <LinearLayout
                     android:layout_width="match_parent"
@@ -323,14 +322,14 @@
                         android:paddingLeft="@dimen/activity_horizontal_margin"
                         android:text="@string/cast"
                         android:textAppearance="?android:attr/textAppearanceMedium"
-                        android:textColor="@color/progress"/>
+                        android:textColor="@color/progress" />
 
                     <View
                         android:id="@+id/line4"
                         android:layout_width="match_parent"
                         android:layout_height="1dp"
                         android:layout_gravity="center_vertical"
-                        android:background="@color/progress_alpha"/>
+                        android:background="@color/progress_alpha" />
 
                 </LinearLayout>
 
@@ -340,8 +339,7 @@
                     android:layout_height="223dp"
                     android:descendantFocusability="afterDescendants"
                     android:divider="@android:color/transparent"
-                    android:dividerHeight="1dp"
-                    android:paddingLeft="@dimen/activity_horizontal_margin"/>
+                    android:dividerHeight="1dp" />
 
                 <LinearLayout
                     android:layout_width="match_parent"
@@ -358,14 +356,14 @@
                         android:paddingLeft="@dimen/activity_horizontal_margin"
                         android:text="@string/en_chiffre"
                         android:textAppearance="?android:attr/textAppearanceMedium"
-                        android:textColor="@color/progress"/>
+                        android:textColor="@color/progress" />
 
                     <View
                         android:id="@+id/line2"
                         android:layout_width="match_parent"
                         android:layout_height="1dp"
                         android:layout_gravity="center_vertical"
-                        android:background="@color/progress_alpha"/>
+                        android:background="@color/progress_alpha" />
 
                 </LinearLayout>
 
@@ -388,7 +386,7 @@
                             android:layout_height="18dp"
                             android:layout_alignParentLeft="true"
                             android:layout_centerVertical="true"
-                            android:background="@drawable/ball_label_background_transparent"/>
+                            android:background="@drawable/ball_label_background_transparent" />
 
                         <LinearLayout
                             android:layout_width="match_parent"
@@ -402,14 +400,14 @@
                                 android:layout_height="wrap_content"
                                 android:fontFamily="sans-serif-light"
                                 android:text="@string/budget"
-                                android:textColor="@android:color/white"/>
+                                android:textColor="@android:color/white" />
 
                             <genyus.com.whichmovie.view.CurrencyTextView
                                 android:id="@+id/budget"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:text="@string/budget"
-                                android:textColor="@android:color/white"/>
+                                android:textColor="@android:color/white" />
 
                         </LinearLayout>
 
@@ -426,7 +424,7 @@
                             android:layout_height="18dp"
                             android:layout_alignParentLeft="true"
                             android:layout_centerVertical="true"
-                            android:background="@drawable/ball_label_background"/>
+                            android:background="@drawable/ball_label_background" />
 
                         <LinearLayout
                             android:layout_width="match_parent"
@@ -440,14 +438,14 @@
                                 android:layout_height="wrap_content"
                                 android:fontFamily="sans-serif-light"
                                 android:text="@string/revenue"
-                                android:textColor="@android:color/white"/>
+                                android:textColor="@android:color/white" />
 
                             <genyus.com.whichmovie.view.CurrencyTextView
                                 android:id="@+id/revenue"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:text="@string/revenue"
-                                android:textColor="@android:color/white"/>
+                                android:textColor="@android:color/white" />
 
                         </LinearLayout>
 
@@ -455,16 +453,15 @@
 
                 </LinearLayout>
 
-                <com.google.android.gms.ads.AdView
+                <com.google.android.gms.ads.AdView xmlns:ads="http://schemas.android.com/apk/res-auto"
                     android:id="@+id/adView"
-                    xmlns:ads="http://schemas.android.com/apk/res-auto"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_horizontal"
                     android:layout_marginBottom="10dp"
                     android:visibility="visible"
                     ads:adSize="BANNER"
-                    ads:adUnitId="ca-app-pub-8173266224774166/3263031131"/>
+                    ads:adUnitId="ca-app-pub-8173266224774166/3263031131" />
 
                 <LinearLayout
                     android:id="@+id/video_container"
@@ -487,14 +484,14 @@
                             android:paddingLeft="@dimen/activity_horizontal_margin"
                             android:text="@string/en_video"
                             android:textAppearance="?android:attr/textAppearanceMedium"
-                            android:textColor="@color/progress"/>
+                            android:textColor="@color/progress" />
 
                         <View
                             android:id="@+id/line5"
                             android:layout_width="match_parent"
                             android:layout_height="1dp"
                             android:layout_gravity="center_vertical"
-                            android:background="@color/progress_alpha"/>
+                            android:background="@color/progress_alpha" />
 
                     </LinearLayout>
 
@@ -512,7 +509,7 @@
                             android:layout_height="match_parent"
                             android:background="?attr/selectableItemBackgroundBorderless"
                             android:scaleType="centerCrop"
-                            custom:foreground="@drawable/ripple_background"/>
+                            custom:foreground="@drawable/ripple_background" />
 
                         <LinearLayout
                             android:layout_width="match_parent"
@@ -522,13 +519,13 @@
                             <View
                                 android:layout_width="match_parent"
                                 android:layout_height="0dp"
-                                android:layout_weight="1"/>
+                                android:layout_weight="1" />
 
                             <View
                                 android:layout_width="match_parent"
                                 android:layout_height="0dp"
                                 android:layout_weight="1"
-                                android:background="@drawable/elevation_shadow"/>
+                                android:background="@drawable/elevation_shadow" />
 
                         </LinearLayout>
 
@@ -543,16 +540,17 @@
                                 android:layout_height="wrap_content"
                                 android:layout_alignParentRight="true"
                                 android:layout_margin="8dp"
-                                android:background="@drawable/ic_play_arrow_white_48dp"/>
+                                android:background="@drawable/ic_play_arrow_white_48dp"
+                                android:visibility="gone" />
 
                             <ImageView
                                 android:id="@+id/provider_video"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:layout_alignParentLeft="true"
+                                android:layout_alignParentRight="true"
                                 android:layout_centerVertical="true"
-                                android:layout_margin="8dp"
-                                android:background="@drawable/youtube"/>
+                                android:layout_margin="16dp"
+                                android:background="@drawable/youtube" />
 
 
                         </RelativeLayout>
@@ -570,7 +568,7 @@
                         android:focusableInTouchMode="false"
                         android:gravity="center"
                         android:numColumns="auto_fit"
-                        android:stretchMode="columnWidth"/>
+                        android:stretchMode="columnWidth" />
 
                 </LinearLayout>
 
@@ -591,14 +589,14 @@
                         android:paddingLeft="@dimen/activity_horizontal_margin"
                         android:text="@string/en_images"
                         android:textAppearance="?android:attr/textAppearanceMedium"
-                        android:textColor="@color/progress"/>
+                        android:textColor="@color/progress" />
 
                     <View
                         android:id="@+id/line3"
                         android:layout_width="match_parent"
                         android:layout_height="1dp"
                         android:layout_gravity="center_vertical"
-                        android:background="@color/progress_alpha"/>
+                        android:background="@color/progress_alpha" />
 
                 </LinearLayout>
 
@@ -614,18 +612,17 @@
                     android:focusableInTouchMode="false"
                     android:gravity="center"
                     android:numColumns="auto_fit"
-                    android:stretchMode="columnWidth"/>
+                    android:stretchMode="columnWidth" />
 
-                <com.google.android.gms.ads.AdView
+                <com.google.android.gms.ads.AdView xmlns:ads="http://schemas.android.com/apk/res-auto"
                     android:id="@+id/adView2"
-                    xmlns:ads="http://schemas.android.com/apk/res-auto"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_horizontal"
                     android:layout_marginBottom="15dp"
                     android:visibility="visible"
                     ads:adSize="BANNER"
-                    ads:adUnitId="ca-app-pub-8173266224774166/8647939939"/>
+                    ads:adUnitId="ca-app-pub-8173266224774166/8647939939" />
 
             </LinearLayout>
 
@@ -641,6 +638,6 @@
         android:layout_margin="16dp"
         android:clickable="true"
         android:src="@drawable/ic_navigate_next_white_24dp"
-        app:backgroundTint="@color/progress"/>
+        app:backgroundTint="@color/progress" />
 
 </FrameLayout>
