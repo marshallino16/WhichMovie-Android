@@ -2,14 +2,20 @@ package genyus.com.whichmovie.model;
 
 import java.io.Serializable;
 import java.io.UnsupportedEncodingException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 
+import genyus.com.whichmovie.utils.AppUtils;
 import genyus.com.whichmovie.utils.ObjectUtils;
 
 /**
  * Created by genyus on 29/11/15.
  */
 public class Movie implements Serializable {
+
+    private SimpleDateFormat dfDate = new SimpleDateFormat("yyyy-MM-dd");
+    private SimpleDateFormat dfDate_day = new SimpleDateFormat("EEEE MMMM dd, yyyy");
 
     private boolean adult;
     private String backdrop_path;
@@ -63,7 +69,7 @@ public class Movie implements Serializable {
 
     public ArrayList<Genre> getGenres() {
         ArrayList<Genre> genres = new ArrayList<>();
-        for(int i=0 ; i<genre_ids.size(); ++i){
+        for (int i = 0; i < genre_ids.size(); ++i) {
             genres.add(ObjectUtils.getGenreById(genre_ids.get(i)));
         }
         return genres;
@@ -105,7 +111,23 @@ public class Movie implements Serializable {
     }
 
     public String getRelease_date() {
-        return release_date;
+        if(null!= release_date){
+            if(AppUtils.isDeviceInFrench()){
+                dfDate_day = new SimpleDateFormat("EEEE dd MMMM yyyy");
+            }
+            String str = release_date;
+            Date d = null;
+
+            try {
+                d = dfDate.parse(str);
+            } catch (java.text.ParseException e) {
+                e.printStackTrace();
+            }
+            str = dfDate_day.format(d);
+            return str;
+        } else {
+            return release_date;
+        }
     }
 
     public void setRelease_date(String release_date) {
@@ -280,7 +302,7 @@ public class Movie implements Serializable {
 
     @Override
     public boolean equals(Object o) {
-        if(((Movie)o).getId() == id){
+        if (((Movie) o).getId() == id) {
             return true;
         }
         return false;

@@ -84,6 +84,7 @@ public class MovieFragment extends Fragment implements ObservableScrollViewCallb
 
     public int vibrantRGB = -1;
     private float height = 0;
+    private boolean hasRevealed = false;
 
     //adview
     private AdView adView;
@@ -158,8 +159,12 @@ public class MovieFragment extends Fragment implements ObservableScrollViewCallb
     @Override
     public void setUserVisibleHint(boolean isVisibleToUser) {
         super.setUserVisibleHint(isVisibleToUser);
-        if(null != activity && -1 != vibrantRGB){
-            ThemeUtils.revealColorAnimateStatusBar(activity, vibrantRGB);
+        if(isVisibleToUser){
+            if(null != activity && -1 != vibrantRGB){
+                ThemeUtils.revealColorAnimateStatusBar(activity, vibrantRGB);
+            } else {
+                hasRevealed = true;
+            }
         }
     }
 
@@ -250,13 +255,17 @@ public class MovieFragment extends Fragment implements ObservableScrollViewCallb
             });
         }
 
-        releaseDate.setText(getResources().getString(R.string.released) + " " + movie.getRelease_date());
-        releaseDate.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                AnalyticsEventUtils.sendClickAction("Release_date");
-            }
-        });
+        if(null != movie.getRelease_date()){
+            releaseDate.setText(getResources().getString(R.string.released) + " " + movie.getRelease_date());
+            releaseDate.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    AnalyticsEventUtils.sendClickAction("Release_date");
+                }
+            });
+        } else {
+            releaseDate.setVisibility(View.GONE);
+        }
 
         //Website homepage
         if (null != movie.getHomepage() && !movie.getHomepage().isEmpty()) {
@@ -724,6 +733,10 @@ public class MovieFragment extends Fragment implements ObservableScrollViewCallb
 
     private void tintAllViews(Palette.Swatch vibrant, Palette.Swatch vibrantDark) {
         if (null != view) {
+            //first fragment visible during launch
+            if(null != activity && -1 == vibrantRGB && hasRevealed){
+                ThemeUtils.revealColorAnimateStatusBar(activity, vibrant.getRgb());
+            }
             vibrantRGB = vibrant.getRgb();
 
             next.setBackgroundTintList(ColorStateList.valueOf(vibrant.getRgb()));
