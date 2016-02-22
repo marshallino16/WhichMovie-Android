@@ -32,8 +32,8 @@ public class MovieAdapter extends ArrayAdapter<Movie> {
         }
 
         TextView movieTitle = (TextView) convertView.findViewById(R.id.movie_title);
-        if (null != listMovies.get(position).getRelease_date() && listMovies.get(position).getRelease_date().length() > 4) {
-            movieTitle.setText(listMovies.get(position).getTitle() + "(" + listMovies.get(position).getRelease_date().substring(0, 4) + ")");
+        if (null != listMovies.get(position).getDate() && listMovies.get(position).getDate().length() > 4) {
+            movieTitle.setText(listMovies.get(position).getTitle() + "(" + listMovies.get(position).getDate().substring(0, 4) + ")");
         } else {
             movieTitle.setText(listMovies.get(position).getTitle());
         }

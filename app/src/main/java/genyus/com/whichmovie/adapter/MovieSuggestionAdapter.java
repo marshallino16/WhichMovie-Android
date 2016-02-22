@@ -26,6 +26,8 @@ public class MovieSuggestionAdapter extends CursorAdapter {
         TextView movieTitle = (TextView) view.findViewById(R.id.movie_title);
         String title = cursor.getString(cursor.getColumnIndexOrThrow("title"));
         String date = cursor.getString(cursor.getColumnIndexOrThrow("date"));
-        movieTitle.setText(title+"("+date.substring(0,4)+")");
+        if(null != date){
+            movieTitle.setText(title+"("+date.substring(0,4)+")");
+        }
     }
 }

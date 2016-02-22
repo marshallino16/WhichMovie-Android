@@ -117,17 +117,22 @@ public class Movie implements Serializable {
             }
             String str = release_date;
             Date d = null;
-
             try {
                 d = dfDate.parse(str);
+                if(null != d){
+                    str = dfDate_day.format(d);
+                }
             } catch (java.text.ParseException e) {
                 e.printStackTrace();
             }
-            str = dfDate_day.format(d);
             return str;
         } else {
             return release_date;
         }
+    }
+
+    public String getDate(){
+        return release_date;
     }
 
     public void setRelease_date(String release_date) {

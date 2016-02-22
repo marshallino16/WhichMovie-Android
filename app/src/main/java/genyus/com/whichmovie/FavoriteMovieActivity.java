@@ -43,9 +43,11 @@ public class FavoriteMovieActivity extends AppCompatActivity implements OnMovieQ
     private MovieAdapter movieAdapter;
     private ArrayList<Movie> movies = new ArrayList<>();
 
-    private boolean enable = false;
     private int id;
     private String date;
+    private String category;
+
+    private boolean enable = false;
 
     @Extra
     Intent appLaunchIntent;
@@ -109,7 +111,10 @@ public class FavoriteMovieActivity extends AppCompatActivity implements OnMovieQ
                 }
 
                 id = movies.get(position).getId();
-                date = movies.get(position).getRelease_date();
+                date = movies.get(position).getDate();
+                if(movies.get(position).getGenres().size() >= 1){
+                    category = movies.get(position).getGenres().get(0).getName();
+                }
 
                 enable = true;
                 AnalyticsEventUtils.sendSuggestionAction("Movie_"+movies.get(position).getTitle());
@@ -125,6 +130,10 @@ public class FavoriteMovieActivity extends AppCompatActivity implements OnMovieQ
                     //Store preference movie infos
                     PreferencesUtils.setStringPreference(FavoriteMovieActivity.this, PreferencesUtils.KEY_FAVORITE_DATE, date);
                     PreferencesUtils.setStringPreference(FavoriteMovieActivity.this, PreferencesUtils.KEY_FAVORITE_ID, String.valueOf(id));
+                    if(null!=category){
+                        PreferencesUtils.setStringPreference(FavoriteMovieActivity.this, PreferencesUtils.KEY_FAVORITE_CATEGORY, category);
+                    }
+
                     goToNextActivity();
                 } else {
                     new MaterialDialog.Builder(FavoriteMovieActivity.this)

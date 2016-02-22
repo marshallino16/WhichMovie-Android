@@ -17,6 +17,7 @@ public class PreferencesUtils {
     public static final String KEY_DEFAULT_CATEGORY = "default_category";
     public static final String KEY_VERSION_CODE = "version_code";
     public static final String KEY_FAVORITE_DATE = "date";
+    public static final String KEY_FAVORITE_CATEGORY = "category";
     public static final String KEY_FAVORITE_ID = "id";
     public final static String KEY_RATE = "rate";
     public final static String KEY_PAGE = "page";
