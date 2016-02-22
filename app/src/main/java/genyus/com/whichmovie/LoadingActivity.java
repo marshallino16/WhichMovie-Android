@@ -154,18 +154,12 @@ public class LoadingActivity extends MovieActivity implements OnConfigurationLis
     @Override
     public void OnMoviesGet() {
         //Go to next activity
-        try {
-            Thread.sleep(2000);
-        } catch (InterruptedException ex) {
-            ex.printStackTrace();
-        } finally {
-            runOnUiThread(new Runnable() {
-                @Override
-                public void run() {
-                    goToNextActivity();
-                }
-            });
-        }
+        runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                goToNextActivity();
+            }
+        });
     }
 
     @Override
