@@ -7,6 +7,8 @@ import android.content.Context;
  */
 public class APIConst {
 
+    public final static String API_ROTTEN_TOMATOES_KEY = "4xdka4hpzszevvz2aba3xmtm";
+
     public final static String API_PURCHASE_TOKEN = "rKfVOBGZrvJIOdGmXDHhFvOCVsyyzIZE";
     public final static String API_PURCHASE_BASE_URL = "http://api-public.guidebox.com/v1.43/";
     public final static String API_PURCHASE_ID = "/search/movie/id/themoviedb/";
